@@ -1,0 +1,229 @@
+﻿@{
+    Layout = null;
+}
+<!doctype html>
+<html>
+<head>
+    <title>一元易购物</title>
+    <meta charset="utf-8">
+    <meta content="width=device-width, minimum-scale=1,initial-scale=1, maximum-scale=1, user-scalable=1;" id="viewport" name="viewport" />
+    <!--离线应用的另一个技巧-->
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link type="text/css" rel="stylesheet" href="~/Resources/wap/css/com/com.css" />
+    <link type="text/css" rel="stylesheet" href="~/Resources/wap/css/home/index.css" />
+    <script src="~/Resources/js/jquery-1.9.1.min.js"></script>
+    @*进度条引用*@
+    <link href="~/Resources/progressbar/css/ProgressBarWars.css" rel="stylesheet" />
+    @*<script src="~/Resources/progressbar/js/jquery-2.1.1.min.js"></script>*@
+    @*滑动引用*@
+    <script src="~/Resources/wap/js/iscroll.js"></script>
+</head>
+<body>
+    <div class="com-content" style="margin-bottom: 60px;">
+        <div class="com-content-area" id="js-com-content-area">
+            <!--content-->
+            <div class="page-role home-page">
+                <div class="pxui-tab pxui-tab-nav pxui-tab-no-top" id="div-nav">
+                    <div style="width:1000px">
+                        <ul class="my-header-list" style="position:relative; ">
+                            <li>
+                                <a type='nav' val='0'>所有商品<span></span></a>
+                            </li>
+                            @*ajax填充数据*@
+                        </ul>
+                    </div>
+                </div>
+                <div class="pxui-area">
+                        <div class="pxui-shoes">
+                            @*ajax填充数据*@
+                        </div>
+                    </div>
+                </div>
+            <!--content-end-->
+        </div>
+        <div id="wrapper">
+            <div id="wrapper" style="position:fixed;top:100px;" >
+                <div class="scroll">
+                    这个区域可以滑动
+                </div>
+            </div>
+        </div>
+        <div class="com-footer-area home-page" id="js-com-footer-area">
+            <div class="pxui-tab pxui-tab-nav pxui-tab-no-top">
+                <a id="homepage" class="selected" style="width: 24.5%;">首页<span></span></a>
+                <a id="remenshangpin" style="width: 24.5%;">热门商品<span></span></a>
+                <a id="jijiangjiexiao" style="width: 24.5%;">即将揭晓<span></span></a>
+                <a id="zuixinjiexiao" style="width: 24.5%;">最新揭晓<span></span></a>
+            </div>
+        </div>
+    </div>
+    @ViewBag.UserInfo
+</body>
+</html>
+<script type="text/javascript">
+    $(function () {
+        //加载商品类别
+        LoadCategory();
+        //加载底部切换
+        BottomTab();
+        //页面滑动
+        var Scroll = new iScroll('wrapper', { hScrollbar: true, vScrollbar: false });
+    });
+
+    function LoadCategory() {
+        $.get('@Url.RouteUrl(new { controller = "GoodsList", action = "GetCategoryInfo" })', { ParentID: 0 }, function (result) {
+            if (result) {
+                $('#slctParent option').remove();
+                if (result.Rows != null && result.Rows.length > 0) {
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var row = result.Rows[i];
+                        $('.my-header-list').append("<li>" +
+                                                                        "<a type='nav' val='" + row.ID + "'>" + row.CategoryName + "<span></span></a>" +
+                                                                  "</li>");
+                    }
+                    //选中第一项并且查出第一项的商品
+                    $('.my-header-list li:eq(0) a').addClass("selected");
+                    search($('.my-header-list li:eq(0) a').attr("val"));
+                }
+            }
+        }, 'json');
+    }
+    var isSearching = false;
+    var ishot = 0;// 0，全部 1热门商品
+    var jiexiaotype = 0;//0 全部 1、即将揭晓 1天内 2、已经揭晓的查前一百条
+    function search(category) {
+        // 正在查询
+        if (isSearching) {
+            return;
+        }
+        // 整理参数
+        var data = {
+            PageSize: 100,
+            CurrentPage: 1,
+            category: category,
+            huoDongState: jiexiaotype == 2 ? "30" : "10",
+            ishot: ishot,
+            jiexiaotype: jiexiaotype
+        };
+        isSearching = true;
+        var flagCount = 0;
+        $.get('@Url.RouteUrl(new { controller = "GoodsList", action = "GetGoodsList" })', data, function (result) {
+            if (result) {
+                // 清空数据
+                $(".pxui-shoes").html('');
+                if (result.Rows != null && result.Rows.length > 0) {
+                    var rowHtml = "";
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var row = result.Rows[i];
+                        if (flagCount == 0) {
+                            rowHtml += "<div>";
+                        }
+                        if (flagCount != 0 && flagCount % 2 == 0) {
+                            rowHtml += "</div><div>";
+                        }
+                        rowHtml += ('<a onclick="ToGoodsDetail(' + row.ID + ')">' +
+                                                        '<div class="img80">' +
+                                                            '<dfn></dfn>' +
+                                                            '<img style="padding-top:3px" src="' + row.ShowIcons.replace('localhost', 'localhost:39356') + '"/>' +
+                                                        '</div>' +
+                                                        '<span class="name" style="width:160px;display: inline-block;text-overflow: ellipsis;white-space: nowrap;overflow: hidden;">' + row.GoodsName + '</span>' +
+                                                        //(row.GoodsName.length > 12 ? (row.GoodsName.substring(0, 12) + "...") : row.GoodsName)
+                                                        '<span class="price">' + row.Price + '</span>' +
+                                                        '<div class="zzsc-content">' +
+                                                            '<div class="progress" id="vader' + row.ID + '"></div>' +
+                                                        '</div>' +
+                                                        '<span style="font-size:10px;margin-left:10px">' + row.ZhongChouCount + '人已参加</span>' +
+                                                        '<span style="font-size:10px;margin-right:10px;float:right">剩余' + (row.Price - row.ZhongChouCount) + '</span>' +
+                                                    '</a>');
+                        flagCount++;
+                    }
+                    $(".pxui-shoes").append(rowHtml);
+                    //加进度条
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var row = result.Rows[i];
+                        $("#vader" + row.ID).ProgressBarWars({ porcentaje: row.ZhongChouPercent, estilo: "vader" });
+                    }
+                    Redirect();
+                }
+            }
+            else {
+                alert("查询出错");
+            }
+            isSearching = false;
+        }, 'json');
+    }
+    //页面标签切换
+    function Redirect() {
+        $(".my-header-list>li>a").click(function () {
+            $(".my-header-list>li>a").removeClass("selected");
+            $(this).addClass(("selected"));
+            search($(this).attr("val"));
+        });
+    }
+    //底部页面标签的切换
+    function BottomTab() {
+        $("#homepage").click(function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            ishot = 0;
+            jiexiaotype = 0;
+            fuJIHE();
+        });
+        $("#remenshangpin").click(function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            ishot = 1;
+            jiexiaotype = 0;
+            fuJIHE();
+        });
+        $("#jijiangjiexiao").click(function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            ishot = 0;
+            jiexiaotype = 1;
+            fuJIHE();
+        });
+        $("#zuixinjiexiao").click(function () {
+            $(this).addClass("selected").siblings().removeClass("selected");
+            ishot = 0;
+            jiexiaotype = 2;
+            fuJIHE();
+        });
+    }
+    function fuJIHE() {
+        $(".my-header-list>li>a").removeClass("selected");
+        $('.my-header-list li:eq(0) a').addClass("selected");
+        search($('.my-header-list li:eq(0) a').attr("val"));
+    }
+    //进入详情页
+    function ToGoodsDetail(id) {
+        window.location = "/GoodsList/Detail?goodsid=" + id;
+    }
+    //进度条js
+    $.fn.extend({
+        ProgressBarWars: function (opciones) {
+            var ProgressBarWars = this;
+            var theidProgressBarWars = $(ProgressBarWars).attr("id");
+            var styleUnique = Date.now();
+            var StringStyle = "";
+
+            defaults = {
+                porcentaje: "100",
+                tiempo: 1000,
+                color: "",
+                estilo: "yoda",
+                tamanio: "20%",
+                alto: "2px"
+            }
+
+            var opciones = $.extend({}, defaults, opciones);
+            if (opciones.color != '') { StringStyle = "<style>.color" + styleUnique + "{ border-radius: 1px;display: block; width: 0%; box-shadow:0px 0px 5px 1px " + opciones.color + ", 0 0 1px " + opciones.color + ", 0 0 1px " + opciones.color + ", 0 0 1px " + opciones.color + ", 0 0 1px " + opciones.color + ", 0 0 1px " + opciones.color + ", 0 0 1px " + opciones.color + ";background-color: #fff;}</style>"; opciones.estilo = "color" + styleUnique; }
+            $(ProgressBarWars).before(StringStyle);
+            $(ProgressBarWars).append('<span class="barControl" style="width:' + opciones.tamanio + ';"><div class="barContro_space"><span class="' + opciones.estilo + '" style="height: ' + opciones.alto + ';"  id="bar' + theidProgressBarWars + '"></span></div></span>');
+            $("#bar" + theidProgressBarWars).animate({ width: opciones.porcentaje + "%" }, opciones.tiempo);
+            this.mover = function (ntamanio) {
+                $("#bar" + $(this).attr("id")).animate({ width: ntamanio + "%" }, opciones.tiempo);
+            };
+            return this;
+        }
+    });
+</script>

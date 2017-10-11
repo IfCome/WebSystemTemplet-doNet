@@ -1,0 +1,239 @@
+﻿@using WebSystemTemplet.Model
+@{
+    Layout = null;
+}
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>用户管理</title>
+    <meta name="description" content="用户管理">
+    <meta name="keywords" content="用户管理 一元易购物 众筹管理后台">
+    @Html.Partial("~/Views/Common/SharePart.cshtml")
+    <style>
+        .am-progress {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="am-topbar admin-header">
+        @Html.Partial("~/Views/Common/TopBar.cshtml")
+    </header>
+    <div class="am-cf admin-main">
+        <!-- sidebar start -->
+        @*@Html.Partial("~/Views/Common/SideBar.cshtml")*@
+        <!-- sidebar end -->
+        <!-- content start -->
+        <div class="admin-content">
+            <ol class="am-breadcrumb">
+                <li><a href="~/Home/IndexPage.html" class="am-icon-home">首页</a></li>
+                <li class="am-active">用户管理</li>
+            </ol>
+            <hr />
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-6">
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            @if (Identity.LoginUserInfo.RoleType == 10)
+                            {
+                                <button type="button" onclick="window.location.href='AddUser'" class="am-btn am-btn-success"><span class="am-icon-plus"></span> 新增</button>
+                            }
+                            else
+                            {
+                                <div style="width:1px;height:1px"></div>@*占位*@
+                            }
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-3">
+                    <div class="am-form-group">
+                        <select id="selRoleType" data-am-selected="{btnSize: 'sm'}">
+                            <option value="-1">所有用户</option>
+                            <option value="20">普通用户</option>
+                            <option value="10">管理员</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-3">
+                    <div class="am-input-group am-input-group-sm">
+                        <input id="txtKeyWords" type="text" class="am-form-field" placeholder="用户名/真实姓名" value="@ViewBag.KeyWords">
+                        <span class="am-input-group-btn">
+                            <button id="btnSearch" class="am-btn am-btn-default" type="button">搜索</button>
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    <form class="am-form">
+                        <table id="tableData" class="am-table am-table-striped am-table-hover table-main">
+                            <thead>
+                                <tr>
+                                    <th class="table-id am-text-center">ID</th>
+                                    <th class="table-title">用户名</th>
+                                    <th class="table-author">真实姓名</th>
+                                    <th class="table-type am-hide-sm-only">角色</th>
+                                    <th class="table-date am-hide-sm-only">创建时间</th>
+                                    <th class="table-date am-hide-sm-only">最近登录日期</th>
+                                    <th class="table-set">操作</th>
+                                </tr>
+                            </thead>
+                            <tbody></tbody>
+                        </table>
+                        <div class="am-cf">
+                            共 <span id="recordCount"></span> 个用户
+                            <div class="am-fr">
+                                <ul id="pagination" class="am-pagination"></ul>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <table id="dataTableTemplet" style="display:none">
+            <tr>
+                <td class="am-text-center">{Index}</td>
+                <td><a href="javascript:void(0)" onclick="ShowUserDetails('{ID}');">{UserName}</a></td>
+                <td>{RealName}</td>
+                <td class="am-hide-sm-only">{RoleType}</td>
+                <td class="am-hide-sm-only">{CreateTime}</td>
+                <td class="am-hide-sm-only">{LastLoginTime}</td>
+                <td>
+                    <div class="am-btn-toolbar">
+                        <div class="am-btn-group am-btn-group-xs">
+                            <button type="button" onclick="ShowUserDetails('{ID}');" class="am-btn am-btn-default am-btn-xs am-text-secondary am-hide-sm-only"><span class="am-icon-eye"></span> 查看</button>
+                            @if (Identity.LoginUserInfo.RoleType == 10)
+                            {
+                                <button type="button" onclick="EditUserDetails('{ID}');" class="am-btn am-btn-default am-btn-xs am-text-secondary am-hide-sm-only"><span class="am-icon-edit"></span> 编辑</button>
+                                <button type="button" onclick="DeleteUser('{ID}', '{UserName}');" class="am-btn am-btn-default am-btn-xs am-text-danger"><span class="am-icon-trash-o"></span> 删除</button>
+                            }
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <!-- content end -->
+    </div>
+    @Html.Partial("~/Views/Common/FootPart.cshtml")
+    <script type="text/javascript" src="/Resources/js/jqPaginator.js"></script>
+    <script>
+
+        var pageSize = 15;
+        var pageIndex = 1;
+        var isSearching = false;
+
+        // 分页配置
+        var pageOptions = {
+            totalPages: 1,
+            currentPage: 1,
+            visiblePages: 5,
+            onPageChange: function (num, type) {
+                if (type == 'init' || num < 1 || isSearching) {
+                    return false;
+                }
+                pageIndex = num;
+                search(false);
+            }
+        }
+
+        $(function () {
+            initCss();
+            bindFunction();
+            loadData();
+        });
+
+        function initCss() {
+            // 初始化分页
+            $.jqPaginator('#pagination', pageOptions);
+        }
+
+        function bindFunction() {
+            $('#selRoleType').change(function () {
+                search(true);
+            });
+            $('#btnSearch').click(function () {
+                search(true);
+            });
+        }
+
+        function loadData() {
+            search(true);
+        }
+
+        function search(isFirst) {
+            // 正在查询
+            if (isSearching) {
+                return;
+            }
+            if (isFirst) {
+                pageIndex = 1;
+            }
+            // 整理参数
+            var data = {
+                PageSize: pageSize,
+                CurrentPage: pageIndex,
+                RoleType: $('#selRoleType').val(),
+                KeyWords: $('#txtKeyWords').val()
+            };
+            isSearching = true;
+            $.get('@Url.RouteUrl(new { controller = "UserInfo", action = "GetUserInfoList" })', data, function (result) {
+                if (result) {
+                    $('#recordCount').text(parseInt(result.AllCount));
+                    // 清空数据
+                    $("#tableData>tbody").html('');
+                    if (result.Rows != null && result.Rows.length > 0) {
+                        for (var i = 0; i < result.Rows.length; i++) {
+                            var row = result.Rows[i];
+                            var rowHtml = $("#dataTableTemplet>tbody").html();
+                            rowHtml = rowHtml.replace("{Index}", i + 1);
+                            rowHtml = rowHtml.replace(/{UserName}/g, row.UserName);
+                            rowHtml = rowHtml.replace("{RealName}", row.RealName);
+                            rowHtml = rowHtml.replace("{RoleType}", row.RoleType);
+                            rowHtml = rowHtml.replace("{CreateTime}", row.CreateTime);
+                            rowHtml = rowHtml.replace("{LastLoginTime}", row.LastLoginTime);
+                            rowHtml = rowHtml.replace(/{ID}/g, row.ID);
+                            $("#tableData>tbody").append($(rowHtml));
+                        }
+                    }
+
+                    pageOptions.totalPages = Math.ceil(parseInt(result.AllCount) / pageSize);
+                    pageOptions.currentPage = pageIndex;
+                    $.jqPaginator('#pagination', pageOptions);
+                }
+                else {
+                    alert("查询出错");
+                }
+                isSearching = false;
+            }, 'json');
+        }
+
+        function ShowUserDetails(id) {
+            window.location.href = 'SeeUserInfo.html?id=' + id;
+        }
+
+        function EditUserDetails(id) {
+            window.location.href = 'EditUser.html?id=' + id;
+        }
+
+        function DeleteUser(id, userName) {
+            if (confirm("确定删除" + userName + "?")) {
+                $.post('@Url.RouteUrl(new { controller = "UserInfo", action = "DeleteUser" })', { ID: id }, function (result) {
+                    if (result) {
+                        if (result.Message == 'OK') {
+                            alert("删除成功");
+                            search(false);
+                        } else {
+                            alert(result.Message);
+                        }
+                    }
+                    else {
+                        alert("删除失败，请刷新列表重试");
+                    }
+                }, 'json');
+            }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,192 @@
+﻿@using WebSystemTemplet.UI.Models.PC
+<!doctype html>
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>一元易购物众筹管理后台</title>
+    <meta name="description" content="首页">
+    <meta name="keywords" content="首页">
+    @Html.Partial("~/Views/Common/SharePart.cshtml")
+    <style>
+        .am-progress {
+            margin-bottom: 0;
+        }
+    </style>
+</head>
+<body>
+    <header class="am-topbar admin-header">
+        @Html.Partial("~/Views/Common/TopBar.cshtml")
+    </header>
+    <div class="am-cf ">
+        <!-- sidebar start -->
+        @*@Html.Partial("~/Views/Common/SideBar.cshtml")*@
+        <!-- sidebar end -->
+        <!-- content start -->
+        <div class="admin-content">
+            <ol class="am-breadcrumb">
+                <li><a href="~/Home/IndexPage.html" class="am-icon-home">首页</a></li>
+            </ol>
+            <hr />
+            <ul class="am-avg-sm-1 am-avg-md-6 am-margin am-padding am-text-center admin-content-list ">
+                <li><a href="~/GoodsManager/Edit.html" class="am-text-success"><span class="am-icon-btn am-icon-shopping-bag"></span><br />新增商品</a></li>
+                <li><a href="~/GoodsManager/EditCategoryInfo.html" class="am-text-warning"><span class="am-icon-btn am-icon-gift"></span><br />编辑分类</a></li>
+                <li><a href="~/GoodsManager/IndexPage.html" class="am-text-secondary"><span class="am-icon-btn am-icon-shopping-cart"></span><br />商品管理</a></li>
+                <li><a href="~/UserInfo/AddUser.html" class="am-text-success"><span class="am-icon-btn am-icon-user-plus"></span><br />添加用户</a></li>
+                <li><a href="~/UserInfo/IndexPage.html" class="am-text-secondary"><span class="am-icon-btn am-icon-users"></span><br />用户管理</a></li>
+                <li><a href="~/ConsumerInfo/ListPage.html" class="am-text-secondary"><span class="am-icon-btn am-icon-user"></span><br />客户管理</a></li>
+                @*<li><a href="#" class="am-text-secondary"><span class="am-icon-btn am-icon-file-text"></span><br />后台日志</a></li>*@
+            </ul>
+            <div class="am-g">
+                <div class="am-u-sm-12">
+                    @{
+                        List<HomeIndexPageModelOut> huoDongList = ViewBag.HuoDongList as List<WebSystemTemplet.UI.Models.PC.HomeIndexPageModelOut>;
+                    }
+                    <table class="am-table am-table-bd am-table-striped admin-content-table">
+                        <thead>
+                            <tr>
+                                <th>热门商品</th>
+                                <th>最新参与用户</th>
+                                <th>众筹进度</th>
+                                <th>今日新增</th>
+                                <th>管理</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (huoDongList == null || huoDongList.Count == 0)
+                            {
+                                <text>
+                                    <tr>
+                                        <th> 暂无众筹商品 </th>
+                                    </tr>
+                                </text>
+                            }
+                            else
+                            {
+                                foreach (HomeIndexPageModelOut item in huoDongList)
+                                {
+                                    <text>
+                                        <tr>
+                                            <td><a href="~/GoodsManager/GetGoodsInfo?goodsid=@(item.GoodsID)" title="@(item.Describe)&#10;第@(item.HuodongNumber)期">@(item.GoodsName)</a></td>
+                                            <td><a href="#">@(string.IsNullOrEmpty(item.LastestCustomer) ? "-- 暂无参与用户 --" : item.LastestCustomer)</a></td>
+                                            <td>
+                                                <div class="am-progress am-progress-striped">
+                                                    <div class="am-progress-bar am-progress-bar-secondary" style="width: @(item.Progress)%"><small style="color:black">@(item.Progress)%</small></div>
+                                                </div>
+                                            </td>
+                                            <td><span class="am-badge am-badge-danger">+@(item.DailyIncrease)</span></td>
+                                            <td>
+                                                <div class="am-btn-toolbar">
+                                                    <div class="am-btn-group am-btn-group-xs">
+                                                        <button class="am-btn am-btn-default am-btn-xs am-text-secondary" onclick="window.location.href = '/GoodsManager/GetGoodsInfo?goodsid=@(item.GoodsID)'"><span class="am-icon-eye"></span> 查看</button>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </text>
+                                }
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="am-g">
+                @*<div class="am-u-md-6">
+                        <div class="am-panel am-panel-default">
+                            <div class="am-panel-hd am-cf">
+                                后台日志
+                                <span class="am-fr"><a href="#"> <small> 查看更多>></small>  </a></span>
+                            </div>
+                            <div id="collapse-panel-2" class="am-in">
+                                @{
+                                    List<WebSystemTemplet.Model.BackgroundUserInfo_log> logList = ViewBag.LogList as List<WebSystemTemplet.Model.BackgroundUserInfo_log>;
+                                }
+                                <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                                    <tbody>
+                                        @if (logList == null || logList.Count == 0)
+                                        {
+                                        <text>
+                                            <tr>
+                                                <th> 暂无后台日志 </th>
+                                            </tr>
+                                        </text>
+                                        }
+                                        else
+                                        {
+                                        <text>
+                                            <tr>
+                                                <th class="am-text-center">用户</th>
+                                                <th>操作内容</th>
+                                                <th>操作时间</th>
+                                            </tr>
+                                            @foreach (var log in logList)
+                                                {
+
+                                        <tr>
+                                            <td class="am-text-center"><a href="/UserInfo/SeeUserInfo.html?id=@(log.UserID)" title="查看用户信息">@(string.IsNullOrWhiteSpace(log.RealName) ? log.UserName : log.RealName)</a></td>
+                                            <td><a class="am-text-success" href="#" title="查看操作详情">@log.OperateTile</a></td>
+                                            <td>@(log.OperateTime.ToString("yyyy-MM-dd HH:mm:ss"))</td>
+                                        </tr>
+                                                }
+                                        </text>
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>*@
+                <div class="am-u-md-12">
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-hd am-cf">
+                            新增客户
+                            <span class="am-fr"><a href="~/ConsumerInfo/ListPage.html"> <small> 查看更多>></small>  </a></span>
+                        </div>
+                        <div id="collapse-panel-2" class="am-in">
+                            @{
+                                var consumerList = ViewBag.ConsumerList as List<WebSystemTemplet.Model.ConsumerInfo>;
+                            }
+                            <table class="am-table am-table-bd am-table-bdrs am-table-striped am-table-hover">
+                                <tbody>
+                                    @if (consumerList == null || consumerList.Count == 0)
+                                    {
+                                        <text>
+                                            <tr>
+                                                <th> 暂无客户信息 </th>
+                                            </tr>
+                                        </text>
+                                    }
+                                    else
+                                    {
+                                        <text>
+                                            <tr>
+                                                <th class="am-text-center">昵称</th>
+                                                <th class="am-text-center">所在城市</th>
+                                                <th class="am-text-center">购物车商品数</th>
+                                                <th class="am-text-center">未开奖商品数</th>
+                                                <th class="am-text-center">已开奖商品数</th>
+                                            </tr>
+                                            @foreach (var consumer in consumerList)
+                                            {
+
+                                                <tr>
+                                                    <td class="am-text-center">@(consumer.NickName)</td>
+                                                    <td class="am-text-center">@(consumer.Address)</td>
+                                                    <td class="am-text-center">@(consumer.CartCount)</td>
+                                                    <td class="am-text-center">@(consumer.JiJiangJieXiao)</td>
+                                                    <td class="am-text-center">@(consumer.YiJieXiao)</td>
+                                                </tr>
+                                            }
+                                        </text>
+                                    }
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- content end -->
+    </div>
+    @Html.Partial("~/Views/Common/FootPart.cshtml")
+</body>
+</html>

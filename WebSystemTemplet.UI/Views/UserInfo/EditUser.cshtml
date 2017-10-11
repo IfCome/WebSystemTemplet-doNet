@@ -1,0 +1,271 @@
+﻿@model WebSystemTemplet.Model.BackgroundUserInfo
+@{
+    Layout = null;
+}
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>添加用户</title>
+    <meta name="description" content="编辑用户">
+    <meta name="keywords" content="编辑用户">
+    @Html.Partial("~/Views/Common/SharePart.cshtml")
+</head>
+<body>
+    <header class="am-topbar admin-header">
+        @Html.Partial("~/Views/Common/TopBar.cshtml")
+    </header>
+    <div class="am-cf admin-main">
+        <!-- content start -->
+        <div class="admin-content">
+            <ol class="am-breadcrumb">
+                <li><a href="~/Home/IndexPage.html" class="am-icon-home">首页</a></li>
+                <li><a href="~/UserInfo/IndexPage.html">用户管理</a></li>
+                <li class="am-active">编辑用户</li>
+            </ol>
+            <hr />
+            <div class="am-g">
+                <div class="am-u-sm-12 am-u-md-4 am-u-md-push-8">
+                    <div class="am-container am-hide-sm-only" style=" height: 50px; "></div>
+                    <div class="am-panel am-panel-default">
+                        <div class="am-panel-bd">
+                            <div class="am-g">
+                                <div class="am-u-md-4">
+                                    <img id="userIcon" style="max-height: 150px;" class="am-img-circle am-img-thumbnail" src="@(Model.HeadIcon.IsEmpty() ? "http://s.amazeui.org/media/i/demos/bw-2014-06-19.jpg?imageView/1/w/200/h/200/q/80" : Model.HeadIcon)" alt="" />
+                                </div>
+                                <div class="am-u-md-8">
+                                    <p>请选择你的头像图片，图片大小最好小于2M并且长宽相等</p>
+                                    <form id="fileForm" class="am-form" enctype="multipart/form-data" method="post">
+                                        <div class="am-form-group am-form-file">
+                                            <button id="uploadFileButton" type="button" class="am-btn am-btn-danger am-btn-sm">
+                                                <i class="am-icon-cloud-upload"></i> 选择要上传的文件
+                                            </button>
+                                            <input id="doc-form-file" name="userIcon" type="file" accept="image/gif, image/jpeg, image/png">
+                                            <button id="uploadImg" type="button" style="display:none" class="am-btn am-btn-danger am-btn-sm">
+                                                <i class="am-icon-cloud-upload"></i> 开始上传
+                                            </button>
+                                            <button id="exitUpload" type="button" style="display:none" class="am-btn am-btn-danger am-btn-sm">
+                                                <i class="am-icon-remove"></i> 取消
+                                            </button>
+                                        </div>
+                                        <div id="file-list"></div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="am-u-sm-12 am-u-md-8 am-u-md-pull-4">
+                    <form class="am-form am-form-horizontal" id="formAddUserInfo">
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label"><span style="color:red">*</span> 角色</label>
+                            <div class="am-u-sm-9">
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="20" @(ViewBag.IsSelf ? "disabled=\"disabled\"" : "") name="userRole" @(Model.RoleType == 20 ? "checked=\"checked\"" : "")> 普通用户
+                                </label>
+                                <label class="am-radio-inline">
+                                    <input type="radio" value="10" @(ViewBag.IsSelf ? "disabled=\"disabled\"" : "") name="userRole" @(Model.RoleType == 10 ? "checked=\"checked\"" : "")> 管理员
+                                </label>
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label"><span style="color:red">*</span> 用户名</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" class="required" id="user-name" value="@(Model.UserName)" placeholder="登录系统时使用的帐号名" data-foolish-msg="该用户名已存在！" readonly="readonly">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-name" class="am-u-sm-3 am-form-label">姓名</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" id="user-realname" placeholder="用户真实姓名" value="@(Model.RealName)">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-email" class="am-u-sm-3 am-form-label">电子邮件</label>
+                            <div class="am-u-sm-9">
+                                <input type="email" id="user-email" placeholder="用户的电子邮件" value="@(Model.Email)">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-QQ" class="am-u-sm-3 am-form-label">QQ</label>
+                            <div class="am-u-sm-9">
+                                <input type="text" id="user-QQ" placeholder="用户的QQ号码" value="@(Model.QQ)">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <label for="user-phone" class="am-u-sm-3 am-form-label">手机号</label>
+                            <div class="am-u-sm-9">
+                                <input type="tel" id="user-phone" placeholder="用户的手机号" data-foolish-msg="手机号格式不正确！" value="@(Model.Phone)">
+                            </div>
+                        </div>
+                        <div class="am-form-group">
+                            <div class="am-u-sm-9 am-u-sm-push-3">
+                                <button id="btncommit" type="button" class="am-btn am-btn-primary">保存修改</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <!-- content end -->
+    </div>
+    @Html.Partial("~/Views/Common/FootPart.cshtml")
+</body>
+</html>
+<script src="~/Resources/js/ajaxfileupload.js"></script>
+<script>
+
+    $(function () {
+        bindFunction();
+    });
+
+    // 绑定事件
+    function bindFunction() {
+
+        // 文本框获取焦点，隐藏tips
+        $('input').focus(function () {
+            if (tipInput && $(this).attr('id') == tipInput.attr('id')) {
+                tipInput.removeClass('am-field-error').parent().parent().removeClass('am-form-error');
+                tipInput = null;
+                hideToolTips();
+            }
+        });
+
+        // 提交用户信息
+        $('#btncommit').click(commitUserInfo);
+
+        // 选择图片
+        $(document).on('change', '#doc-form-file', function () {
+            if (this.files.length == 0) {
+                // 清空文件域
+                clearFileList();
+                return false;
+            }
+            var fileName = this.files[0].name;
+            var fileType = this.files[0].type;
+
+            if (!fileName || (fileType != 'image/jpeg' && fileType != 'image/gif' && fileType != 'image/png')) {
+                // 清空文件域
+                clearFileList();
+                return false;
+            }
+            if (fileName && fileName.length > 15) {
+                fileName = fileName.substr(0, 14) + "..."
+            }
+            $('#file-list').html('<span class="am-badge" maxlength=5>' + fileName + '</span> ');
+
+            $('#doc-form-file').hide();
+            $('#uploadFileButton').hide();
+            $('#uploadImg').show();
+            $('#exitUpload').show();
+        });
+
+        // 上传图片
+        $('#uploadImg').click(function () {
+            $('#uploadImg>i').attr('class', "am-icon-spinner am-animation-spin");
+            $('#exitUpload').hide();
+            $('#uploadImg').attr("disabled", true);
+
+            // 这里写访问服务器事件
+            $.ajaxFileUpload({
+                url: 'UploadIcon.do',
+                secureuri: false,//一般设置为false
+                fileElementId: 'doc-form-file',
+                dataType: 'text/html',
+                success: function (result, status) {
+                    //服务器成功响应处理函数
+                    var reg = /<pre.+?>(.+)<\/pre>/g;
+                    var result = result.match(reg);
+                    result = RegExp.$1;
+                    data = eval('(' + result + ')');
+                    if (data && data.Message == "OK") {
+                        // 替换头像
+                        $('#userIcon').attr('src', data.ImgUrl);
+                    } else {
+                        alert(data.Message);
+                    }
+                },
+                error: function () {
+                    //服务器响应失败处理函数
+                    alert('上传失败！请重新选择图片');
+                },
+                complete: function () {
+                    $('#uploadImg').removeAttr("disabled");
+                    showUploadFileButton();
+                }
+            })
+        });
+
+        // 取消上传
+        $('#exitUpload').click(function () {
+            showUploadFileButton()
+        });
+    }
+
+    // 显示上传和取消按钮
+    function showUploadFileButton() {
+        $('#uploadImg>i').attr('class', "am-icon-cloud-upload");
+        $('#uploadImg').hide();
+        $('#exitUpload').hide();
+        $('#doc-form-file').show();
+        $('#uploadFileButton').show();
+        // 清空文件域
+        var file = $("#doc-form-file");
+        file.after(file.clone(true).val(""));
+        file.remove();
+
+        $('#file-list').html('');
+    }
+
+    var data = {};
+    var tipInput;
+    function commitUserInfo() {
+        data.ID = '@(Model.ID)';
+        data.RoleType = $('input[name=userRole]:checked').val();
+        data.UserName = $.trim($('#user-name').val());
+        data.RealName = encodeURIComponent($.trim($('#user-realname').val()));
+        data.Email = $.trim($('#user-email').val());
+        data.QQ = $.trim($('#user-QQ').val());
+        data.Phone = $.trim($('#user-phone').val());
+        data.HeadIcon = encodeURIComponent($('#userIcon').attr('src'));
+        if (checkData()) {
+            // 提交数据
+            $.post('@Url.RouteUrl(new { controller = "UserInfo", action = "EditUserCallBack" })', data, function (result) {
+                if (result && result.Message == 'OK') {
+                    alert("修改成功");
+                    //location.href = '/UserInfo/IndexPage.html?keyWords=' + data.UserName;
+                }
+                else {
+                    if (result.ErrorType == 'UserName') {
+                        tipInput = $('#user-name');
+                    } else {
+                        tipInput = null;
+                        alert(result.Message);
+                        return;
+                    }
+                    showToolTips(tipInput, result.Message);
+                    tipInput.addClass('am-field-error').parent().parent().addClass('am-form-error');
+                }
+            }, 'JSON');
+        }
+    }
+
+    function checkData() {
+        var reg = /^[A-Za-z0-9]+$/;
+        // 验证用户名
+        if (!data.UserName || data.UserName.length == 0) {
+            tipInput = $('#user-name');
+            showToolTips(tipInput, "请输入用户名");
+            tipInput.addClass('am-field-error').parent().parent().addClass('am-form-error');
+            return false;
+        }
+        if (!reg.test(data.UserName)) {
+            tipInput = $('#user-name');
+            showToolTips(tipInput, "用户名由数字、字母或下划线组成");
+            tipInput.addClass('am-field-error').parent().parent().addClass('am-form-error');
+            return false;
+        }
+        return true;
+    }
+</script>

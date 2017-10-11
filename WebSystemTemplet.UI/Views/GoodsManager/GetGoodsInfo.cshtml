@@ -1,0 +1,125 @@
+﻿@{
+    Layout = null;
+}
+@model WebSystemTemplet.Model.GoodsBaseInfo
+<!doctype html>
+<html class="no-js">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>商品详情</title>
+    <meta name="description" content="商品详情">
+    <meta name="keywords" content="商品详情">
+    @Html.Partial("~/Views/Common/SharePart.cshtml")
+</head>
+<body>
+    <header class="am-topbar admin-header">
+        @Html.Partial("~/Views/Common/TopBar.cshtml")
+    </header>
+    <div class="am-cf admin-main">
+        <!-- content start -->
+        <div class="admin-content">
+            <ol class="am-breadcrumb">
+                <li><a href="~/Home/IndexPage" class="am-icon-home">首页</a></li>
+                <li><a href="~/GoodsManager/IndexPage">商品管理</a></li>
+                <li class="am-active">商品详情</li>
+            </ol>
+            <hr />
+            <div class="am-g">
+                @*<div class="am-u-sm-12 am-u-md-4 am-u-md-12">
+                        <div class="am-container am-hide-sm-only" style=" height: 50px; "></div>
+                    </div>*@
+
+                <div class="am-u-md-8">
+                    商品详细信息<br /><br />
+                    <ul class="am-list am-list-static  am-center">
+                        <li>商品名称：@Model.GoodsName</li>
+                        <li>
+                            商品类别：@Model.CategoryName
+                        </li>
+                        <li>商品详情：@Model.Describe</li>
+                        <li>
+                            展示图片：
+                            <img id="userIcon" style="max-height: 150px;" class="am-img-circle am-img-thumbnail" src="@(Model.ShowIcons.Replace("localhost", "localhost:39356"))" alt="" /> &nbsp;
+                        </li>
+                        <li>
+                            详情图片：
+                            @foreach (var item in Model.DetailIcons.Split(','))
+                            {
+                                if (item != "")
+                                {
+                                    <img id="userIcon" style="max-height: 150px;" class="am-img-circle am-img-thumbnail" src="@(item.Replace("localhost", "localhost:39356"))" alt="" />
+                                }
+                            } &nbsp;
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <!-- content end -->
+    </div>
+    @Html.Partial("~/Views/Common/FootPart.cshtml")
+    @Html.Partial("~/Views/Common/TipsTool.cshtml")
+</body>
+</html>
+<script src="~/Resources/js/ajaxfileupload.js"></script>
+<script>
+    var ShowIcons = $("#hdShowIcons").val();
+    var DetailIcons = $("#hdDetailIcons").val();
+
+    $(function () {
+        bindFunction();
+    });
+
+    // 绑定事件
+    function bindFunction() {
+        //label标签字体细化
+        $("label").css("font-weight", "normal");
+        //初始化下拉列表
+        LoadCategory(0, 1);
+        $("#slctParent").on("change", function () {
+            LoadCategory($(this).val(), 2);
+        });
+    }
+    //1查第一级别 2查第二级别
+    function LoadCategory(parentID, type) {
+        $.get('@Url.RouteUrl(new { controller = "GoodsManager", action = "GetCategoryInfo" })', { ParentID: parentID }, function (result) {
+            //清除第二级列表
+            $('#goods-category option').remove();
+            if (result) {
+                if (type == 1) {
+                    $('#slctParent option').remove();
+                    if (result.Rows != null && result.Rows.length > 0) {
+                        var selected = "";
+                        for (var i = 0; i < result.Rows.length; i++) {
+                            var row = result.Rows[i];
+                            if (row.ID == "@Model.ParentId") {
+                                selected = "selected=selected";
+                            }
+                            else {
+                                selected = "";
+                            }
+                            $('#slctParent').append("<option id='opParent" + i + "' value='" + row.ID + "' " + selected + ">" + row.CategoryName + "</option>")
+                        }
+                    }
+                }
+                else if (type == 2) {
+                    if (result.Rows != null && result.Rows.length > 0) {
+                        var row = result.Rows[i];
+                        var selected = "";
+                        for (var i = 0; i < result.Rows.length; i++) {
+                            var row = result.Rows[i];
+                            if (row.ID == "@Model.Category") {
+                                selected = "selected=selected";
+                            }
+                            else {
+                                selected = "";
+                            }
+                            $('#goods-category').append("<option id='opParent" + i + "' value='" + row.ID + "' " + selected + ">" + row.CategoryName + "</option>")
+                        }
+                    }
+                }
+            }
+        }, 'json');
+    }
+</script>

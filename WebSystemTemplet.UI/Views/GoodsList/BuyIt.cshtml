@@ -1,0 +1,190 @@
+﻿@{
+    Layout = null;
+    WebSystemTemplet.Model.JsIncomeModel entity = ViewBag.entity as WebSystemTemplet.Model.JsIncomeModel;
+}
+@model IEnumerable<WebSystemTemplet.Model.ShoppingCart>
+
+<!doctype html>
+<html>
+<head>
+    <title>一元易购物</title>
+    <meta charset="utf-8">
+    <meta content=" width = device-width , initial-scale = 1.0 , maximum-scale = 1.0 , user-scalable = no " id="viewport" name="viewport" />
+    <meta content="yes" name="apple-mobile-web-app-capable" />
+    <meta content="black" name="apple-mobile-web-app-status-bar-style" />
+    <meta content="telephone=no" name="format-detection" />
+    <link href="~/Resources/wap/css/cart/zip.touch.cart.css" rel="stylesheet" />
+    <link href="~/Resources/wap/css/cart/index.css" rel="stylesheet" />
+    <!--改版后 com1-3.css可以去掉-->
+    <link href="~/Resources/wap/css/cart/com1-3.css" rel="stylesheet" />
+    <!--新改的-->
+    <link href="~/Resources/wap/css/cart/com1-4.css" rel="stylesheet" />
+    <script src="~/Resources/js/jquery-1.9.1.min.js"></script>
+    <!--弹出款-->
+    <script src="~/Resources/wap/js/zepto.min.js"></script>
+    <script src="~/Resources/wap/js/shoppingcart.js"></script>
+</head>
+<body>
+    <div class="com-content">
+        <div class="clearboth"></div>
+        <div class="com-content-area" id="js-com-content-area">
+            <div class="mask hidden"></div>
+            <div class="page-role payed-page">
+                <div class="com-title">
+                    <a title="返回" href="javascript:history.back();void(0)" class="return">
+                    </a>
+                    <a title="菜单" href="javascript:void(0);" class="home_menu">
+                        <span></span>
+                    </a>
+                    提交订单
+                </div>
+                <div class="spaceholder"></div>
+                <div class="pxui-area">
+                    <h2><i></i>恭喜您！<br />订单已提交成功！</h2>
+                    @{
+                        int price = 0;
+                        if (Model != null)
+                        {
+                            foreach (var item in Model)
+                            {
+                                price += item.StoreCount;
+                            }
+                        }
+                    }
+                    <input type="button" id="wxpay" class="pxui-light-button"  value="立即支付(@(price+"元)")" />
+                    @if (Model != null)
+                    {
+                        foreach (var item in Model)
+                        {
+                            <b>商品详情：</b><span>@(item.GoodsName + "(" + item.StoreCount + "件)")</span>
+                            <br />
+                            <b>支付方式：</b><span>微信支付</span><br />
+                            <b>支付金额：</b><strong class="pxui-color-red">@("￥" + item.StoreCount)</strong><br />
+                            <hr style="width:97%;" />
+                        }
+                    }
+                    <div class="app_result_tip">
+                        <span>安全提醒：下单后，为了您的财产安全，任何有涉及汇款、退款等内容的信息或电话，请不要相信，谨防假冒客服电话诈骗！</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+<script type="text/javascript">
+    top.ztetbdata = null;
+</script>
+<script src="~/Resources/wap/js/jquery-1.8.3.min.js"></script>
+<script src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+<script type="text/javascript">
+    var useragent = navigator.userAgent.toLowerCase();
+    if (useragent.indexOf("micromessenger") <= 0) {
+        window.location.href = "https://open.weixin.qq.com/connect/oauth2/authorize?appid=noauth&connect_redirect=1#wechat_redirect";
+    }
+</script>
+<script>
+    function pay() {
+        var data = {};
+        @{
+                string huodongids = string.Empty;
+                string storecount = string.Empty;
+                string  allprice=string.Empty;
+                string zhongchoucount = string.Empty;
+                foreach (var item in Model)
+                {
+                    storecount += item.StoreCount + ",";
+                    huodongids+= item.HuoDongID + ",";
+                    allprice += item.Price+",";
+                    zhongchoucount += item.ZhongChouCount.ToString()+",";
+                }
+        }
+        data.HuoDongIDs = "@huodongids";
+        data.StoreCount = "@storecount";
+        data.allprice = "@allprice";
+        data.zhongchoucount = "@zhongchoucount";
+        // 提交数据
+        $.post('@Url.RouteUrl(new { controller = "Order", action = "Pay" })', data, function (result) {
+            if (result && result.Message == 'OK') {
+                location.href = "/order/index";
+            }
+            else {
+                Model.message(result.Message);
+            }
+        }, 'JSON');
+    }
+
+    //通过config接口注入权限验证配置
+    wx.config({
+        debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+        appId: "@entity.appId", // 必填，公众号的唯一标识
+        timestamp: "@entity.timeStamp", // 必填，生成签名的时间戳
+        nonceStr: "@entity.nonceStr", // 必填，生成签名的随机串
+        signature: "@entity.paySign",// 必填，签名
+        jsApiList: ['checkJsApi',
+        'onMenuShareTimeline',
+        'onMenuShareAppMessage',
+        'onMenuShareQQ',
+        'onMenuShareWeibo',
+        'hideMenuItems',
+        'showMenuItems',
+        'hideAllNonBaseMenuItem',
+        'showAllNonBaseMenuItem',
+        'translateVoice',
+        'startRecord',
+        'stopRecord',
+        'onRecordEnd',
+        'playVoice',
+        'pauseVoice',
+        'stopVoice',
+        'uploadVoice',
+        'downloadVoice',
+        'chooseImage',
+        'previewImage',
+        'uploadImage',
+        'downloadImage',
+        'getNetworkType',
+        'openLocation',
+        'getLocation',
+        'hideOptionMenu',
+        'showOptionMenu',
+        'closeWindow',
+        'scanQRCode',
+        'chooseWXPay',
+        'openProductSpecificView',
+        'addCard',
+        'chooseCard',
+        'openCard'] // 必填，需要使用的JS接口列表
+    });
+    //通过ready接口处理成功验证
+    wx.ready(function () {
+        alert("@(entity.appId + "," + entity.timeStamp+","+ entity.nonceStr+","+entity.package+","+entity.paySign)");
+        // config信息验证后会执行ready方法，所有接口调用都必须在config接口获得结果之后
+        document.querySelector('#wxpay').onclick = function () {
+        wx.chooseWXPay({
+            appId: "@entity.appId",
+            timestamp: "@entity.timeStamp", // 支付签名时间戳 注意这里的s 文档新版大写 但是我的小写才好使
+            nonceStr: "@entity.nonceStr",// 支付签名随机串
+            package: "@entity.package", // 统一支付接口返回的package包
+            signType: "MD5", // 签名方式，'MD5'
+            paySign: "@entity.paySign", // 支付签名
+            success: function (res) {
+                alert(res.errMsg);
+                if (res.errMsg == "chooseWXPay:ok") {
+                    //交钱成功后再添加本地商品
+                    pay();
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                }
+                else if (res.errMsg == "chooseWXPay:cancel") {
+                    alert("cancel");
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                }
+                else if (res.errMsg == "chooseWXPay:fail") {
+                    alert("fail");
+                    // 使用以上方式判断前端返回,微信团队郑重提示：res.err_msg将在用户支付成功后返回ok，但并不保证它绝对可靠。
+                }
+            }
+        });
+        };
+    });
+</script>
