@@ -6,7 +6,7 @@ using System.Web.Mvc;
 using WebSystemTemplet.Utility;
 using WebSystemTemplet.Model;
 
-namespace WebSystemTemplet.UI.Controllers.PC
+namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class PCBaseController : Controller
     {

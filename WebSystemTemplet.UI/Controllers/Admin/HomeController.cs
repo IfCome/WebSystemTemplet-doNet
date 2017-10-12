@@ -4,10 +4,10 @@ using System.Data;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using WebSystemTemplet.UI.Models.PC;
+using WebSystemTemplet.UI.Models.Admin;
 using WebSystemTemplet.Utility;
 
-namespace WebSystemTemplet.UI.Controllers.PC
+namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class HomeController : PCBaseController
     {

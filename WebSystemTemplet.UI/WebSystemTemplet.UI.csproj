@@ -208,17 +208,74 @@
     <Content Include="Resources\wap\search\base2013.css" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="StaticPages\Admin\404.html" />
+    <Content Include="StaticPages\Admin\assets\css\admin.css" />
+    <Content Include="StaticPages\Admin\assets\css\amazeui.datatables.min.css" />
+    <Content Include="StaticPages\Admin\assets\css\amazeui.min.css" />
+    <Content Include="StaticPages\Admin\assets\css\app.css" />
+    <Content Include="StaticPages\Admin\assets\css\app.less" />
+    <Content Include="StaticPages\Admin\assets\css\fullcalendar.min.css" />
+    <Content Include="StaticPages\Admin\assets\css\fullcalendar.print.css" />
+    <Content Include="StaticPages\Admin\assets\fonts\fontawesome-webfont.eot" />
+    <Content Include="StaticPages\Admin\assets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="StaticPages\Admin\assets\fonts\fontawesome-webfont.woff" />
+    <Content Include="StaticPages\Admin\assets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="StaticPages\Admin\assets\fonts\FontAwesome.otf" />
+    <Content Include="StaticPages\Admin\assets\img\a5.png" />
+    <Content Include="StaticPages\Admin\assets\img\k.jpg" />
+    <Content Include="StaticPages\Admin\assets\img\logo.png" />
+    <Content Include="StaticPages\Admin\assets\img\logoa.png" />
+    <Content Include="StaticPages\Admin\assets\img\logob.png" />
+    <Content Include="StaticPages\Admin\assets\img\user01.png" />
+    <Content Include="StaticPages\Admin\assets\img\user02.png" />
+    <Content Include="StaticPages\Admin\assets\img\user03.png" />
+    <Content Include="StaticPages\Admin\assets\img\user04.png" />
+    <Content Include="StaticPages\Admin\assets\img\user05.png" />
+    <Content Include="StaticPages\Admin\assets\img\user06.png" />
+    <Content Include="StaticPages\Admin\assets\img\user07.png" />
+    <Content Include="StaticPages\Admin\assets\i\app-icon72x72%402x.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\admin-chrome.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\admin-firefox.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\admin-ie.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\admin-opera.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\admin-safari.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\adminPage.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\blogPage.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\landing.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\landingPage.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\loginPage.png" />
+    <Content Include="StaticPages\Admin\assets\i\examples\sidebarPage.png" />
+    <Content Include="StaticPages\Admin\assets\i\favicon.png" />
+    <Content Include="StaticPages\Admin\assets\i\startup-640x1096.png" />
+    <Content Include="StaticPages\Admin\assets\js\amazeui.datatables.min.js" />
+    <Content Include="StaticPages\Admin\assets\js\amazeui.min.js" />
+    <Content Include="StaticPages\Admin\assets\js\app.js" />
+    <Content Include="StaticPages\Admin\assets\js\dataTables.responsive.min.js" />
+    <Content Include="StaticPages\Admin\assets\js\echarts.min.js" />
+    <Content Include="StaticPages\Admin\assets\js\fullcalendar.min.js" />
+    <Content Include="StaticPages\Admin\assets\js\jquery.min.js" />
+    <Content Include="StaticPages\Admin\assets\js\moment.js" />
+    <Content Include="StaticPages\Admin\assets\js\theme.js" />
+    <Content Include="StaticPages\Admin\calendar.html" />
+    <Content Include="StaticPages\Admin\chart.html" />
+    <Content Include="StaticPages\Admin\form.html" />
+    <Content Include="StaticPages\Admin\index.html" />
+    <Content Include="StaticPages\Admin\login.html" />
+    <Content Include="StaticPages\Admin\sign-up.html" />
+    <Content Include="StaticPages\Admin\table-list-img.html" />
+    <Content Include="StaticPages\Admin\table-list.html" />
+    <Content Include="StaticPages\Admin\tables.html" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Compile Include="Controllers\PC\ConsumerInfoController.cs" />
-    <Compile Include="Controllers\PC\GoodsManagerController.cs" />
-    <Compile Include="Controllers\PC\HomeController.cs" />
-    <Compile Include="Controllers\PC\LoginController.cs" />
-    <Compile Include="Controllers\PC\PCBaseController.cs" />
-    <Compile Include="Controllers\PC\UserInfoController.cs" />
+    <Compile Include="Controllers\Admin\ConsumerInfoController.cs" />
+    <Compile Include="Controllers\Admin\GoodsManagerController.cs" />
+    <Compile Include="Controllers\Admin\HomeController.cs" />
+    <Compile Include="Controllers\Admin\LoginController.cs" />
+    <Compile Include="Controllers\Admin\PCBaseController.cs" />
+    <Compile Include="Controllers\Admin\UserInfoController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -288,6 +345,7 @@
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Resources\wap\scss\" />
+    <Folder Include="StaticPages\Site\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSystemTemplet.BLL\WebSystemTemplet.BLL.csproj">

@@ -5,7 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebSystemTemplet.Utility;
 
-namespace WebSystemTemplet.UI.Controllers.PC
+namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class ConsumerInfoController : PCBaseController
     {
@@ -18,7 +18,7 @@ namespace WebSystemTemplet.UI.Controllers.PC
         }
 
         [HttpGet]
-        public ActionResult GetConsumerInfoList(Models.PC.GetConsumerInfoListIn InModel)
+        public ActionResult GetConsumerInfoList(Models.Admin.GetConsumerInfoListIn InModel)
         {
             InModel.PageSize = Converter.TryToInt32(InModel.PageSize, 15);
             InModel.CurrentPage = Converter.TryToInt32(InModel.CurrentPage, 1);

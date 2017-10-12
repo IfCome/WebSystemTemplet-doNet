@@ -7,7 +7,7 @@ using WebSystemTemplet.BLL;
 using WebSystemTemplet.Model;
 using WebSystemTemplet.Utility;
 
-namespace WebSystemTemplet.UI.Controllers.PC
+namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class LoginController : Controller
     {

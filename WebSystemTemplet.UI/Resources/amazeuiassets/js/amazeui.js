@@ -2636,7 +2636,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  // previous time and center,
 	  // used for tap counting
 	  this.pTime = false;
-	  this.pCenter = false;
+	  this.Adminenter = false;
 
 	  this._timer = null;
 	  this._input = null;
@@ -2683,10 +2683,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	      }
 
 	      var validInterval = this.pTime ? (input.timeStamp - this.pTime < options.interval) : true;
-	      var validMultiTap = !this.pCenter || getDistance(this.pCenter, input.center) < options.posThreshold;
+	      var validMultiTap = !this.Adminenter || getDistance(this.Adminenter, input.center) < options.posThreshold;
 
 	      this.pTime = input.timeStamp;
-	      this.pCenter = input.center;
+	      this.Adminenter = input.center;
 
 	      if (!validMultiTap || !validInterval) {
 	        this.count = 1;

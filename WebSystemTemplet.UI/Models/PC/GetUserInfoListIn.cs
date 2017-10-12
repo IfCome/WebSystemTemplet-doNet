@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace WebSystemTemplet.UI.Models.PC
+namespace WebSystemTemplet.UI.Models.Admin
 {
     public class GetUserInfoListIn
     {

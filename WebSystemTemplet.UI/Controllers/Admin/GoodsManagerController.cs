@@ -1,4 +1,4 @@
-﻿using WebSystemTemplet.UI.Models.PC;
+﻿using WebSystemTemplet.UI.Models.Admin;
 using WebSystemTemplet.Utility;
 using WebSystemTemplet.Model;
 using System;
@@ -7,7 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
-namespace WebSystemTemplet.UI.Controllers.PC
+namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class GoodsManagerController : PCBaseController
     {

@@ -7,7 +7,7 @@ using System.Web.UI.HtmlControls;
 using WebSystemTemplet.Utility;
 using WebSystemTemplet.Model;
 
-namespace WebSystemTemplet.UI.Controllers.PC
+namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class UserInfoController : PCBaseController
     {
@@ -51,7 +51,7 @@ namespace WebSystemTemplet.UI.Controllers.PC
 
         // 提交用户信息
         [HttpPost]
-        public ActionResult AddUserCallBack(Models.PC.BackGroundUserInfoModelIn InModel)
+        public ActionResult AddUserCallBack(Models.Admin.BackGroundUserInfoModelIn InModel)
         {
             string errorType = "";
             string msg = "OK";
@@ -133,7 +133,7 @@ namespace WebSystemTemplet.UI.Controllers.PC
 
 
         [HttpPost]
-        public ActionResult EditUserCallBack(Models.PC.BackGroundUserInfoModelIn InModel)
+        public ActionResult EditUserCallBack(Models.Admin.BackGroundUserInfoModelIn InModel)
         {
             string errorType = "";
             string msg = "OK";
@@ -185,7 +185,7 @@ namespace WebSystemTemplet.UI.Controllers.PC
 
 
         [HttpGet]
-        public ActionResult GetUserInfoList(Models.PC.GetUserInfoListIn InModel)
+        public ActionResult GetUserInfoList(Models.Admin.GetUserInfoListIn InModel)
         {
             InModel.PageSize = Converter.TryToInt32(InModel.PageSize, 15);
             InModel.CurrentPage = Converter.TryToInt32(InModel.CurrentPage, 1);
