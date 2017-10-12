@@ -13,6 +13,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSystemTemplet.DAL", "Web
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebSystemTemplet.Model", "WebSystemTemplet.Model\WebSystemTemplet.Model.csproj", "{D4DD2A7B-4C2D-4712-812A-5A6287D58F27}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "data", "data", "{4FC6A054-BAC5-4882-85CD-D77BE201DC86}"
+	ProjectSection(SolutionItems) = preProject
+		data\教务系统设计.xmind = data\教务系统设计.xmind
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
