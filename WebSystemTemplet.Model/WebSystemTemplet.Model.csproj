@@ -40,11 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="BackgroundUserInfo.cs" />
+    <Compile Include="MSUserInfo.cs" />
     <Compile Include="BackgroundUserInfo_log.cs" />
     <Compile Include="CategoryInfo.cs" />
     <Compile Include="CompanyPayment.cs" />
     <Compile Include="ConsumerInfo.cs" />
+    <Compile Include="EnumType.cs" />
     <Compile Include="GoodsBaseInfo.cs" />
     <Compile Include="HuoDongInfo.cs" />
     <Compile Include="Identity.cs" />

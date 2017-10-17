@@ -118,7 +118,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Site.css" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Resources\adminassets\js\theme.js" />
     <Content Include="Resources\amazeuiassets\css\admin.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.flat.css" />
@@ -149,6 +154,46 @@
     <Content Include="Resources\amazeuiassets\js\app.js" />
     <Content Include="Resources\amazeuiassets\js\handlebars.min.js" />
     <Content Include="Resources\amazeuiassets\js\jquery.min.js" />
+    <Content Include="Resources\adminassets\css\admin.css" />
+    <Content Include="Resources\adminassets\css\amazeui.datatables.min.css" />
+    <Content Include="Resources\adminassets\css\amazeui.min.css" />
+    <Content Include="Resources\adminassets\css\app.css" />
+    <Content Include="Resources\adminassets\css\fullcalendar.min.css" />
+    <Content Include="Resources\adminassets\css\fullcalendar.print.css" />
+    <Content Include="Resources\adminassets\img\a5.png" />
+    <Content Include="Resources\adminassets\img\k.jpg" />
+    <Content Include="Resources\adminassets\img\logo.png" />
+    <Content Include="Resources\adminassets\img\logoa.png" />
+    <Content Include="Resources\adminassets\img\logob.png" />
+    <Content Include="Resources\adminassets\img\user01.png" />
+    <Content Include="Resources\adminassets\img\user02.png" />
+    <Content Include="Resources\adminassets\img\user03.png" />
+    <Content Include="Resources\adminassets\img\user04.png" />
+    <Content Include="Resources\adminassets\img\user05.png" />
+    <Content Include="Resources\adminassets\img\user06.png" />
+    <Content Include="Resources\adminassets\img\user07.png" />
+    <Content Include="Resources\adminassets\i\app-icon72x72%402x.png" />
+    <Content Include="Resources\adminassets\i\examples\admin-chrome.png" />
+    <Content Include="Resources\adminassets\i\examples\admin-firefox.png" />
+    <Content Include="Resources\adminassets\i\examples\admin-ie.png" />
+    <Content Include="Resources\adminassets\i\examples\admin-opera.png" />
+    <Content Include="Resources\adminassets\i\examples\admin-safari.png" />
+    <Content Include="Resources\adminassets\i\examples\adminPage.png" />
+    <Content Include="Resources\adminassets\i\examples\blogPage.png" />
+    <Content Include="Resources\adminassets\i\examples\landing.png" />
+    <Content Include="Resources\adminassets\i\examples\landingPage.png" />
+    <Content Include="Resources\adminassets\i\examples\loginPage.png" />
+    <Content Include="Resources\adminassets\i\examples\sidebarPage.png" />
+    <Content Include="Resources\adminassets\i\favicon.png" />
+    <Content Include="Resources\adminassets\i\startup-640x1096.png" />
+    <Content Include="Resources\adminassets\js\amazeui.datatables.min.js" />
+    <Content Include="Resources\adminassets\js\amazeui.min.js" />
+    <Content Include="Resources\adminassets\js\app.js" />
+    <Content Include="Resources\adminassets\js\dataTables.responsive.min.js" />
+    <Content Include="Resources\adminassets\js\echarts.min.js" />
+    <Content Include="Resources\adminassets\js\fullcalendar.min.js" />
+    <Content Include="Resources\adminassets\js\jquery.min.js" />
+    <Content Include="Resources\adminassets\js\moment.js" />
     <Content Include="Resources\css\amazeui.touch.min.css" />
     <Content Include="Resources\css\LoginStyle.css" />
     <Content Include="Resources\images\hand.png" />
@@ -208,6 +253,12 @@
     <Content Include="Resources\wap\search\base2013.css" />
     <Content Include="scripts\ai.0.22.9-build00167.js" />
     <Content Include="scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="scripts\bootstrap.js" />
+    <Content Include="scripts\bootstrap.min.js" />
+    <None Include="scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="scripts\jquery-1.10.2.js" />
+    <Content Include="scripts\jquery-1.10.2.min.js" />
+    <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="StaticPages\Admin\404.html" />
     <Content Include="StaticPages\Admin\assets\css\admin.css" />
     <Content Include="StaticPages\Admin\assets\css\amazeui.datatables.min.css" />
@@ -335,6 +386,22 @@
     <Content Include="Views\UserInfo\EditUser.cshtml" />
     <Content Include="Views\UserInfo\IndexPage.cshtml" />
     <Content Include="Views\UserInfo\SeeUserInfo.cshtml" />
+    <Content Include="Views\Admin\Login\Index.cshtml" />
+    <Content Include="Resources\adminassets\css\app.less" />
+    <Content Include="Resources\adminassets\fonts\fontawesome-webfont.eot" />
+    <Content Include="Resources\adminassets\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Resources\adminassets\fonts\fontawesome-webfont.woff" />
+    <Content Include="Resources\adminassets\fonts\fontawesome-webfont.woff2" />
+    <Content Include="Resources\adminassets\fonts\FontAwesome.otf" />
+    <Content Include="Views\Admin\Home\IndexPage.cshtml" />
+    <Content Include="Views\Admin\Common\HeadPart.cshtml" />
+    <Content Include="Views\Admin\Common\TipsTool.cshtml" />
+    <Content Include="Views\Admin\Common\ScriptPart.cshtml" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="scripts\jquery-1.10.2.min.map" />
+    <Content Include="Views\Admin\Common\_Layout.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -37,14 +37,14 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                     return Redirect(Url.Action("IndexPage", "Home"));
                 }
             }
-            return View();
+            return View("~/Views/Admin/Login/Index.cshtml");
         }
 
         [HttpPost]
         public ActionResult Login(string UserName, string Pwd)
         {
             string result = "用户名或密码错误";
-            Model.BackgroundUserInfo userInfo = BLL.BackgroundUserBll.Login(UserName, Pwd, Request.UserHostAddress);
+            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.Login(UserName, Pwd, Request.UserHostAddress);
             if (userInfo != null)
             {
                 // 写Cookies
@@ -73,7 +73,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             Response.Cookies.Add(pairACookie);
             Response.Cookies.Add(pairBCookie);
 
-            return View("~/Views/Login/Index.cshtml");
+            return RedirectToAction("Index");
         }
 
     }

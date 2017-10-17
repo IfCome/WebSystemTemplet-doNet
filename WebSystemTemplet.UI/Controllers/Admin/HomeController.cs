@@ -48,7 +48,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             List<Model.ConsumerInfo> consumerList = BLL.ConsumerInfoBll.GetTop10ConsumerInfos();
             ViewBag.ConsumerList = consumerList;
 
-            return View();
+            return View("~/Views/Admin/Home/IndexPage.cshtml");
         }
 
     }
