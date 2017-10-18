@@ -33,7 +33,49 @@
                                     <option value="30004">班主任</option>
                                     <option value="30005">助教</option>
                                 </select>
-                                <select data-am-selected="{btnSize: 'sm'}">
+                                <select data-am-selected="{btnSize: 'sm',searchBox: 1,maxHeight: 200}">
+                                    <option value="-1">所有班级</option>
+                                    <option value="20001">院长</option>
+                                    <option value="30001">系主任</option>
+                                    <option value="30002">助理</option>
+                                    <option value="30003">讲师</option>
+                                    <option value="30004">班主任</option>
+                                    <option value="30005">助教</option>
+                                    <option value="-1">所有班级</option>
+                                    <option value="20001">院长</option>
+                                    <option value="30001">系主任</option>
+                                    <option value="30002">助理</option>
+                                    <option value="30003">讲师</option>
+                                    <option value="30004">班主任</option>
+                                    <option value="30005">助教</option>
+                                    <option value="-1">所有班级</option>
+                                    <option value="20001">院长</option>
+                                    <option value="30001">系主任</option>
+                                    <option value="30002">助理</option>
+                                    <option value="30003">讲师</option>
+                                    <option value="30004">班主任</option>
+                                    <option value="30005">助教</option>
+                                    <option value="-1">所有班级</option>
+                                    <option value="20001">院长</option>
+                                    <option value="30001">系主任</option>
+                                    <option value="30002">助理</option>
+                                    <option value="30003">讲师</option>
+                                    <option value="30004">班主任</option>
+                                    <option value="30005">助教</option>
+                                    <option value="-1">所有班级</option>
+                                    <option value="20001">院长</option>
+                                    <option value="30001">系主任</option>
+                                    <option value="30002">助理</option>
+                                    <option value="30003">讲师</option>
+                                    <option value="30004">班主任</option>
+                                    <option value="30005">助教</option>
+                                    <option value="-1">所有班级</option>
+                                    <option value="20001">院长</option>
+                                    <option value="30001">系主任</option>
+                                    <option value="30002">助理</option>
+                                    <option value="30003">讲师</option>
+                                    <option value="30004">班主任</option>
+                                    <option value="30005">助教</option>
                                     <option value="-1">所有班级</option>
                                     <option value="20001">院长</option>
                                     <option value="30001">系主任</option>
@@ -48,7 +90,7 @@
                             <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
                                 <input type="text" class="am-form-field " placeholder="教职工姓名">
                                 <span class="am-input-group-btn">
-                                    <button class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+                                    <button id="btnSearch" class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
                                 </span>
                             </div>
                         </div>
@@ -64,7 +106,7 @@
                         </div>
 
                         <div class="am-u-sm-12">
-                            <table width="100%" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                            <table id="tbDataList" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
                                 <thead>
                                     <tr>
                                         <th>序号</th>
@@ -74,93 +116,12 @@
                                         <th>操作</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr class="gradeX">
-                                        <td>1</td>
-                                        <td>张三</td>
-                                        <td>汽车制造与维修技术专业</td>
-                                        <td>讲师,班主任</td>
-                                        <td>
-                                            <div class="tpl-table-black-operation">
-                                                <a href="javascript:;">
-                                                    <i class="am-icon-pencil"></i> 编辑
-                                                </a>
-                                                <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                    <i class="am-icon-trash"></i> 删除
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="gradeX">
-                                        <td>2</td>
-                                        <td>张三</td>
-                                        <td>汽车制造与维修技术专业</td>
-                                        <td>讲师,班主任</td>
-                                        <td>
-                                            <div class="tpl-table-black-operation">
-                                                <a href="javascript:;">
-                                                    <i class="am-icon-pencil"></i> 编辑
-                                                </a>
-                                                <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                    <i class="am-icon-trash"></i> 删除
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="gradeX">
-                                        <td>3</td>
-                                        <td>张三</td>
-                                        <td>汽车制造与维修技术专业</td>
-                                        <td>讲师,班主任</td>
-                                        <td>
-                                            <div class="tpl-table-black-operation">
-                                                <a href="javascript:;">
-                                                    <i class="am-icon-pencil"></i> 编辑
-                                                </a>
-                                                <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                    <i class="am-icon-trash"></i> 删除
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="gradeX">
-                                        <td>4</td>
-                                        <td>张三</td>
-                                        <td>汽车制造与维修技术专业</td>
-                                        <td>讲师,班主任</td>
-                                        <td>
-                                            <div class="tpl-table-black-operation">
-                                                <a href="javascript:;">
-                                                    <i class="am-icon-pencil"></i> 编辑
-                                                </a>
-                                                <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                    <i class="am-icon-trash"></i> 删除
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                    <tr class="gradeX">
-                                        <td>5</td>
-                                        <td>张三</td>
-                                        <td>汽车制造与维修技术专业</td>
-                                        <td>讲师,班主任</td>
-                                        <td>
-                                            <div class="tpl-table-black-operation">
-                                                <a href="javascript:;">
-                                                    <i class="am-icon-pencil"></i> 编辑
-                                                </a>
-                                                <a href="javascript:;" class="tpl-table-black-operation-del">
-                                                    <i class="am-icon-trash"></i> 删除
-                                                </a>
-                                            </div>
-                                        </td>
-                                    </tr>
-                                </tbody>
+                                <tbody></tbody>
                             </table>
                         </div>
                         <div class="am-u-lg-12 am-cf">
                             <div class="am-fr">
-                                <div id="page2"></div>
+                                <div id="pagerBar"></div>
                             </div>
                         </div>
                     </div>
@@ -168,6 +129,29 @@
             </div>
         </div>
     </div>
+    <table id="listTemplet" class="am-hide">
+        <tbody>
+            <tr class="gradeX">
+                <td>{index}</td>
+                <td>{teacherName}</td>
+                <td>{majorName}</td>
+                <td>{positionNames}</td>
+                <td>
+                    <div class="tpl-table-black-operation">
+                        <a href="javascript:;">
+                            <i class="am-icon-eye"></i> 详情
+                        </a>
+                        <a href="javascript:;">
+                            <i class="am-icon-pencil"></i> 编辑
+                        </a>
+                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                            <i class="am-icon-trash"></i> 删除
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
 </div>
 
 <script>
@@ -175,10 +159,11 @@
     var modelData = {
         pageIndex: 1,
         pageSize: 10,
+        isSearching :false,
     };
 
-    $("#page2").page({
-        pages: 1,
+    var pagerObj = $("#pagerBar").page({
+        pages: 1, //默认只有1页数据
         first: "首页", //设置false则不显示，默认为false
         last: "尾页", //设置false则不显示，默认为false
         prev: '<', //若不显示，设置false即可，默认为上一页
@@ -186,13 +171,57 @@
         groups: 3, //连续显示分页数
         jump: function (context, first) {
             modelData.pageIndex = context.option.curr;
-            console.log('当前第：' + modelData.pageIndex + "页");
             search();
         }
     });
 
-    function search() {
-        console.log('查询');
+    $('#btnSearch').click(function () {
+        modelData.pageIndex = 1;
+        search();
+    });
+
+    function search() {        
+
+        // 正在查询
+        if (modelData.isSearching) {
+            return;
+        }
+        // 整理参数
+        var data = {
+            PageSize: modelData.pageSize,
+            CurrentPage: modelData.pageIndex,
+        };
+        modelData.isSearching = true;
+        $.get('@Url.RouteUrl(new { controller = "UserInfo", action = "GetUserInfoList" })', data, function (result) {
+            if (result) {
+                // 清空数据
+                $("#tbDataList>tbody").html('');
+                if (result.Rows != null && result.Rows.length > 0) {
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var row = result.Rows[i];
+                        var rowHtml = $("#listTemplet>tbody").html();
+                        rowHtml = rowHtml.replace("{index}", i + 1);
+                        rowHtml = rowHtml.replace(/{teacherName}/g, row.RealName);
+                        rowHtml = rowHtml.replace("{majorName}", row.RealName);
+                        rowHtml = rowHtml.replace("{positionNames}", row.RoleType);
+                        rowHtml = rowHtml.replace(/{ID}/g, row.ID);
+                        $("#tbDataList>tbody").append($(rowHtml));
+                    }
+                }
+
+                var totalPages = Math.ceil(parseInt(result.AllCount) / modelData.pageSize);
+                pagerObj.setPages(totalPages, modelData.pageIndex);
+            }
+            else {
+                alert("查询出错");
+            }
+            modelData.isSearching = false;
+        }, 'json');
+
     }
+
+    $(function () {
+        search();
+    })
 
 </script>

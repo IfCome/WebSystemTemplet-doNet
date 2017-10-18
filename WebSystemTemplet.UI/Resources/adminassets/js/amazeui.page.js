@@ -28,7 +28,7 @@
 
 	page.prototype._load=function(){
 		var option=this.option;
-		if(!option.pages||option.pages==1){
+		if(!option.pages){
 			return false;
 		}
 		var $element = this.$element;
@@ -88,21 +88,21 @@
 			$ul.append(res);
 		}
 		this._on();
-		if(this.option.after){
-			var _this=this;
-			this.option.after(this,function(){
-				_this._jump();
-			});
-		}else{
-			this._jump();
-		}
 	}
 
 	page.prototype._on=function(){
 		var _this=this;
-		_this.$element.one('click','li a',function(){
+		_this.$element.find('li a').click(function(){
 			_this.option.curr=$(this).data('page');
 			_this._init();
+
+			if (_this.option.after) {
+			    this.option.after(_this, function () {
+			        _this._jump();
+			    });
+			} else {
+			    _this._jump();
+			}
 		});	
 	}
 
@@ -129,6 +129,12 @@
 		this.option.curr=parseInt(curr);
 		this._init();
 		if(callback)callback();
+	}
+
+	page.prototype.setPages = function (pages, curr) {
+	    this.option.pages = parseInt(pages);
+	    this.option.curr = curr || this.option.curr;
+	    this._init();
 	}
 
 	$.fn.extend({

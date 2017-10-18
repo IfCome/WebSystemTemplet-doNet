@@ -34,10 +34,6 @@ $(function () {
             .end()
             .find('.sidebar-nav-sub-ico').toggleClass('sidebar-nav-sub-ico-rotate');
     })
-    $('.sidebar-nav-link>a').on('click', function () {
-        saveSelectMenu.MenuId = $(this).prop('id');
-        storageSave(saveSelectMenu);
-    })
 
     // 判断用户是否已有自己选择的模板风格
     if (storageLoad('SelcetColor')) {
