@@ -123,7 +123,6 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="Resources\adminassets\js\theme.js" />
     <Content Include="Resources\amazeuiassets\css\admin.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.flat.css" />
@@ -325,6 +324,7 @@
     <Compile Include="Controllers\Admin\GoodsManagerController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
+    <Compile Include="Controllers\Admin\MSUserInfoController.cs" />
     <Compile Include="Controllers\Admin\PCBaseController.cs" />
     <Compile Include="Controllers\Admin\UserInfoController.cs" />
     <Compile Include="Global.asax.cs">
@@ -402,6 +402,7 @@
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Admin\Common\_Layout.cshtml" />
+    <Content Include="Views\Admin\MSUserInfo\TeacherList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -413,6 +414,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Resources\wap\scss\" />
     <Folder Include="StaticPages\Site\" />
+    <Folder Include="Views\MSUserInfo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSystemTemplet.BLL\WebSystemTemplet.BLL.csproj">
