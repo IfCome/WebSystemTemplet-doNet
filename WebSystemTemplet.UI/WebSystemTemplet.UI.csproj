@@ -123,6 +123,8 @@
     <Content Include="Content\Site.css" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="Resources\adminassets\css\amazeui.page.css" />
+    <Content Include="Resources\adminassets\js\amazeui.page.js" />
     <Content Include="Resources\amazeuiassets\css\admin.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.flat.css" />

@@ -48,18 +48,14 @@ $(function () {
     }
 
     // 设置当前选中的菜单
-    var selectMenuId;
-    if (storageLoad('SelcetMenu')) {
-        selectMenuId = storageLoad('SelcetMenu').MenuId;
-    } else {
-        storageSave(saveSelectMenu);
-        selectMenuId = 'menu-home';
-    }
+    var selectMenuId = $('#admin-current-menu-id').val();
     var selectMenu = $('#' + selectMenuId);
-    if (selectMenu.closest('ul').hasClass('sidebar-nav-sub')) {
-        selectMenu.addClass('sub-active').closest('ul').css('display','block').prev().addClass('active');
-    } else {
-        selectMenu.addClass('active')
+    if (selectMenu.length > 0) {
+        if (selectMenu.closest('ul').hasClass('sidebar-nav-sub')) {
+            selectMenu.addClass('sub-active').closest('ul').css('display','block').prev().addClass('active');
+        } else {
+            selectMenu.addClass('active')
+        }
     }
 
 })
@@ -373,10 +369,6 @@ function autoLeftNav() {
 var saveSelectColor = {
     'Name': 'SelcetColor',
     'Color': 'theme-white'
-}
-var saveSelectMenu = {
-    'Name': 'SelcetMenu',
-    'MenuId': 'menu-home'
 }
 
 // 本地缓存
