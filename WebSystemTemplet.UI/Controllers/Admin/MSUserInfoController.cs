@@ -13,5 +13,10 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         {
             return View("~/Views/Admin/MSUserInfo/TeacherList.cshtml");
         }
+
+        public ActionResult TeacherAddPage()
+        {
+            return View("~/Views/Admin/MSUserInfo/TeacherAdd.cshtml");
+        }
     }
 }

@@ -638,6 +638,10 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   border:1px solid #ccc;
   color:rgb(136, 136, 136);
 }
+.tpl-form-border-form .am-selected-search .am-form-field{
+  border:1px solid #ccc;
+  color:rgb(136, 136, 136);
+}
 .fc-button-group,
 .fc button {
   display: block;
