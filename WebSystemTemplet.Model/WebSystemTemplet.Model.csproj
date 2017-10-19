@@ -40,7 +40,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MSUserInfo.cs" />
+    <Compile Include="Admin\MSActionGroup.cs" />
+    <Compile Include="Admin\MSActionInfo.cs" />
+    <Compile Include="Admin\MSDepartmentInfo.cs" />
+    <Compile Include="Admin\MSPositionTypeActionGroup.cs" />
+    <Compile Include="Admin\MSPostionInfo.cs" />
+    <Compile Include="Admin\MSRoleInfo.cs" />
+    <Compile Include="Admin\MSUserInfo.cs" />
+    <Compile Include="Admin\MSUserPositionRelation.cs" />
     <Compile Include="BackgroundUserInfo_log.cs" />
     <Compile Include="CategoryInfo.cs" />
     <Compile Include="CompanyPayment.cs" />
