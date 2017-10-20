@@ -25,7 +25,7 @@
                     <div class="widget-body  am-fr">
                         <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
                             <div class="am-form-group tpl-table-list-select">
-                                <select data-am-selected="{btnSize: 'sm'}">
+                                <select id="selectPositionType" data-am-selected="{btnSize: 'sm'}">
                                     <option value="-1">所有岗位</option>
                                     <option value="20001">院长</option>
                                     <option value="30001">系主任</option>
@@ -34,71 +34,15 @@
                                     <option value="30004">班主任</option>
                                     <option value="30005">助教</option>
                                 </select>
-                                <select data-am-selected="{btnSize: 'sm'}">
+                                <select id="selectMajorId" data-am-selected="{btnSize: 'sm'}">
                                     <option value="-1">所有专业</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                </select>
-                                <select data-am-selected="{btnSize: 'sm',searchBox: 1,maxHeight: 200}">
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                    <option value="-1">所有班级</option>
-                                    <option value="20001">院长</option>
-                                    <option value="30001">系主任</option>
-                                    <option value="30002">助理</option>
-                                    <option value="30003">讲师</option>
-                                    <option value="30004">班主任</option>
-                                    <option value="30005">助教</option>
-                                </select>
+                                    <option value="2">汽车制造与维修技术专业 </option>
+                                </select>                                
                             </div>
                         </div>
                         <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                             <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                                <input type="text" class="am-form-field " placeholder="教职工姓名">
+                                <input id="txtKeyWords" type="text" class="am-form-field " placeholder="教职工姓名">
                                 <span class="am-input-group-btn">
                                     <button id="btnSearch" class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
                                 </span>
@@ -121,6 +65,7 @@
                                     <tr>
                                         <th>序号</th>
                                         <th>姓名</th>
+                                        <th>登录名</th>
                                         <th>专业</th>
                                         <th>岗位</th>
                                         <th>操作</th>
@@ -144,6 +89,7 @@
             <tr class="gradeX">
                 <td>{index}</td>
                 <td>{teacherName}</td>
+                <td>{userName}</td>
                 <td>{majorName}</td>
                 <td>{positionNames}</td>
                 <td>
@@ -199,10 +145,13 @@
         // 整理参数
         var data = {
             PageSize: modelData.pageSize,
-            CurrentPage: modelData.pageIndex,
+            PageIndex: modelData.pageIndex,
+            PositionType: $('#selectPositionType').val(),
+            MajorId: $('#selectMajorId').val(),
+            KeyWords: $('#txtKeyWords').val(),
         };
         modelData.isSearching = true;
-        $.get('@Url.RouteUrl(new { controller = "UserInfo", action = "GetUserInfoList" })', data, function (result) {
+        $.get('@Url.RouteUrl(new { controller = "MSUserInfo", action = "GetTeacherList" })', data, function (result) {
             if (result) {
                 // 清空数据
                 $("#tbDataList>tbody").html('');
@@ -212,9 +161,10 @@
                         var rowHtml = $("#listTemplet>tbody").html();
                         rowHtml = rowHtml.replace("{index}", i + 1);
                         rowHtml = rowHtml.replace(/{teacherName}/g, row.RealName);
-                        rowHtml = rowHtml.replace("{majorName}", row.RealName);
-                        rowHtml = rowHtml.replace("{positionNames}", row.RoleType);
-                        rowHtml = rowHtml.replace(/{ID}/g, row.ID);
+                        rowHtml = rowHtml.replace(/{userName}/g, row.UserName);
+                        rowHtml = rowHtml.replace("{majorName}", row.MajorName);
+                        rowHtml = rowHtml.replace("{positionNames}", row.PositionName);
+                        rowHtml = rowHtml.replace(/{UserID}/g, row.UserID);
                         $("#tbDataList>tbody").append($(rowHtml));
                     }
                 }

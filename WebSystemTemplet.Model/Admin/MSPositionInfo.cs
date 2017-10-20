@@ -5,7 +5,7 @@ namespace WebSystemTemplet.Model.Admin
     /// <summary>
     /// MSPostionInfo
     /// </summary>
-    public class MSPostionInfo
+    public class MSPositionInfo
     {
 
         /// <summary>
@@ -22,6 +22,11 @@ namespace WebSystemTemplet.Model.Admin
         /// 岗位类型（10001-系统管理员，10002-配置管理员，20001-院长，30001-系主任，30002-助理，30003-讲师，30004-班主任，30005-助教，40001-班长，40002-学生）
         /// </summary>
         public int PositionType { get; set; }
+
+        /// <summary>
+        /// 创建时间
+        /// </summary>
+        public DateTime PositionName { get; set; }
 
         /// <summary>
         /// 创建时间

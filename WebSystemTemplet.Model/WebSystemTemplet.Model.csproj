@@ -44,7 +44,7 @@
     <Compile Include="Admin\MSActionInfo.cs" />
     <Compile Include="Admin\MSDepartmentInfo.cs" />
     <Compile Include="Admin\MSPositionTypeActionGroup.cs" />
-    <Compile Include="Admin\MSPostionInfo.cs" />
+    <Compile Include="Admin\MSPositionInfo.cs" />
     <Compile Include="Admin\MSRoleInfo.cs" />
     <Compile Include="UserInfo.cs" />
     <Compile Include="Admin\MSUserInfo.cs" />

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WebSystemTemplet.Model
 {
-    enum PositionType
+    public enum PositionType
     {
         系统管理员 = 10001,
         配置管理员 = 10002,
@@ -18,5 +18,12 @@ namespace WebSystemTemplet.Model
         助教 = 30005,
         班长 = 40001,
         学生 = 40002
+    }
+
+    public enum RoleType
+    {
+        教职工 = 1,
+        学生 = 2,
+        管理员 = 3
     }
 }

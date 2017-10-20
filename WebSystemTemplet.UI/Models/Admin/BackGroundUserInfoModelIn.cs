@@ -77,8 +77,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             }
             set { realName = value; }
         }
-
-        private int roleType;
+        
         /// <summary>
         /// 角色类型（10:管理员 20:普通员工）
         /// </summary>

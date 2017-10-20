@@ -332,13 +332,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\PC\AddGoodsCallBackIn.cs" />
-    <Compile Include="Models\PC\AddHuoDongInfoIn.cs" />
-    <Compile Include="Models\PC\BackGroundUserInfoModelIn.cs" />
-    <Compile Include="Models\PC\GetConsumerInfoListIn.cs" />
-    <Compile Include="Models\PC\GetGoodsInfoIn.cs" />
-    <Compile Include="Models\PC\GetUserInfoListIn.cs" />
-    <Compile Include="Models\PC\HomeIndexPageModelOut.cs" />
+    <Compile Include="Models\Admin\AddGoodsCallBackIn.cs" />
+    <Compile Include="Models\Admin\AddHuoDongInfoIn.cs" />
+    <Compile Include="Models\Admin\BackGroundUserInfoModelIn.cs" />
+    <Compile Include="Models\Admin\GetConsumerInfoListIn.cs" />
+    <Compile Include="Models\Admin\GetGoodsInfoIn.cs" />
+    <Compile Include="Models\Admin\GetUserInfoListIn.cs" />
+    <Compile Include="Models\Admin\HomeIndexPageModelOut.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

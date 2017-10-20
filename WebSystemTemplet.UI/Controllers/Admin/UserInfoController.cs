@@ -187,14 +187,12 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         [HttpGet]
         public ActionResult GetUserInfoList(Models.Admin.GetUserInfoListIn InModel)
         {
-            InModel.PageSize = Converter.TryToInt32(InModel.PageSize, 15);
-            InModel.CurrentPage = Converter.TryToInt32(InModel.CurrentPage, 1);
-            InModel.RoleType = Converter.TryToInt32(InModel.RoleType, -1);
-            InModel.KeyWords = InModel.KeyWords ?? "";
+            InModel.PageSize = Converter.TryToInt32(InModel.PageSize, 10);
+            InModel.PageIndex = Converter.TryToInt32(InModel.PageIndex, 1);
 
             List<Model.UserInfo> userInfoList = new List<Model.UserInfo>();
             int allCount = 0;
-            userInfoList = BLL.BackgroundUserBll.GetAllUserInfoList((int)InModel.PageSize, (int)InModel.CurrentPage, (int)InModel.RoleType, InModel.KeyWords, out allCount);
+            userInfoList = BLL.BackgroundUserBll.GetAllUserInfoList((int)InModel.PageSize, (int)InModel.PageIndex, (int)InModel.RoleType, InModel.KeyWords, out allCount);
             return Json(new
             {
                 Rows = userInfoList.Select(u => new

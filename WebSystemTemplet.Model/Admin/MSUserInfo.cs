@@ -34,6 +34,22 @@ namespace WebSystemTemplet.Model.Admin
         public long RoleID { get; set; }
 
         /// <summary>
+        /// 学院ID
+        /// </summary>
+        public long SchoolID { get; set; }
+
+        /// <summary>
+        /// 专业ID
+        /// </summary>
+        public long MajorID { get; set; }
+
+        /// <summary>
+        /// 班级ID
+        /// </summary>
+        public long ClassID { get; set; }
+
+
+        /// <summary>
         /// 手机号
         /// </summary>
         public string Telephone { get; set; }
@@ -87,6 +103,14 @@ namespace WebSystemTemplet.Model.Admin
         /// 是否删除 1 已删除 ;0 未删除
         /// </summary>
         public byte Deleted { get; set; }
+
+
+        // 扩展字段//////////////////////////////////////////////////////
+
+        /// <summary>
+        /// 职位名称集合
+        /// </summary>
+        public string PositionName { get; set; }
 
     }
 }
