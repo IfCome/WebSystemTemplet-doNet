@@ -44,7 +44,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult Login(string UserName, string Pwd)
         {
             string result = "用户名或密码错误";
-            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.Login(UserName, Pwd, Request.UserHostAddress);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.Login(UserName, Pwd, Request.UserHostAddress);
             if (userInfo != null)
             {
                 // 写Cookies

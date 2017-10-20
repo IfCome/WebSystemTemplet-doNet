@@ -25,7 +25,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult SeeUserInfo(long id)
         {
             // 查询用户信息
-            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(id);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(id);
             if (userInfo == null)
             {
                 return Content("该用户不存在！！");
@@ -85,7 +85,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             else
             {
                 // 添加用户
-                Model.MSUserInfo userInfo = new Model.MSUserInfo()
+                Model.UserInfo userInfo = new Model.UserInfo()
                 {
                     UserName = InModel.UserName,
                     PassWord = Security.getMD5ByStr(InModel.Password),
@@ -122,7 +122,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                 return Content("只有管理员才能编辑用户");
             }
             // 查询用户信息
-            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(id);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(id);
             if (userInfo == null)
             {
                 return Content("该用户不存在！！");
@@ -151,10 +151,10 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             else
             {
                 // 查询用户原信息
-                Model.MSUserInfo oldUserInfo = BLL.BackgroundUserBll.GetSingleUserInfo(InModel.ID);
+                Model.UserInfo oldUserInfo = BLL.BackgroundUserBll.GetSingleUserInfo(InModel.ID);
 
                 // 整理用户新信息
-                Model.MSUserInfo newUserInfo = new Model.MSUserInfo()
+                Model.UserInfo newUserInfo = new Model.UserInfo()
                 {
                     ID = InModel.ID,
                     RoleType = Converter.TryToInt32(InModel.RoleType, 20),
@@ -192,7 +192,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             InModel.RoleType = Converter.TryToInt32(InModel.RoleType, -1);
             InModel.KeyWords = InModel.KeyWords ?? "";
 
-            List<Model.MSUserInfo> userInfoList = new List<Model.MSUserInfo>();
+            List<Model.UserInfo> userInfoList = new List<Model.UserInfo>();
             int allCount = 0;
             userInfoList = BLL.BackgroundUserBll.GetAllUserInfoList((int)InModel.PageSize, (int)InModel.CurrentPage, (int)InModel.RoleType, InModel.KeyWords, out allCount);
             return Json(new
@@ -255,7 +255,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                 return Json(new { Message = "只有管理员才能编辑用户" });
             }
             // 查询用户信息
-            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(id);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(id);
             if (userInfo == null)
             {
                 return Json(new { Message = "该用户不存在或已被删除！！" });
@@ -280,7 +280,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult MyDetails()
         {
             // 查询用户信息
-            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.ID);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.ID);
             if (userInfo == null)
             {
                 return Content("该用户不存在！！");
@@ -297,7 +297,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult EditMyDetails()
         {
             // 查询用户信息
-            Model.MSUserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.ID);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.ID);
             if (userInfo == null)
             {
                 return Content("该用户不存在！！");

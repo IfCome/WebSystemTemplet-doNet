@@ -14,10 +14,10 @@ namespace WebSystemTemplet.BLL
         /// <summary>
         /// 登陆检测
         /// </summary>
-        public static Model.MSUserInfo Login(string UseName, string password, string ipAddress)
+        public static Model.UserInfo Login(string UseName, string password, string ipAddress)
         {
             password = Security.getMD5ByStr(password);
-            Model.MSUserInfo userInfo = DAL.BackgroundUserInfoDal.GetInfoByUserNameAndPwd(UseName, password);
+            Model.UserInfo userInfo = DAL.BackgroundUserInfoDal.GetInfoByUserNameAndPwd(UseName, password);
             if (userInfo != null)
             {
                 Identity.LoginUserInfo = userInfo;
@@ -33,7 +33,7 @@ namespace WebSystemTemplet.BLL
             return userInfo;
         }
 
-        public static Model.MSUserInfo GetLoginUserInfo(long userId)
+        public static Model.UserInfo GetLoginUserInfo(long userId)
         {
             return DAL.BackgroundUserInfoDal.GetUserInfoByID(userId);
         }
@@ -46,28 +46,28 @@ namespace WebSystemTemplet.BLL
             return DAL.BackgroundUserInfoDal.GetCountByUserName(userName) > 0;
         }
 
-        public static bool AddUserInfo(MSUserInfo userInfo)
+        public static bool AddUserInfo(UserInfo userInfo)
         {
             return DAL.BackgroundUserInfoDal.Add(userInfo);
         }
 
-        public static List<Model.MSUserInfo> GetAllUserInfoList(int pageSize, int currentPage, int roleType, string keyWords, out int allCount)
+        public static List<Model.UserInfo> GetAllUserInfoList(int pageSize, int currentPage, int roleType, string keyWords, out int allCount)
         {
             allCount = 0;
-            List<Model.MSUserInfo> userInfoList = DAL.BackgroundUserInfoDal.GetPageListByCondition(pageSize, currentPage, roleType, out allCount, keyWords);
+            List<Model.UserInfo> userInfoList = DAL.BackgroundUserInfoDal.GetPageListByCondition(pageSize, currentPage, roleType, out allCount, keyWords);
             if (userInfoList == null)
             {
-                userInfoList = new List<MSUserInfo>();
+                userInfoList = new List<UserInfo>();
             }
             return userInfoList;
         }
 
-        public static Model.MSUserInfo GetSingleUserInfo(long id)
+        public static Model.UserInfo GetSingleUserInfo(long id)
         {
             return DAL.BackgroundUserInfoDal.GetUserInfoByID(id);
         }
 
-        public static bool UpdateUserInfo(MSUserInfo userInfo)
+        public static bool UpdateUserInfo(UserInfo userInfo)
         {
             return DAL.BackgroundUserInfoDal.UpdateByID(userInfo);
         }
@@ -75,7 +75,7 @@ namespace WebSystemTemplet.BLL
         /// <summary>
         /// 比较新旧用户信息，返回修改的字段内容
         /// </summary>
-        public static string GetDiffContent(MSUserInfo newUserInfo, MSUserInfo oldUserInfo)
+        public static string GetDiffContent(UserInfo newUserInfo, UserInfo oldUserInfo)
         {
             StringBuilder diffContent = new StringBuilder("");
             // 逐一比较

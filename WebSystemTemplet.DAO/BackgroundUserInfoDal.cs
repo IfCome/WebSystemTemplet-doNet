@@ -18,7 +18,7 @@ namespace WebSystemTemplet.DAL
         /// </summary>
         /// <param name="databaseConnectionString">数据库链接字符串</param>
         /// <param name="wherePart">条件部分</param>
-        public static Model.MSUserInfo GetInfoByUserNameAndPwd(string userName, string pwd)
+        public static Model.UserInfo GetInfoByUserNameAndPwd(string userName, string pwd)
         {
             var sql = @"
                         SELECT
@@ -49,7 +49,7 @@ namespace WebSystemTemplet.DAL
             if (dataTable.Rows.Count > 0)
             {
                 var row = dataTable.Rows[0];
-                return new Model.MSUserInfo()
+                return new Model.UserInfo()
                 {
                     ID = Converter.TryToInt64(row["ID"], -1),
                     UserName = Converter.TryToString(row["UserName"], string.Empty),
@@ -76,7 +76,7 @@ namespace WebSystemTemplet.DAL
         /// </summary>
         /// <param name="databaseConnectionString">数据库链接字符串</param>
         /// <param name="wherePart">条件部分</param>
-        public static Model.MSUserInfo GetUserInfoByID(long id)
+        public static Model.UserInfo GetUserInfoByID(long id)
         {
             var sql = @"
                         SELECT
@@ -104,7 +104,7 @@ namespace WebSystemTemplet.DAL
             if (dataTable.Rows.Count > 0)
             {
                 var row = dataTable.Rows[0];
-                return new Model.MSUserInfo()
+                return new Model.UserInfo()
                 {
                     ID = Converter.TryToInt64(row["ID"], -1),
                     UserName = Converter.TryToString(row["UserName"], string.Empty),
@@ -152,7 +152,7 @@ namespace WebSystemTemplet.DAL
         /// <param name="roleType">角色</param>
         /// <param name="allCount">用户总量</param>
         /// <param name="keyWords">搜索关键字</param>
-        public static List<Model.MSUserInfo> GetPageListByCondition(int pageSize, int currentPage, int roleType, out int allCount, string keyWords = "")
+        public static List<Model.UserInfo> GetPageListByCondition(int pageSize, int currentPage, int roleType, out int allCount, string keyWords = "")
         {
             var sql = @"
                         WITH Virtual_T AS
@@ -210,7 +210,7 @@ namespace WebSystemTemplet.DAL
             var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
             if (dataTable.Rows.Count > 0)
             {
-                return dataTable.AsEnumerable().Select(row => new Model.MSUserInfo()
+                return dataTable.AsEnumerable().Select(row => new Model.UserInfo()
                 {
                     ID = Converter.TryToInt64(row["ID"], -1),
                     UserName = Converter.TryToString(row["UserName"], string.Empty),
@@ -236,7 +236,7 @@ namespace WebSystemTemplet.DAL
 
         #region 添加
 
-        public static bool Add(Model.MSUserInfo entity)
+        public static bool Add(Model.UserInfo entity)
         {
             var sql = @"
                         INSERT INTO [BackgroundUserInfo]
@@ -305,7 +305,7 @@ namespace WebSystemTemplet.DAL
         /// <summary>
         /// 通过ID更新实体
         /// </summary>
-        public static bool UpdateByID(Model.MSUserInfo entity)
+        public static bool UpdateByID(Model.UserInfo entity)
         {
             var sql = @"
                         UPDATE [BackgroundUserInfo]

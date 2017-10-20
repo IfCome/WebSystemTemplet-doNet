@@ -9,7 +9,7 @@ namespace WebSystemTemplet.Model
     /// BackgroundUserInfo
     /// </summary>
     [Serializable]
-    public class MSUserInfo
+    public class UserInfo
     {
 
         /// <summary>

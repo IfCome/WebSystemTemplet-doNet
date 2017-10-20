@@ -7,7 +7,7 @@ namespace WebSystemTemplet.Model
 {
     public static class Identity
     {
-        public static Model.MSUserInfo LoginUserInfo;
+        public static Model.UserInfo LoginUserInfo;
         public static Model.ConsumerInfo LoginConsumer;
     }
 }
