@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CacheHelper.cs" />
     <Compile Include="Config.cs" />
     <Compile Include="Converter.cs" />
     <Compile Include="FileUpToImg.cs" />

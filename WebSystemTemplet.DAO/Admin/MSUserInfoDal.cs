@@ -10,13 +10,49 @@ namespace WebSystemTemplet.DAL.Admin
     /// <summary>
     /// MSUserInfo
     /// </summary>
-    public class MSUserInfo
+    public class MSUserInfoDal
     {
         #region 增加
 
         #endregion
 
         #region 更新
+
+        /// <summary>
+        /// 通过ID更新LastLoginTime
+        /// </summary>
+        public static bool UpdateLastLoginTimeByID(DateTime lastLoginTime, long userId)
+        {
+            var sql = @"
+                        UPDATE [MSUserInfo]
+                        SET [LastLoginTime] = @LastLoginTime
+                        WHERE [UserId] = @UserId
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@LastLoginTime", Value = lastLoginTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@UserId", Value = userId });
+
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
+        /// <summary>
+        /// 通过ID更新密码
+        /// </summary>
+        public static bool UpdataPasswordByID(long userId, string password)
+        {
+            var sql = @"
+                        UPDATE [MSUserInfo] SET [PassWord] = @PassWord
+                        WHERE 
+                            [UserID] = @UserID
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@PassWord", Value = password });
+            parameters.Add(new SqlParameter() { ParameterName = "@UserID", Value = userId });
+
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
 
         #endregion
 
@@ -134,10 +170,10 @@ namespace WebSystemTemplet.DAL.Admin
                     QQ = Converter.TryToString(row["QQ"], string.Empty),
                     Email = Converter.TryToString(row["Email"], string.Empty),
                     Remark = Converter.TryToString(row["Remark"], string.Empty),
-                    LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], Convert.ToDateTime("1900-01-01")),
-                    CreateTime = Converter.TryToDateTime(row["CreateTime"], Convert.ToDateTime("1900-01-01")),
+                    LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], DateTime.MinValue),
+                    CreateTime = Converter.TryToDateTime(row["CreateTime"], DateTime.MinValue),
                     CreateUser = Converter.TryToInt64(row["CreateUser"], -1),
-                    UpdateTime = Converter.TryToDateTime(row["UpdateTime"], Convert.ToDateTime("1900-01-01")),
+                    UpdateTime = Converter.TryToDateTime(row["UpdateTime"], DateTime.MinValue),
                     UpdateUser = Converter.TryToInt64(row["UpdateUser"], -1),
                     Deleted = Converter.TryToByte(row["Deleted"], 0),
                     PositionName = Converter.TryToString(row["PositionName"], string.Empty),
@@ -151,6 +187,148 @@ namespace WebSystemTemplet.DAL.Admin
 
         }
 
+        /// <summary>
+        /// 通过UserName和password查询实体（不存在时，返回null）
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <param name="password">密码（MD5加密后）</param>
+        /// <returns></returns>
+        public static Model.Admin.MSUserInfo GetInfoByUserNameAndPwd(string userName, string password)
+        {
+            var sql = @"
+                        SELECT
+	                        [UserId],
+	                        [UserName],
+	                        [RealName],
+	                        [Password],
+	                        [RoleId],
+	                        [SchoolId],
+	                        [MajorId],
+	                        [ClassId],
+	                        [Telephone],
+	                        [IconUrl],
+	                        [QQ],
+	                        [Email],
+	                        [Remark],
+	                        [LastLoginTime]
+                        FROM [MSUserInfo]
+                        WHERE [UserName] = @UserName
+                            AND [PassWord] = @PassWord
+                            AND [deleted] = 0
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@UserName", Value = userName });
+            parameters.Add(new SqlParameter() { ParameterName = "@PassWord", Value = password });
+
+            var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
+
+            if (dataTable.Rows.Count > 0)
+            {
+                var row = dataTable.Rows[0];
+                return new Model.Admin.MSUserInfo()
+                {
+                    UserID = Converter.TryToInt64(row["UserID"], -1),
+                    UserName = Converter.TryToString(row["UserName"], string.Empty),
+                    RealName = Converter.TryToString(row["RealName"], string.Empty),
+                    Password = Converter.TryToString(row["Password"], string.Empty),
+                    RoleID = Converter.TryToInt64(row["RoleID"], -1),
+                    SchoolID = Converter.TryToInt64(row["SchoolID"], -1),
+                    MajorID = Converter.TryToInt64(row["MajorID"], -1),
+                    ClassID = Converter.TryToInt64(row["ClassID"], -1),
+                    Telephone = Converter.TryToString(row["Telephone"], string.Empty),
+                    IconUrl = Converter.TryToString(row["IconUrl"], string.Empty),
+                    QQ = Converter.TryToString(row["QQ"], string.Empty),
+                    Email = Converter.TryToString(row["Email"], string.Empty),
+                    Remark = Converter.TryToString(row["Remark"], string.Empty),
+                    LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], DateTime.MinValue),
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 通过UserID查询实体（不存在时，返回null）
+        /// </summary>
+        /// <param name="userId">用户ID</param>
+        /// <returns></returns>
+        public static Model.Admin.MSUserInfo GetUserInfoByID(long userId)
+        {
+            var sql = @"
+                        SELECT
+                                [UserID]
+                                ,[UserName]
+                                ,[RealName]
+                                ,[Password]
+                                ,[RoleID]
+                                ,[SchoolID]
+                                ,[MajorID]
+                                ,[ClassID]
+                                ,[Telephone]
+                                ,[IconUrl]
+                                ,[QQ]
+                                ,[Email]
+                                ,[Remark]
+                                ,[LastLoginTime]                         
+                        FROM [MSUserInfo] WITH (NOLOCK)
+                        WHERE 
+                            [UserID] = @UserID
+                            AND [deleted] = 0
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@UserID", Value = userId });
+
+            var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
+
+            if (dataTable.Rows.Count > 0)
+            {
+                var row = dataTable.Rows[0];
+                return new Model.Admin.MSUserInfo()
+                {
+                    UserID = Converter.TryToInt64(row["UserID"], -1),
+                    UserName = Converter.TryToString(row["UserName"], string.Empty),
+                    RealName = Converter.TryToString(row["RealName"], string.Empty),
+                    Password = Converter.TryToString(row["Password"], string.Empty),
+                    RoleID = Converter.TryToInt64(row["RoleID"], -1),
+                    SchoolID = Converter.TryToInt64(row["SchoolID"], -1),
+                    MajorID = Converter.TryToInt64(row["MajorID"], -1),
+                    ClassID = Converter.TryToInt64(row["ClassID"], -1),
+                    Telephone = Converter.TryToString(row["Telephone"], string.Empty),
+                    IconUrl = Converter.TryToString(row["IconUrl"], string.Empty),
+                    QQ = Converter.TryToString(row["QQ"], string.Empty),
+                    Email = Converter.TryToString(row["Email"], string.Empty),
+                    Remark = Converter.TryToString(row["Remark"], string.Empty),
+                    LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], DateTime.MinValue),
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        /// <summary>
+        /// 获取指定用户名的用户量
+        /// </summary>
+        /// <param name="userName">用户名</param>
+        /// <returns></returns>
+        public static int GetCountByUserName(string userName)
+        {
+            var sql = @"
+                        SELECT COUNT(*) FROM [MSUserInfo] WITH (NOLOCK)
+                        WHERE 
+                            [UserName] = @UserName
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@UserName", Value = userName });
+
+            var count = SqlHelper.ExecuteScalar(sql, parameters.ToArray());
+
+            return Converter.TryToInt32(count);
+        }
+
         #endregion
 
         #region 聚合
@@ -158,6 +336,27 @@ namespace WebSystemTemplet.DAL.Admin
         #endregion
 
         #region 删除
+
+        /// <summary>
+        /// 通过ID删除
+        /// </summary>
+        public static bool DeleteByID(long userId)
+        {
+            var sql = @"
+                        UPDATE [MSUserInfo] SET [deleted] = 1
+                        WHERE 
+                            [UserId] = @UserId;
+                        UPDATE [MSUserPositionRelation] SET [deleted] = 1
+                        WHERE 
+                            [UserId] = @UserId
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@UserId", Value = userId });
+
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
 
         #endregion
 

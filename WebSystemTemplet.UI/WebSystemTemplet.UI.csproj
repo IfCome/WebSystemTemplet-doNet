@@ -317,12 +317,15 @@
     <Content Include="StaticPages\Admin\table-list-img.html" />
     <Content Include="StaticPages\Admin\table-list.html" />
     <Content Include="StaticPages\Admin\tables.html" />
+    <Content Include="Views\Admin\ErrorPages\_500.cshtml" />
+    <None Include="Views\Admin\ErrorPages\_404.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\Admin\ConsumerInfoController.cs" />
+    <Compile Include="Controllers\Admin\ErrorPagesController.cs" />
     <Compile Include="Controllers\Admin\GoodsManagerController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
@@ -417,7 +420,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Resources\wap\scss\" />
     <Folder Include="StaticPages\Site\" />
-    <Folder Include="Views\MSUserInfo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSystemTemplet.BLL\WebSystemTemplet.BLL.csproj">

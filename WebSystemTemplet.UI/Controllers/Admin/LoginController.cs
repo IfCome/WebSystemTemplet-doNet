@@ -44,11 +44,11 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult Login(string UserName, string Pwd)
         {
             string result = "用户名或密码错误";
-            Model.UserInfo userInfo = BLL.BackgroundUserBll.Login(UserName, Pwd, Request.UserHostAddress);
+            Model.Admin.MSUserInfo userInfo = BLL.Admin.MSUserInfoBll.Login(UserName, Pwd, Request.UserHostAddress);
             if (userInfo != null)
             {
                 // 写Cookies
-                Security.SetUserLoginCookies(userInfo.ID.ToString(), this.Response);
+                Security.SetUserLoginCookies(userInfo.UserID.ToString(), this.Response);
                 result = "ok";
             }
             return Content(result); ;

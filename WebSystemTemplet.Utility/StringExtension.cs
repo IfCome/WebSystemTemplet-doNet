@@ -453,5 +453,19 @@ namespace WebSystemTemplet.Utility
 
         #endregion
 
+
+        #region 将一个空字符串替换为指定的值 +static string IfEmptyToString(this string input, string val = "")
+        /// <summary>
+        /// 将一个空字符串替换为指定的值
+        /// </summary>
+        /// <param name="input">要转化的字符串</param>
+        /// <param name="val">指定的值</param>
+        /// <returns></returns>
+        public static string IfEmptyToString(this string input, string val = "")
+        {
+            return string.IsNullOrEmpty(input) ? val : input;
+        }
+
+        #endregion
     }
 }

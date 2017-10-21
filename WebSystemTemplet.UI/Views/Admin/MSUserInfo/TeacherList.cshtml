@@ -37,7 +37,7 @@
                                 <select id="selectMajorId" data-am-selected="{btnSize: 'sm'}">
                                     <option value="-1">所有专业</option>
                                     <option value="2">汽车制造与维修技术专业 </option>
-                                </select>                                
+                                </select>
                             </div>
                         </div>
                         <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
@@ -100,7 +100,7 @@
                         <a href="javascript:;">
                             <i class="am-icon-pencil"></i> 编辑
                         </a>
-                        <a href="javascript:;" class="tpl-table-black-operation-del">
+                        <a href="javascript:;" onclick="DeleteUser('{UserID}', '{teacherName}')" class="tpl-table-black-operation-del">
                             <i class="am-icon-trash"></i> 删除
                         </a>
                     </div>
@@ -115,7 +115,7 @@
     var modelData = {
         pageIndex: 1,
         pageSize: 10,
-        isSearching :false,
+        isSearching: false,
     };
 
     var pagerObj = $("#pagerBar").page({
@@ -136,7 +136,7 @@
         search();
     });
 
-    function search() {        
+    function search() {
 
         // 正在查询
         if (modelData.isSearching) {
@@ -178,6 +178,24 @@
             modelData.isSearching = false;
         }, 'json');
 
+    }
+
+    function DeleteUser(userId, realName) {
+        if (confirm("确定删除" + realName + "?")) {
+            $.post('@Url.RouteUrl(new { controller = "MSUserInfo", action = "DeleteUser" })', { userId: userId }, function (result) {
+                if (result) {
+                    if (result.Message == 'OK') {
+                        alert("删除成功");
+                        search();
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+                else {
+                    alert("删除失败，请刷新列表重试");
+                }
+            }, 'json');
+        }
     }
 
     $(function () {

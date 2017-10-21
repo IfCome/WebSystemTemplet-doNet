@@ -14,24 +14,24 @@ namespace WebSystemTemplet.BLL
         /// <summary>
         /// 登陆检测
         /// </summary>
-        public static Model.UserInfo Login(string UseName, string password, string ipAddress)
-        {
-            password = Security.getMD5ByStr(password);
-            Model.UserInfo userInfo = DAL.BackgroundUserInfoDal.GetInfoByUserNameAndPwd(UseName, password);
-            if (userInfo != null)
-            {
-                Identity.LoginUserInfo = userInfo;
-                // 登录成功，记录日志
-                string logTitle = "登录系统";
-                string logMsg = "登录系统";
-                BLL.BackgroundUserBll_log.AddLog(logTitle, logMsg, ipAddress);
+        //public static Model.UserInfo Login(string UseName, string password, string ipAddress)
+        //{
+        //    password = Security.getMD5ByStr(password);
+        //    Model.UserInfo userInfo = DAL.BackgroundUserInfoDal.GetInfoByUserNameAndPwd(UseName, password);
+        //    if (userInfo != null)
+        //    {
+        //        Identity.LoginUserInfo = userInfo;
+        //        // 登录成功，记录日志
+        //        string logTitle = "登录系统";
+        //        string logMsg = "登录系统";
+        //        BLL.BackgroundUserBll_log.AddLog(logTitle, logMsg, ipAddress);
 
-                // 修改最近登录时间
-                DAL.BackgroundUserInfoDal.UpdateLastLoginTimeByID(DateTime.Now, userInfo.ID);
-            }
+        //        // 修改最近登录时间
+        //        DAL.BackgroundUserInfoDal.UpdateLastLoginTimeByID(DateTime.Now, userInfo.ID);
+        //    }
 
-            return userInfo;
-        }
+        //    return userInfo;
+        //}
 
         public static Model.UserInfo GetLoginUserInfo(long userId)
         {

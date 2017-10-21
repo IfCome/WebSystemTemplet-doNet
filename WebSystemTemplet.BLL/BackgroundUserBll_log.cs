@@ -12,7 +12,7 @@ namespace WebSystemTemplet.BLL
         {
             Model.BackgroundUserInfo_log logEntity = new Model.BackgroundUserInfo_log()
             {
-                UserID = Identity.LoginUserInfo == null ? 0 : Identity.LoginUserInfo.ID,
+                UserID = Identity.LoginUserInfo == null ? 0 : Identity.LoginUserInfo.UserID,
                 OperateTile = title,
                 OperateDetail = msg,
                 OperateTime = DateTime.Now,

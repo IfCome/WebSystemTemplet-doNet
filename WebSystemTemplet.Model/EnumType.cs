@@ -26,4 +26,9 @@ namespace WebSystemTemplet.Model
         学生 = 2,
         管理员 = 3
     }
+
+    public enum CacheKeyName
+    {
+        MS_CacheKey_PositionName,
+    }
 }

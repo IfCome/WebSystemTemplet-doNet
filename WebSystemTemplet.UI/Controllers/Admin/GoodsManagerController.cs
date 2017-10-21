@@ -91,7 +91,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                     Price = InModel.Price,
                     Describe = InModel.Describe,
                     Category = InModel.Category,
-                    CreateUserID = Identity.LoginUserInfo.ID.ToString(),
+                    CreateUserID = Identity.LoginUserInfo.UserID.ToString(),
                     CreateTime = DateTime.Now.ToString()
                 };
                 insertID = BLL.GoodsBaseInfoBll.AddGoodsInfo(goodsInfo);
@@ -141,17 +141,17 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             string errorType = "";
             string msg = "OK";
             Model.GoodsBaseInfo goodsInfo = new Model.GoodsBaseInfo()
-               {
-                   ID = InModel.ID,
-                   GoodsName = InModel.GoodsName,
-                   Price = InModel.Price,
-                   Describe = InModel.Describe,
-                   Category = InModel.Category,
-                   ShowIcons = string.IsNullOrEmpty(InModel.ShowIcons) ? "" : InModel.ShowIcons.Remove(InModel.ShowIcons.Length - 1),
-                   DetailIcons = string.IsNullOrEmpty(InModel.DetailIcons) ? "" : InModel.DetailIcons.Remove(InModel.DetailIcons.Length - 1),
-                   CreateUserID = Identity.LoginUserInfo.ID.ToString(),
-                   CreateTime = DateTime.Now.ToString()
-               };
+            {
+                ID = InModel.ID,
+                GoodsName = InModel.GoodsName,
+                Price = InModel.Price,
+                Describe = InModel.Describe,
+                Category = InModel.Category,
+                ShowIcons = string.IsNullOrEmpty(InModel.ShowIcons) ? "" : InModel.ShowIcons.Remove(InModel.ShowIcons.Length - 1),
+                DetailIcons = string.IsNullOrEmpty(InModel.DetailIcons) ? "" : InModel.DetailIcons.Remove(InModel.DetailIcons.Length - 1),
+                CreateUserID = Identity.LoginUserInfo.UserID.ToString(),
+                CreateTime = DateTime.Now.ToString()
+            };
             bool result = BLL.GoodsBaseInfoBll.UpDateGoodsInfo(goodsInfo);
             if (!result)
             {
@@ -176,7 +176,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                 State = 10,//开始众筹
                 HuodongNumber = huodongNumber,
                 CreateTime = DateTime.Now,
-                CreateUser = Identity.LoginUserInfo.ID.ToString(),
+                CreateUser = Identity.LoginUserInfo.UserID.ToString(),
             };
             bool result = BLL.HuoDongInfoBll.Add(huodongInfo);
             if (result && huodongNumber > 1)

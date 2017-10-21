@@ -65,15 +65,30 @@ namespace WebSystemTemplet.Utility
         }
 
         /// <summary>
-        /// 添加有效参数（null 或 空字符串 或 -1 会被过滤）
+        /// 添加有效参数（null 或 空字符串 会被过滤）
         /// </summary>
         /// <param name="paramName">参数名</param>
         /// <param name="paramValue">参数值</param>
 
-        public void addUsefulParam(string paramName, object paramValue)
+        public void addUsefulParam(string paramName, string paramValue)
         {
             paramName = paramName.ToLower();
-            if (paramValue == null || paramValue.ToString().IsNullOrWhiteSpace() || Converter.TryToInt64(paramValue, -1) == -1)
+            if (paramValue == null || paramValue.ToString().IsNullOrWhiteSpace())
+            {
+                return;
+            }
+            dicParams.Add(paramName, paramValue);
+        }
+
+        /// <summary>
+        /// 添加有效参数（ -1 会被过滤）
+        /// </summary>
+        /// <param name="paramName">参数名</param>
+        /// <param name="paramValue">参数值</param>
+        public void addUsefulParam(string paramName, long paramValue)
+        {
+            paramName = paramName.ToLower();
+            if (paramValue == -1)
             {
                 return;
             }

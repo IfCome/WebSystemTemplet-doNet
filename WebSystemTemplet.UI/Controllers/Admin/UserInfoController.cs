@@ -34,7 +34,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             // 查询该用户的操作日志
             List<Model.BackgroundUserInfo_log> logList = BLL.BackgroundUserBll_log.GetSingleUserTop10Logs(id);
             ViewBag.LogList = logList;
-            ViewBag.IsSelf = (userInfo.ID == Identity.LoginUserInfo.ID);
+            ViewBag.IsSelf = (userInfo.ID == Identity.LoginUserInfo.UserID);
 
             return View(userInfo);
         }
@@ -42,7 +42,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         // 添加用户页面
         public ActionResult AddUser()
         {
-            if (Identity.LoginUserInfo.RoleType != 10)
+            if (Identity.LoginUserInfo.RoleID != 10)
             {
                 return Content("只有管理员才能添加用户");
             }
@@ -55,7 +55,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         {
             string errorType = "";
             string msg = "OK";
-            if (Identity.LoginUserInfo.RoleType != 10)
+            if (Identity.LoginUserInfo.RoleID != 10)
             {
                 errorType = "alert";
                 msg = "只有管理员才能添加用户";
@@ -117,7 +117,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         // 编辑用户页面
         public ActionResult EditUser(long id)
         {
-            if (Identity.LoginUserInfo.RoleType != 10)
+            if (Identity.LoginUserInfo.RoleID != 10)
             {
                 return Content("只有管理员才能编辑用户");
             }
@@ -248,7 +248,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         // 添加用户页面
         public ActionResult DeleteUser(long id)
         {
-            if (Identity.LoginUserInfo.RoleType != 10)
+            if (Identity.LoginUserInfo.RoleID != 10)
             {
                 return Json(new { Message = "只有管理员才能编辑用户" });
             }
@@ -278,14 +278,14 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult MyDetails()
         {
             // 查询用户信息
-            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.ID);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.UserID);
             if (userInfo == null)
             {
                 return Content("该用户不存在！！");
             }
 
             // 查询该用户的操作日志
-            List<Model.BackgroundUserInfo_log> logList = BLL.BackgroundUserBll_log.GetSingleUserTop10Logs(Identity.LoginUserInfo.ID);
+            List<Model.BackgroundUserInfo_log> logList = BLL.BackgroundUserBll_log.GetSingleUserTop10Logs(Identity.LoginUserInfo.UserID);
             ViewBag.LogList = logList;
             ViewBag.IsSelf = true;
             return View("~/Views/UserInfo/SeeUserInfo.cshtml", userInfo);
@@ -295,13 +295,13 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         public ActionResult EditMyDetails()
         {
             // 查询用户信息
-            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.ID);
+            Model.UserInfo userInfo = BLL.BackgroundUserBll.GetSingleUserInfo(Identity.LoginUserInfo.UserID);
             if (userInfo == null)
             {
                 return Content("该用户不存在！！");
             }
             ViewBag.IsSelf = true;
-            if (Identity.LoginUserInfo.RoleType == 10)
+            if (Identity.LoginUserInfo.RoleID == 10)
             {
                 ViewBag.IsSelf = false; // 管理员不需要做这些限制
             }
@@ -315,7 +315,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             string msg = "OK";
 
             // 验证参数
-            if (Identity.LoginUserInfo.PassWord != Security.getMD5ByStr(oldPassword))
+            if (Identity.LoginUserInfo.Password != Security.getMD5ByStr(oldPassword))
             {
                 errorType = "oldPassword";
                 msg = "原密码错误";
@@ -327,7 +327,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }
             else
             {
-                if (BLL.BackgroundUserBll.UpdateUserPassword(Identity.LoginUserInfo.ID, newPassword) == false)
+                if (BLL.BackgroundUserBll.UpdateUserPassword(Identity.LoginUserInfo.UserID, newPassword) == false)
                 {
                     errorType = "alert";
                     msg = "修改失败，请稍后重试";
