@@ -9,7 +9,7 @@ namespace WebSystemTemplet.BLL.Admin
 {
     public static class MSDepartmentInfoBll
     {
-        public static string getDepartmentNameById(long departmentId)
+        public static string GetDepartmentNameById(long departmentId)
         {
             string cacheKey = Model.CacheKeyName.MS_CacheKey_PositionName.ToString();
             Dictionary<long, string> dicNameAndId = CacheHelper.GetCache(cacheKey) as Dictionary<long, string>;
@@ -28,6 +28,17 @@ namespace WebSystemTemplet.BLL.Admin
                 CacheHelper.SetCache(cacheKey, dicNameAndId);
             }
             return dicNameAndId.ContainsKey(departmentId) ? dicNameAndId[departmentId] : "";
+        }
+
+        public static List<Model.Admin.MSDepartmentInfo> GetAllMSDepartmentInfoList(SqlParams sqlParams, out int allCount)
+        {
+            allCount = 0;
+            List<Model.Admin.MSDepartmentInfo> msUserInfoList = DAL.Admin.MSDepartmentInfoDal.GetPageListByCondition(sqlParams, out allCount);
+            if (msUserInfoList == null)
+            {
+                msUserInfoList = new List<Model.Admin.MSDepartmentInfo>();
+            }
+            return msUserInfoList;
         }
     }
 }

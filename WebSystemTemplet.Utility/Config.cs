@@ -8,24 +8,9 @@ namespace WebSystemTemplet.Utility
 {
     public class Config
     {
-        public static string AppID
+        public static string SourceVersion
         {
-            get { return ConfigurationManager.AppSettings["AppID"]; }
-        }
-
-        public static string AppSecret
-        {
-            get { return ConfigurationManager.AppSettings["AppSecret"]; }
-        }
-
-        public static string DomainUrl
-        {
-            get { return ConfigurationManager.AppSettings["domainurl"]; }
-        }
-
-        public static string OauthUrl
-        {
-            get { return ConfigurationManager.AppSettings["oauth_url"]; }
+            get { return ConfigurationManager.AppSettings["source_version"]; }
         }
     }
 }

@@ -40,6 +40,16 @@ namespace WebSystemTemplet.BLL.Admin
             return DAL.Admin.MSUserInfoDal.DeleteByID(id);
         }
 
+        /// <summary>
+        /// 添加用户
+        /// </summary>
+        /// <param name="userInfo"></param>
+        /// <returns></returns>
+        public static long AddUserInfo(Model.Admin.MSUserInfo userInfo)
+        {
+            return DAL.Admin.MSUserInfoDal.Add(userInfo);
+        }
+
 
         #region 登录帐号相关
 

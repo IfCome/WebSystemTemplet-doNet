@@ -19,7 +19,7 @@ namespace WebSystemTemplet.Model.Admin
         public string DepartmentName { get; set; }
 
         /// <summary>
-        /// 部门级别
+        /// 部门级别 （1-学院; 2-专业; 3-班级）
         /// </summary>
         public int DepartmentLevel { get; set; }
 

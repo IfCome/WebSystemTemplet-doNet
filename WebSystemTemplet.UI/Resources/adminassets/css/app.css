@@ -1607,8 +1607,8 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   font-size: 12px;
 }
 .theme-black .tpl-table-black-operation a {
-  border: 1px solid #7b878d;
-  color: #7b878d;
+  border: 1px solid #ccc;
+  color: #ccc;
 }
 .theme-black .tpl-table-black-operation a:hover {
   background: #7b878d;

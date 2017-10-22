@@ -1,4 +1,5 @@
 ﻿using System;
+using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.Model.Admin
 {
@@ -48,6 +49,10 @@ namespace WebSystemTemplet.Model.Admin
         /// </summary>
         public long ClassID { get; set; }
 
+        /// <summary>
+        /// 性别：0-女 1-男
+        /// </summary>
+        public byte Gender { get; set; }
 
         /// <summary>
         /// 手机号
@@ -57,7 +62,15 @@ namespace WebSystemTemplet.Model.Admin
         /// <summary>
         /// 头像相对路径
         /// </summary>
-        public string IconUrl { get; set; }
+        public string IconUrl
+        {
+            get
+            {
+                string Suffix = new Random(Converter.TryToInt32(UserID) * 100).Next(1, 6).ToString();// 1-5 随机
+                return "/Resources/adminassets/img/head/{0}{1}.gif".Format(Gender, Suffix);
+            }
+            set { }
+        }
 
         /// <summary>
         /// QQ号

@@ -41,7 +41,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Admin\MSDepartmentInfoDal.cs" />
+    <Compile Include="Admin\MSPositionInfoDal.cs" />
     <Compile Include="Admin\MSUserInfoDal.cs" />
+    <Compile Include="Admin\MSUserPositionRelationDal.cs" />
     <Compile Include="BackgroundUserInfoDal.cs" />
     <Compile Include="BackgroundUserInfoDal_log.cs" />
     <Compile Include="CategoryInfoDal.cs" />

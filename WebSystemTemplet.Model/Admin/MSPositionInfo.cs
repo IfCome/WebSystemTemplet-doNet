@@ -19,14 +19,14 @@ namespace WebSystemTemplet.Model.Admin
         public long DepartmentID { get; set; }
 
         /// <summary>
-        /// 岗位类型（10001-系统管理员，10002-配置管理员，20001-院长，30001-系主任，30002-助理，30003-讲师，30004-班主任，30005-助教，40001-班长，40002-学生）
+        /// 岗位类型（10001-系统管理员，10002-配置管理员，20001-院长，30001-系主任，30002-助理，30003-讲师，40001-班主任，40002-助教，40003-班长，40004-学生）
         /// </summary>
         public int PositionType { get; set; }
 
         /// <summary>
-        /// 创建时间
+        /// 岗位名称
         /// </summary>
-        public DateTime PositionName { get; set; }
+        public string PositionName { get; set; }
 
         /// <summary>
         /// 创建时间
@@ -52,6 +52,7 @@ namespace WebSystemTemplet.Model.Admin
         /// 是否删除 1 已删除 ;0 未删除
         /// </summary>
         public byte Deleted { get; set; }
+
 
     }
 }

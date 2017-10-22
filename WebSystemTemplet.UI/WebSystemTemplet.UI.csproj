@@ -124,6 +124,16 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Resources\adminassets\css\amazeui.page.css" />
+    <Content Include="Resources\adminassets\img\head\01.gif" />
+    <Content Include="Resources\adminassets\img\head\02.jpg" />
+    <Content Include="Resources\adminassets\img\head\03.gif" />
+    <Content Include="Resources\adminassets\img\head\04.gif" />
+    <Content Include="Resources\adminassets\img\head\05.gif" />
+    <Content Include="Resources\adminassets\img\head\11.gif" />
+    <Content Include="Resources\adminassets\img\head\12.gif" />
+    <Content Include="Resources\adminassets\img\head\13.gif" />
+    <Content Include="Resources\adminassets\img\head\14.gif" />
+    <Content Include="Resources\adminassets\img\head\15.gif" />
     <Content Include="Resources\adminassets\js\amazeui.page.js" />
     <Content Include="Resources\amazeuiassets\css\admin.css" />
     <Content Include="Resources\amazeuiassets\css\amazeui.css" />
@@ -318,6 +328,7 @@
     <Content Include="StaticPages\Admin\table-list.html" />
     <Content Include="StaticPages\Admin\tables.html" />
     <Content Include="Views\Admin\ErrorPages\_500.cshtml" />
+    <Content Include="Views\Admin\MSDepartmentInfo\DepartmentList.cshtml" />
     <None Include="Views\Admin\ErrorPages\_404.cshtml" />
     <Content Include="Web.config" />
   </ItemGroup>
@@ -329,6 +340,7 @@
     <Compile Include="Controllers\Admin\GoodsManagerController.cs" />
     <Compile Include="Controllers\Admin\HomeController.cs" />
     <Compile Include="Controllers\Admin\LoginController.cs" />
+    <Compile Include="Controllers\Admin\MSDepartmentInfoController.cs" />
     <Compile Include="Controllers\Admin\MSUserInfoController.cs" />
     <Compile Include="Controllers\Admin\PCBaseController.cs" />
     <Compile Include="Controllers\Admin\UserInfoController.cs" />
@@ -337,9 +349,11 @@
     </Compile>
     <Compile Include="Models\Admin\AddGoodsCallBackIn.cs" />
     <Compile Include="Models\Admin\AddHuoDongInfoIn.cs" />
+    <Compile Include="Models\Admin\MSUserInfoModel.cs" />
     <Compile Include="Models\Admin\BackGroundUserInfoModelIn.cs" />
     <Compile Include="Models\Admin\GetConsumerInfoListIn.cs" />
     <Compile Include="Models\Admin\GetGoodsInfoIn.cs" />
+    <Compile Include="Models\Admin\MSGetUserInfoListIn.cs" />
     <Compile Include="Models\Admin\GetUserInfoListIn.cs" />
     <Compile Include="Models\Admin\HomeIndexPageModelOut.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -409,6 +423,7 @@
     <Content Include="Views\Admin\Common\_Layout.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\TeacherList.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\TeacherAdd.cshtml" />
+    <Content Include="Views\Admin\MSDepartmentInfo\MajorList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
@@ -420,6 +435,7 @@
     <Folder Include="App_Data\" />
     <Folder Include="Resources\wap\scss\" />
     <Folder Include="StaticPages\Site\" />
+    <Folder Include="Views\MSDepartmentInfo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSystemTemplet.BLL\WebSystemTemplet.BLL.csproj">

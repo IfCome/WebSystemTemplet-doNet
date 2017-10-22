@@ -18,7 +18,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         }
 
         [HttpGet]
-        public ActionResult GetTeacherList(Models.Admin.GetUserInfoListIn InModel)
+        public ActionResult GetTeacherList(Models.Admin.MSGetUserInfoListIn InModel)
         {
             SqlParams sqlParams = new SqlParams();
             sqlParams.PageIndex = Converter.TryToInt32(InModel.PageIndex, 1);
@@ -38,7 +38,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                     u.UserID,
                     u.UserName,
                     u.RealName,
-                    MajorName = MSDepartmentInfoBll.getDepartmentNameById(u.MajorID).IfEmptyToString("--"),
+                    MajorName = MSDepartmentInfoBll.GetDepartmentNameById(u.MajorID).IfEmptyToString("--"),
                     u.PositionName,
                 }),
                 AllCount = allCount
@@ -50,8 +50,58 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return View("~/Views/Admin/MSUserInfo/TeacherAdd.cshtml");
         }
 
+        [HttpPost]
+        public ActionResult AddTeacherCallBack(Models.Admin.MSUserInfoModel InModel)
+        {
+            string msg = "OK";
 
-        // 添加用户页面
+            // 添加用户
+            Model.Admin.MSUserInfo userInfo = new Model.Admin.MSUserInfo()
+            {
+                UserName = InModel.UserName,
+                Password = Security.getMD5ByStr(InModel.Password),
+                RealName = InModel.RealName,
+                RoleID = (int)Model.RoleType.教职工,
+                SchoolID = 1, //默认学院
+                MajorID = Converter.TryToInt64(InModel.MajorId),
+                ClassID = 0,
+                Gender = InModel.Gender,
+                Telephone = InModel.Telephone,
+                QQ = InModel.QQ,
+                Email = InModel.Email,
+                Remark = InModel.Remark,
+                CreateTime = DateTime.Now,
+                CreateUser = Identity.LoginUserInfo.UserID,
+            };
+            userInfo.UserID = BLL.Admin.MSUserInfoBll.AddUserInfo(userInfo);
+            if (userInfo.UserID > 0)
+            {
+                // 添加默认岗位
+                Model.Admin.MSUserPositionRelation relation = new Model.Admin.MSUserPositionRelation()
+                {
+                    UserID = userInfo.UserID,
+                    CreateTime = DateTime.Now,
+                    CreateUser = Identity.LoginUserInfo.UserID,
+                };
+                if (InModel.IsPresident == "1")
+                {
+                    // 院长
+                    relation.PositionID = userInfo.SchoolID;//院长岗位ID
+                }
+                else
+                {
+                    // 讲师
+                    relation.PositionID = MSPositionInfoBll.GetPositionIdByDepartmentIdAndPositionType(userInfo.MajorID, (int)Model.PositionType.讲师);
+                }
+                MSUserPositionRelationBll.AddUserPositionRelation(relation);
+            }
+            else
+            {
+                msg = "添加失败，请重试";
+            }
+            return Json(new { Message = msg });
+        }
+
         public ActionResult DeleteUser(long userId)
         {
             // 查询用户信息
@@ -70,6 +120,20 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                 return Json(new { Message = "删除失败！" });
             }
 
+        }
+
+        [HttpGet]
+        public ActionResult CheckNameUseful(string userName)
+        {
+            if (!userName.IsNullOrEmpty())
+            {
+                bool re = BLL.Admin.MSUserInfoBll.IsExistUserName(userName);
+                return Json(new { Message = re ? "Error" : "OK" }, JsonRequestBehavior.AllowGet);
+            }
+            else
+            {
+                return Json(new { Message = "用户名不能为空！" }, JsonRequestBehavior.AllowGet);
+            }
         }
     }
 }

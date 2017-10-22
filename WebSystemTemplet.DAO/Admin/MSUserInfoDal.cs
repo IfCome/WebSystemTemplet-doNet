@@ -13,6 +13,73 @@ namespace WebSystemTemplet.DAL.Admin
     public class MSUserInfoDal
     {
         #region 增加
+        /// <summary>
+        /// 增加实体
+        /// </summary>
+        /// <param name="databaseConnectionString">数据库链接字符串</param>
+        /// <param name="entity">实体</param>
+        public static long Add(Model.Admin.MSUserInfo entity)
+        {
+            var sql = @"
+                        INSERT INTO [MSUserInfo]
+                               (
+                                [UserName]
+                                ,[RealName]
+                                ,[Password]
+                                ,[RoleID]
+                                ,[SchoolID]
+                                ,[MajorID]
+                                ,[ClassID]
+                                ,[Gender]
+                                ,[Telephone]
+                                ,[QQ]
+                                ,[Email]
+                                ,[Remark]
+                                ,[CreateTime]
+                                ,[CreateUser]
+                                ,[Deleted]
+
+                               )
+                         VALUES
+                               (
+                                @UserName
+                                ,@RealName
+                                ,@Password
+                                ,@RoleID
+                                ,@SchoolID
+                                ,@MajorID
+                                ,@ClassID
+                                ,@Gender
+                                ,@Telephone
+                                ,@QQ
+                                ,@Email
+                                ,@Remark
+                                ,@CreateTime
+                                ,@CreateUser
+                                ,@Deleted
+                               );SELECT SCOPE_IDENTITY();
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@UserID", Value = entity.UserID });
+            parameters.Add(new SqlParameter() { ParameterName = "@UserName", Value = entity.UserName });
+            parameters.Add(new SqlParameter() { ParameterName = "@RealName", Value = entity.RealName });
+            parameters.Add(new SqlParameter() { ParameterName = "@Password", Value = entity.Password });
+            parameters.Add(new SqlParameter() { ParameterName = "@RoleID", Value = entity.RoleID });
+            parameters.Add(new SqlParameter() { ParameterName = "@SchoolID", Value = entity.SchoolID });
+            parameters.Add(new SqlParameter() { ParameterName = "@MajorID", Value = entity.MajorID });
+            parameters.Add(new SqlParameter() { ParameterName = "@ClassID", Value = entity.ClassID });
+            parameters.Add(new SqlParameter() { ParameterName = "@Gender", Value = entity.Gender });
+            parameters.Add(new SqlParameter() { ParameterName = "@Telephone", Value = entity.Telephone });
+            parameters.Add(new SqlParameter() { ParameterName = "@QQ", Value = entity.QQ });
+            parameters.Add(new SqlParameter() { ParameterName = "@Email", Value = entity.Email });
+            parameters.Add(new SqlParameter() { ParameterName = "@Remark", Value = entity.Remark });
+            parameters.Add(new SqlParameter() { ParameterName = "@CreateTime", Value = entity.CreateTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@CreateUser", Value = entity.CreateUser });
+            parameters.Add(new SqlParameter() { ParameterName = "@Deleted", Value = entity.Deleted });
+
+
+            return Converter.TryToInt64(SqlHelper.ExecuteScalar(sql, parameters.ToArray()));
+        }
 
         #endregion
 
@@ -91,6 +158,7 @@ namespace WebSystemTemplet.DAL.Admin
                                         mui.[SchoolID],
                                         mui.[MajorID],
                                         mui.[ClassID],
+                                        mui.[Gender],
                                         mui.[Telephone],
                                         mui.[IconUrl],
                                         mui.[QQ],
@@ -165,6 +233,7 @@ namespace WebSystemTemplet.DAL.Admin
                     SchoolID = Converter.TryToInt64(row["SchoolID"], -1),
                     MajorID = Converter.TryToInt64(row["MajorID"], -1),
                     ClassID = Converter.TryToInt64(row["ClassID"], -1),
+                    Gender = Converter.TryToByte(row["Gender"], 1),
                     Telephone = Converter.TryToString(row["Telephone"], string.Empty),
                     IconUrl = Converter.TryToString(row["IconUrl"], string.Empty),
                     QQ = Converter.TryToString(row["QQ"], string.Empty),
@@ -205,6 +274,7 @@ namespace WebSystemTemplet.DAL.Admin
 	                        [SchoolId],
 	                        [MajorId],
 	                        [ClassId],
+                            [Gender],
 	                        [Telephone],
 	                        [IconUrl],
 	                        [QQ],
@@ -235,6 +305,7 @@ namespace WebSystemTemplet.DAL.Admin
                     SchoolID = Converter.TryToInt64(row["SchoolID"], -1),
                     MajorID = Converter.TryToInt64(row["MajorID"], -1),
                     ClassID = Converter.TryToInt64(row["ClassID"], -1),
+                    Gender = Converter.TryToByte(row["Gender"], 1),
                     Telephone = Converter.TryToString(row["Telephone"], string.Empty),
                     IconUrl = Converter.TryToString(row["IconUrl"], string.Empty),
                     QQ = Converter.TryToString(row["QQ"], string.Empty),
@@ -266,6 +337,7 @@ namespace WebSystemTemplet.DAL.Admin
                                 ,[SchoolID]
                                 ,[MajorID]
                                 ,[ClassID]
+                                ,[Gender]
                                 ,[Telephone]
                                 ,[IconUrl]
                                 ,[QQ]
@@ -295,6 +367,7 @@ namespace WebSystemTemplet.DAL.Admin
                     SchoolID = Converter.TryToInt64(row["SchoolID"], -1),
                     MajorID = Converter.TryToInt64(row["MajorID"], -1),
                     ClassID = Converter.TryToInt64(row["ClassID"], -1),
+                    Gender = Converter.TryToByte(row["Gender"], 1),
                     Telephone = Converter.TryToString(row["Telephone"], string.Empty),
                     IconUrl = Converter.TryToString(row["IconUrl"], string.Empty),
                     QQ = Converter.TryToString(row["QQ"], string.Empty),
@@ -320,6 +393,7 @@ namespace WebSystemTemplet.DAL.Admin
                         SELECT COUNT(*) FROM [MSUserInfo] WITH (NOLOCK)
                         WHERE 
                             [UserName] = @UserName
+                            AND [deleted] = 0
                     ";
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter() { ParameterName = "@UserName", Value = userName });
@@ -328,10 +402,6 @@ namespace WebSystemTemplet.DAL.Admin
 
             return Converter.TryToInt32(count);
         }
-
-        #endregion
-
-        #region 聚合
 
         #endregion
 
@@ -360,13 +430,6 @@ namespace WebSystemTemplet.DAL.Admin
 
         #endregion
 
-        #region 判断
-
-        #endregion
-
-        #region 其他
-
-        #endregion
     }
 }
 

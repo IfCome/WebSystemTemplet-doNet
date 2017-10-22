@@ -123,7 +123,7 @@
             <div class="tpl-sidebar-user-panel">
                 <div class="tpl-user-panel-slide-toggleable">
                     <div class="tpl-user-panel-profile-picture">
-                        <img src="~/Resources/adminassets/img/user04.png" alt="">
+                        <img src="@Identity.LoginUserInfo.IconUrl" alt="">
                     </div>
                     <span class="user-panel-logged-in-text">
                         <i class="am-icon-circle-o am-text-success tpl-user-panel-status-icon"></i>
@@ -157,7 +157,7 @@
                             </a>
                         </li>
                         <li class="sidebar-nav-link">
-                            <a id="admin-teacherlist" href="table-list-img.html">
+                            <a id="menu-adminlist" href="table-list-img.html">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 管理员资料
                             </a>
                         </li>
@@ -170,17 +170,17 @@
                     </a>
                     <ul class="sidebar-nav sidebar-nav-sub">
                         <li class="sidebar-nav-link">
-                            <a href="table-list.html">
+                            <a id="menu-departmentlist" href="/msdepartmentinfo/departmentlist.html">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 组织架构概览
                             </a>
                         </li>
                         <li class="sidebar-nav-link">
-                            <a href="table-list-img.html">
+                            <a id="menu-majorlist" href="/msdepartmentinfo/majorlist.html">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 专业管理
                             </a>
                         </li>
                         <li class="sidebar-nav-link">
-                            <a href="table-list-img.html">
+                            <a id="menu-classlist" href="/msdepartmentinfo/classlist.html">
                                 <span class="am-icon-angle-right sidebar-nav-link-logo"></span> 班级管理
                             </a>
                         </li>

@@ -64,6 +64,12 @@
     <Compile Include="ShoppingCart.cs" />
     <Compile Include="UnifyOrder.cs" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\WebSystemTemplet.Utility\WebSystemTemplet.Utility.csproj">
+      <Project>{4e5c300f-eb6e-42e3-aa76-18bbe55ab806}</Project>
+      <Name>WebSystemTemplet.Utility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
