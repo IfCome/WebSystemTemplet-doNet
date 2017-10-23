@@ -1854,6 +1854,47 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 .theme-black .widget-color-green .widget-function a:hover {
   color: #fff;
 }
+
+/*begin add by bobo*/ 
+
+.tpl-model-dialog .am-modal-hd .am-form-label{
+  font-size:18px;
+}
+.tpl-model-dialog .am-modal-bd .am-form-label,
+.tpl-model-dialog .am-modal-bd .am-form-field{
+  font-size:16px;
+} 
+
+.theme-white .tpl-model-dialog .am-form-field {
+  border: 1px solid rgb(194, 202, 216);
+}
+.theme-white .tpl-model-dialog .am-form-label {
+  padding-top: 5px;
+  color: #888;
+  font-weight: inherit;
+  text-align: right;
+}
+
+.theme-black .tpl-model-dialog .am-form-field {
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+.theme-black .tpl-model-dialog .am-form-label {
+  padding-top: 5px;
+  color: #fff;
+  font-weight: inherit;
+  text-align: right;
+}
+
+.theme-black .tpl-model-dialog .am-modal-bd{
+  border-color: rgba(255, 255, 255, 0.2);
+}
+.theme-black .tpl-model-dialog .am-modal-btn{
+  border-color: rgba(255, 255, 255, 0.2);
+  color:#69C5F5;
+}
+
+/*end add by bobo*/ 
+
 @media screen and (max-width: 1024px) {
   .tpl-index-settings-button {
     display: none;
