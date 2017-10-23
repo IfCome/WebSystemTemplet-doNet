@@ -95,10 +95,11 @@
         </div>
         <div class="am-modal-bd">
             <div style="padding: 5px 20px;">
-                <form id="form-departmentInfo" data-am-validator>
+                <form id="form-departmentInfo" class="am-form-group" data-am-validator>
                     <input type="hidden" id="departmentId" name="departmentId" value="" />
                     <input type="text" class="am-form-field" id="departmentName" name="departmentName" placeholder="请输入专业名称" maxlength="30" required>
-                </form>                
+                    <div class="am-alert am-alert-danger" style="display:none">hahahah</div>
+                </form>
             </div>
         </div>
         <div class="am-modal-footer">
@@ -180,29 +181,14 @@
 
     }
 
-    function DeleteDepartment(departmentId, departmentName) {
-        if (confirm("确定删除" + departmentName + "?")) {
-            $.post('/MSDepartmentInfo/SaveMajorCallBack', { departmentId: departmentId }, function (result) {
-                if (result) {
-                    if (result.Message == 'OK') {
-                        search();
-                    } else {
-                        alert(result.Message);
-                    }
-                }
-                else {
-                    alert("删除失败，请刷新列表重试");
-                }
-            }, 'json');
-        }
-    }
-
     function ModifyMajorInfo(departmentId, departmentName) {
         $('#departmentId').val(departmentId);
         $('#departmentName').val(departmentName);
+        $('#form-departmentInfo .am-alert').text('').hide();
         $('#my-confirm').modal(modalOptions);
     }
     function AddMajorInfo() {
+        $('#form-departmentInfo .am-alert').text('').hide();
         $('#form-departmentInfo input').val('').change();
         $('#my-confirm').modal(modalOptions);
     }
@@ -218,7 +204,7 @@
                         search();
                         $('#my-confirm').modal('close');
                     } else {
-                        alert(data.Message);
+                        $('#form-departmentInfo .am-alert').text(data.Message).show();
                     }
                 })
             }
