@@ -435,7 +435,6 @@
     <Folder Include="App_Data\" />
     <Folder Include="Resources\wap\scss\" />
     <Folder Include="StaticPages\Site\" />
-    <Folder Include="Views\MSDepartmentInfo\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\WebSystemTemplet.BLL\WebSystemTemplet.BLL.csproj">

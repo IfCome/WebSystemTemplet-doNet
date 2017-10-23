@@ -125,8 +125,9 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         [HttpGet]
         public ActionResult CheckNameUseful(string userName)
         {
-            if (!userName.IsNullOrEmpty())
+            if (!userName.IsNullOrWhiteSpace())
             {
+                userName = userName.Trim();
                 bool re = BLL.Admin.MSUserInfoBll.IsExistUserName(userName);
                 return Json(new { Message = re ? "Error" : "OK" }, JsonRequestBehavior.AllowGet);
             }

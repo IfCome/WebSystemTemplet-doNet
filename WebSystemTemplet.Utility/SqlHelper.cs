@@ -20,6 +20,30 @@ namespace WebSystemTemplet.Utility
         /// </summary>
         private readonly static string connStr = System.Configuration.ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
 
+        /// <summary>
+        /// 事务sql模版
+        /// </summary>
+        public readonly static string tranSqlFormat = @"
+                        BEGIN TRAN tran_deleteDepartment --开始事务
+
+                        DECLARE @tran_error INT;
+                        SET @tran_error = 0;
+                        BEGIN TRY
+	                        {0}
+                        END TRY
+                        BEGIN CATCH
+	                        SET @tran_error = @tran_error + 1; --加分号或不加都能正常执行
+                        END CATCH
+                        IF (@tran_error > 0)
+                        BEGIN
+	                        ROLLBACK TRAN tran_deleteDepartment; --执行出错，回滚事务(指定事务名称)
+                        END
+                        ELSE
+                        BEGIN
+	                        COMMIT TRAN tran_deleteDepartment; --没有异常，提交事务(指定事务名称)
+                        END
+                        ";
+
         #region 数据库检测
 
         #region 测试数据库服务器连接 +static bool TestConnection(string host, int port, int millisecondsTimeout)
@@ -220,7 +244,7 @@ namespace WebSystemTemplet.Utility
         /// <typeparam name="TEntity">实体类型</typeparam>
         /// <param name="reader">当前指向的reader</param>
         /// <returns>实体对象</returns>
-        public static TEntity MapEntity<TEntity>(SqlDataReader reader) where TEntity : class,new()
+        public static TEntity MapEntity<TEntity>(SqlDataReader reader) where TEntity : class, new()
         {
             try
             {

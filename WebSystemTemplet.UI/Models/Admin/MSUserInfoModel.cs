@@ -11,6 +11,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(userid) ? string.Empty : userid;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { userid = value; }
@@ -23,6 +24,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(username) ? string.Empty : username;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { username = value; }
@@ -35,6 +37,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(realname) ? string.Empty : realname;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { realname = value; }
@@ -47,6 +50,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(password) ? string.Empty : password;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { password = value; }
@@ -59,6 +63,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(roleid) ? string.Empty : roleid;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { roleid = value; }
@@ -71,6 +76,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(isPresident) ? string.Empty : isPresident;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { isPresident = value; }
@@ -83,6 +89,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(majorid) ? string.Empty : majorid;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { majorid = value; }
@@ -95,6 +102,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(classid) ? string.Empty : classid;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { classid = value; }
@@ -124,6 +132,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(telephone) ? string.Empty : telephone;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { telephone = value; }
@@ -136,6 +145,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(iconurl) ? string.Empty : iconurl;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { iconurl = value; }
@@ -148,6 +158,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(qq) ? string.Empty : qq;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { qq = value; }
@@ -160,6 +171,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(email) ? string.Empty : email;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { email = value; }
@@ -172,6 +184,7 @@ namespace WebSystemTemplet.UI.Models.Admin
             {
                 var temp = string.IsNullOrEmpty(remark) ? string.Empty : remark;
                 temp = HttpUtility.UrlDecode(temp);
+                temp = temp.Trim();
                 return temp;
             }
             set { remark = value; }

@@ -53,7 +53,7 @@ namespace WebSystemTemplet.Utility
         /// <summary>  
         /// 移除指定数据缓存  
         /// </summary>  
-        public static void RemoveAllCache(string CacheKey)
+        public static void RemoveCache(string CacheKey)
         {
             System.Web.Caching.Cache _cache = HttpRuntime.Cache;
             _cache.Remove(CacheKey);

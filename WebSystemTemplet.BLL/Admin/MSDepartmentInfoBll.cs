@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebSystemTemplet.Model.Admin;
 using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.BLL.Admin
@@ -40,5 +41,35 @@ namespace WebSystemTemplet.BLL.Admin
             }
             return msUserInfoList;
         }
+
+        public static bool SaveDepartmentInfo(MSDepartmentInfo departmentInfo, out string errorMssg)
+        {
+            errorMssg = "保存失败！";
+
+            // 判断部门名称是否存在
+            int count = DAL.Admin.MSDepartmentInfoDal.GetCountByDepartmentNameAndId(departmentInfo.DepartmentName, departmentInfo.DepartmentID);
+            if (count > 0)
+            {
+                errorMssg = string.Format("该{0}已经存在！", Enum.GetName(typeof(Model.DepartmentLevel), departmentInfo.DepartmentLevel));
+                return false;
+            }
+
+            bool re;
+            if (departmentInfo.DepartmentID == -1)
+            {
+                re = DAL.Admin.MSDepartmentInfoDal.Add(departmentInfo);
+            }
+            else
+            {
+                re = DAL.Admin.MSDepartmentInfoDal.UpdateByDepartmentID(departmentInfo);
+            }
+            if (re)
+            {
+                // 清空组织架构缓存
+                CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_PositionName.ToString());
+            }
+            return re;
+        }
+
     }
 }

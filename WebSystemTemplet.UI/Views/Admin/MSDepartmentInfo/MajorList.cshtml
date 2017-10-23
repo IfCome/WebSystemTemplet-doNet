@@ -27,7 +27,7 @@
                             <div class="am-form-group">
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-sm">
-                                        <button id="btnAddMajor" type="button" class="am-btn am-btn-default am-btn-success am-radius"><span class="am-icon-plus"></span> 添加专业</button>
+                                        <button id="btnAddMajor" type="button" onclick="AddMajorInfo();" class="am-btn am-btn-default am-btn-success am-radius"><span class="am-icon-plus"></span> 添加专业</button>
                                     </div>
                                 </div>
                             </div>
@@ -42,7 +42,7 @@
                         </div>
 
                         <div class="am-u-sm-12">
-                            <table id="tbDataList" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                            <table id="tbDataList" class="am-table am-table-compact am-table-striped tpl-table-black ">
                                 <thead>
                                     <tr>
                                         <th>序号</th>
@@ -75,17 +75,11 @@
                 <td>{directorName}</td>
                 <td>
                     <div class="tpl-table-black-operation">
-                        <a href="javascript:;">
-                            <i class="am-icon-eye"></i> 详情
-                        </a>
-                        <a href="javascript:;">
+                        <a href="javascript:;" onclick="ModifyMajorInfo('{DepartmentID}', '{departmentName}')">
                             <i class="am-icon-pencil"></i> 编辑
                         </a>
                         <a href="javascript:;">
                             <i class="am-icon-pencil"></i> 设置系主任
-                        </a>
-                        <a href="javascript:;" onclick="DeleteDepartment('{DepartmentID}', '{departmentName}')" class="tpl-table-black-operation-del">
-                            <i class="am-icon-trash"></i> 删除
                         </a>
                     </div>
                 </td>
@@ -96,12 +90,15 @@
 
 <div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
     <div class="am-modal-dialog tpl-model-dialog">
-        <div class="am-modal-hd">            
-            <label class="am-form-label">请输入专业名称</label>
+        <div class="am-modal-hd">
+            <label class="am-form-label">填写专业名称</label>
         </div>
         <div class="am-modal-bd">
             <div style="padding: 5px 20px;">
-                <input type="text" class="am-form-field" style="width:100%;padding:6px;" id="real-name" name="realName" placeholder="请输入专业名称" required maxlength="20" data-validation-message="请填写专业名称">
+                <form id="form-departmentInfo" data-am-validator>
+                    <input type="hidden" id="departmentId" name="departmentId" value="" />
+                    <input type="text" class="am-form-field" id="departmentName" name="departmentName" placeholder="请输入专业名称" maxlength="30" required>
+                </form>                
             </div>
         </div>
         <div class="am-modal-footer">
@@ -185,7 +182,7 @@
 
     function DeleteDepartment(departmentId, departmentName) {
         if (confirm("确定删除" + departmentName + "?")) {
-            $.post('@Url.RouteUrl(new { controller = "MSDepartmentInfo", action = "DeleteDepartment" })', { departmentId: departmentId }, function (result) {
+            $.post('/MSDepartmentInfo/SaveMajorCallBack', { departmentId: departmentId }, function (result) {
                 if (result) {
                     if (result.Message == 'OK') {
                         search();
@@ -200,21 +197,34 @@
         }
     }
 
+    function ModifyMajorInfo(departmentId, departmentName) {
+        $('#departmentId').val(departmentId);
+        $('#departmentName').val(departmentName);
+        $('#my-confirm').modal(modalOptions);
+    }
+    function AddMajorInfo() {
+        $('#form-departmentInfo input').val('').change();
+        $('#my-confirm').modal(modalOptions);
+    }
+
+    var modalOptions = {
+        relatedTarget: this,
+        closeOnConfirm: false,
+        onConfirm: function (options) {
+            if ($('#form-departmentInfo').validator('isFormValid')) {
+                $.post('/MSDepartmentInfo/SaveMajorCallBack', $('#form-departmentInfo').serialize(), function (data) {
+                    if (data.Message == 'OK') {
+                        alert('保存成功！');
+                        search();
+                        $('#my-confirm').modal('close');
+                    } else {
+                        alert(data.Message);
+                    }
+                })
+            }
+        }
+    };
     $(function () {
-        $('#btnAddMajor').click(function () {
-            $('#my-confirm').modal({
-                relatedTarget: this,
-                onConfirm: function (options) {
-                    debugger;
-                    var msg = '你要删除的链接 ID 为 ';
-                    alert(msg);
-                },
-                // closeOnConfirm: false,
-                onCancel: function () {
-                    alert('算求，不弄了');
-                }
-            });
-        });
         search();
     })
 </script>

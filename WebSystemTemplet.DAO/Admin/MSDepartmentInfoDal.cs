@@ -13,9 +13,79 @@ namespace WebSystemTemplet.DAL.Admin
     {
         #region 增加
 
+        /// <summary>
+        /// 增加实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        public static bool Add(Model.Admin.MSDepartmentInfo entity)
+        {
+            var sql = @"
+                        INSERT INTO [MSDepartmentInfo]
+                               (
+                                [DepartmentName]
+                                ,[DepartmentLevel]
+                                ,[ParentID]
+                                ,[CreateTime]
+                                ,[CreateUser]
+                                ,[Deleted]
+
+                               )
+                         VALUES
+                               (
+                                @DepartmentName
+                                ,@DepartmentLevel
+                                ,@ParentID
+                                ,@CreateTime
+                                ,@CreateUser
+                                ,@Deleted
+                               )
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentName", Value = entity.DepartmentName });
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentLevel", Value = entity.DepartmentLevel });
+            parameters.Add(new SqlParameter() { ParameterName = "@ParentID", Value = entity.ParentID });
+            parameters.Add(new SqlParameter() { ParameterName = "@CreateTime", Value = entity.CreateTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@CreateUser", Value = entity.CreateUser });
+            parameters.Add(new SqlParameter() { ParameterName = "@Deleted", Value = entity.Deleted });
+
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
+
         #endregion
 
         #region 更新
+
+        /// <summary>
+        /// 通过DepartmentID更新实体
+        /// </summary>
+        /// <param name="entity">实体</param>
+        public static bool UpdateByDepartmentID(Model.Admin.MSDepartmentInfo entity)
+        {
+            var sql = @"
+                        UPDATE [MSDepartmentInfo]
+                        SET
+                            [DepartmentName] = @DepartmentName
+                            ,[DepartmentLevel] = @DepartmentLevel
+                            ,[ParentID] = @ParentID
+                            ,[UpdateTime] = @UpdateTime
+                            ,[UpdateUser] = @UpdateUser
+                        WHERE 
+                            [DepartmentID] = @DepartmentID
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentID", Value = entity.DepartmentID });
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentName", Value = entity.DepartmentName });
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentLevel", Value = entity.DepartmentLevel });
+            parameters.Add(new SqlParameter() { ParameterName = "@ParentID", Value = entity.ParentID });
+            parameters.Add(new SqlParameter() { ParameterName = "@UpdateTime", Value = entity.UpdateTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@UpdateUser", Value = entity.UpdateUser });
+
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
 
         #endregion
 
@@ -51,6 +121,10 @@ namespace WebSystemTemplet.DAL.Admin
             }
         }
 
+        /// <summary>
+        /// 根据条件获取分页数据
+        /// </summary>
+        /// <returns></returns>
         public static List<Model.Admin.MSDepartmentInfo> GetPageListByCondition(SqlParams baseParams, out int allCount)
         {
             var sqlBase = @"
@@ -112,9 +186,9 @@ namespace WebSystemTemplet.DAL.Admin
                     DepartmentName = Converter.TryToString(row["DepartmentName"], string.Empty),
                     DepartmentLevel = Converter.TryToInt32(row["DepartmentLevel"], -1),
                     ParentID = Converter.TryToInt64(row["ParentID"], -1),
-                    CreateTime = Converter.TryToDateTime(row["CreateTime"], Convert.ToDateTime("1900-01-01")),
+                    CreateTime = Converter.TryToDateTime(row["CreateTime"], DateTime.MinValue),
                     CreateUser = Converter.TryToInt64(row["CreateUser"], -1),
-                    UpdateTime = Converter.TryToDateTime(row["UpdateTime"], Convert.ToDateTime("1900-01-01")),
+                    UpdateTime = Converter.TryToDateTime(row["UpdateTime"], DateTime.MinValue),
                     UpdateUser = Converter.TryToInt64(row["UpdateUser"], -1),
                     Deleted = Converter.TryToByte(row["Deleted"], 0),
                 }).ToList();
@@ -125,6 +199,33 @@ namespace WebSystemTemplet.DAL.Admin
             }
         }
 
+        /// <summary>
+        /// 获取指定部门名称的数量
+        /// </summary>
+        /// <param name="departmentName">部门名称</param>
+        /// <returns></returns>
+        public static int GetCountByDepartmentNameAndId(string departmentName, long departmentId)
+        {
+            var sql = @"
+                        SELECT COUNT(*) FROM [MSDepartmentInfo] WITH (NOLOCK)
+                        WHERE 
+                            [DepartmentName] = @DepartmentName
+                            AND [deleted] = 0
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentName", Value = departmentName });
+
+            if (departmentId != -1)
+            {
+                sql += " AND [DepartmentId] <> @DepartmentId ";
+                parameters.Add(new SqlParameter() { ParameterName = "@DepartmentId", Value = departmentId });
+            }
+
+            var count = SqlHelper.ExecuteScalar(sql, parameters.ToArray());
+
+            return Converter.TryToInt32(count);
+        }
+
         #endregion
 
         #region 聚合
@@ -133,14 +234,8 @@ namespace WebSystemTemplet.DAL.Admin
 
         #region 删除
 
-        #endregion
-
-        #region 判断
 
         #endregion
 
-        #region 其他
-
-        #endregion
     }
 }

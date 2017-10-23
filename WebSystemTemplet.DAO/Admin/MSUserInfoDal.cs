@@ -413,13 +413,10 @@ namespace WebSystemTemplet.DAL.Admin
         public static bool DeleteByID(long userId)
         {
             var sql = @"
-                        UPDATE [MSUserInfo] SET [deleted] = 1
-                        WHERE 
-                            [UserId] = @UserId;
-                        UPDATE [MSUserPositionRelation] SET [deleted] = 1
-                        WHERE 
-                            [UserId] = @UserId
+                        UPDATE [MSUserInfo] SET [deleted] = 1 WHERE [UserId] = @UserId
+                        UPDATE [MSUserPositionRelation] SET [deleted] = 1 WHERE [UserId] = @UserId
                     ";
+            sql = string.Format(SqlHelper.tranSqlFormat, sql);
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter() { ParameterName = "@UserId", Value = userId });
 

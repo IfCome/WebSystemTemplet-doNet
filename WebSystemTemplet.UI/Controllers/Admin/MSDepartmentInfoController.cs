@@ -49,5 +49,32 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult SaveMajorCallBack(string departmentId, string departmentName)
+        {
+            if (departmentName.IsNullOrWhiteSpace())
+            {
+                return Json(new { Message = "专业名称无效" });
+            }
+            departmentName = departmentName.Trim();
+            string msg;
+            Model.Admin.MSDepartmentInfo departmentInfo = new Model.Admin.MSDepartmentInfo()
+            {
+                DepartmentID = Converter.TryToInt64(departmentId, -1),
+                DepartmentName = departmentName,
+                DepartmentLevel = (int)Model.DepartmentLevel.专业,
+                ParentID = 1, //学院ID
+                Deleted = 0,
+                CreateTime = DateTime.Now,
+                CreateUser = Model.Identity.LoginUserInfo.UserID,
+                UpdateTime = DateTime.Now,
+                UpdateUser = Model.Identity.LoginUserInfo.UserID,
+            };
+            if (BLL.Admin.MSDepartmentInfoBll.SaveDepartmentInfo(departmentInfo, out msg))
+            {
+                msg = "OK";
+            }
+            return Json(new { Message = msg });
+        }
+
     }
 }

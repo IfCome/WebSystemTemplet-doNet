@@ -77,7 +77,7 @@ namespace WebSystemTemplet.Utility
             {
                 return;
             }
-            dicParams.Add(paramName, paramValue);
+            dicParams.Add(paramName, paramValue.Trim());
         }
 
         /// <summary>
