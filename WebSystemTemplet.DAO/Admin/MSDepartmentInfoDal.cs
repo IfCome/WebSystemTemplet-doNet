@@ -17,7 +17,7 @@ namespace WebSystemTemplet.DAL.Admin
         /// 增加实体
         /// </summary>
         /// <param name="entity">实体</param>
-        public static bool Add(Model.Admin.MSDepartmentInfo entity)
+        public static long Add(Model.Admin.MSDepartmentInfo entity)
         {
             var sql = @"
                         INSERT INTO [MSDepartmentInfo]
@@ -38,7 +38,7 @@ namespace WebSystemTemplet.DAL.Admin
                                 ,@CreateTime
                                 ,@CreateUser
                                 ,@Deleted
-                               )
+                               );SELECT SCOPE_IDENTITY();
                     ";
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter() { ParameterName = "@DepartmentName", Value = entity.DepartmentName });
@@ -48,8 +48,7 @@ namespace WebSystemTemplet.DAL.Admin
             parameters.Add(new SqlParameter() { ParameterName = "@CreateUser", Value = entity.CreateUser });
             parameters.Add(new SqlParameter() { ParameterName = "@Deleted", Value = entity.Deleted });
 
-            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
-            return i > 0 ? true : false;
+            return Converter.TryToInt64(SqlHelper.ExecuteScalar(sql, parameters.ToArray()));
         }
 
 
@@ -225,6 +224,50 @@ namespace WebSystemTemplet.DAL.Admin
 
             return Converter.TryToInt32(count);
         }
+
+        /// <summary>
+        /// 通过DepartmentID查询实体（不存在时，返回null）
+        /// </summary>
+        public static Model.Admin.MSDepartmentInfo GetByDepartmentID(long departmentId)
+        {
+            var sql = @"
+                        SELECT
+                                [DepartmentID]
+                                ,[DepartmentName]
+                                ,[DepartmentLevel]
+                                ,[ParentID]
+                                ,[CreateTime]
+                                ,[CreateUser]
+                         
+                        FROM [MSDepartmentInfo] WITH (NOLOCK)
+                        WHERE 
+                            [DepartmentID] = @DepartmentID
+                            AND [Deleted] = 0
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentID", Value = departmentId });
+
+            var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
+
+            if (dataTable.Rows.Count > 0)
+            {
+                var row = dataTable.Rows[0];
+                return new Model.Admin.MSDepartmentInfo()
+                {
+                    DepartmentID = Converter.TryToInt64(row["DepartmentID"], -1),
+                    DepartmentName = Converter.TryToString(row["DepartmentName"], string.Empty),
+                    DepartmentLevel = Converter.TryToInt32(row["DepartmentLevel"], -1),
+                    ParentID = Converter.TryToInt64(row["ParentID"], -1),
+                    CreateTime = Converter.TryToDateTime(row["CreateTime"], DateTime.MinValue),
+                    CreateUser = Converter.TryToInt64(row["CreateUser"], -1),
+                };
+            }
+            else
+            {
+                return null;
+            }
+        }
+
 
         #endregion
 

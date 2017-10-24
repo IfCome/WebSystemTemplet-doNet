@@ -1,8 +1,14 @@
-﻿@{
+﻿@using WebSystemTemplet.Model
+@{
     Layout = "~/Views/Admin/Common/_Layout.cshtml";
 }
 @*菜单ID*@
 <input type="hidden" id="admin-current-menu-id" value="menu-majorlist" />
+<style>
+    .tpl-model-dialog .am-selected {
+        width: 100%;
+    }
+</style>
 
 <div class="tpl-content-wrapper">
     <div class="row-content am-cf">
@@ -78,7 +84,7 @@
                         <a href="javascript:;" onclick="ModifyMajorInfo('{DepartmentID}', '{departmentName}')">
                             <i class="am-icon-pencil"></i> 编辑
                         </a>
-                        <a href="javascript:;">
+                        <a href="javascript:;" onclick="SetDirector('{DepartmentID}', '{DirectorId}')">
                             <i class="am-icon-pencil"></i> 设置系主任
                         </a>
                     </div>
@@ -88,7 +94,7 @@
     </table>
 </div>
 
-<div class="am-modal am-modal-confirm" tabindex="-1" id="my-confirm">
+<div class="am-modal am-modal-confirm" tabindex="-1" id="dialog-departmentName">
     <div class="am-modal-dialog tpl-model-dialog">
         <div class="am-modal-hd">
             <label class="am-form-label">填写专业名称</label>
@@ -108,6 +114,30 @@
         </div>
     </div>
 </div>
+
+<div class="am-modal am-modal-confirm" tabindex="-1" id="dialog-setDirector">
+    <div class="am-modal-dialog tpl-model-dialog">
+        <div class="am-modal-hd">
+            <label class="am-form-label">选择系主任</label>
+        </div>
+        <div class="am-modal-bd">
+            <div style="padding: 5px 20px;">
+                <form id="form-setDirector" class="am-form-group" data-am-validator>
+                    <input type="hidden" name="positionCode" value="@((int)PositionType.系主任)" />
+                    <input type="hidden" id="departmentId2" name="departmentId" value="" />
+                    <select id="selectDirectorId" name="directorId" data-am-selected="{searchBox:1,maxHeight: 100}" style="width:100%" placeholder="该专业没有可分配教职工" required>
+                    </select>
+                    <div class="am-alert am-alert-danger" style="display:none">hahahah</div>
+                </form>
+            </div>
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+
 
 
 <script>
@@ -151,7 +181,7 @@
             KeyWords: $('#txtKeyWords').val(),
         };
         modelData.isSearching = true;
-        $.get('@Url.RouteUrl(new { controller = "MSDepartmentInfo", action = "GetMajorList" })', data, function (result) {
+        $.get('/MSDepartmentInfo/GetMajorList', data, function (result) {
             if (result) {
                 // 清空数据
                 $("#tbDataList>tbody").html('');
@@ -162,6 +192,7 @@
                         rowHtml = rowHtml.replace("{index}", i + 1);
                         rowHtml = rowHtml.replace(/{departmentName}/g, row.DepartmentName);
                         rowHtml = rowHtml.replace("{parentName}", row.ParentName);
+                        rowHtml = rowHtml.replace("{DirectorId}", row.DirectorId);
                         rowHtml = rowHtml.replace("{directorName}", row.DirectorName);
                         rowHtml = rowHtml.replace(/{DepartmentID}/g, row.DepartmentID);
                         $("#tbDataList>tbody").append($(rowHtml));
@@ -181,19 +212,49 @@
 
     }
 
+    function getTeacherListByMajorId(majorId, currentDirectorId) {
+        $.get('/MSUserInfo/GetAllBaseUserInfoList', { RoleId: 1, MajorId: majorId }, function (result) {
+            if (result) {
+                // 清空数据
+                if (result.Rows != null && result.Rows.length > 0) {
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var row = result.Rows[i];
+                        $('#selectDirectorId').append($('<option value="' + row.UserID + '">' + row.RealName + '</option>'))
+                    }
+                }
+                $('#selectDirectorId').val(currentDirectorId).selected('destroy').selected({ searchBox: 1, maxHeight: 100 });
+            }
+            else {
+                alert("查询出错");
+            }
+            modelData.isSearching = false;
+        }, 'json');
+
+    }
+
     function ModifyMajorInfo(departmentId, departmentName) {
         $('#departmentId').val(departmentId);
         $('#departmentName').val(departmentName);
         $('#form-departmentInfo .am-alert').text('').hide();
-        $('#my-confirm').modal(modalOptions);
+        $('#dialog-departmentName').modal(modalOptions_departmentInfo);
     }
     function AddMajorInfo() {
         $('#form-departmentInfo .am-alert').text('').hide();
         $('#form-departmentInfo input').val('').change();
-        $('#my-confirm').modal(modalOptions);
+        $('#dialog-departmentName').modal(modalOptions_departmentInfo);
     }
 
-    var modalOptions = {
+    function SetDirector(departmentId, currentDirectorId) {
+        $('#departmentId2').val(departmentId);
+        $('#form-setDirector .am-alert').text('').hide();
+        $('#selectDirectorId>option').remove();
+        $('#dialog-setDirector').modal(modalOptions_setDirector);
+        // 查询该专业的老师
+        getTeacherListByMajorId(departmentId, currentDirectorId);
+
+    }
+
+    var modalOptions_departmentInfo = {
         relatedTarget: this,
         closeOnConfirm: false,
         onConfirm: function (options) {
@@ -202,7 +263,7 @@
                     if (data.Message == 'OK') {
                         alert('保存成功！');
                         search();
-                        $('#my-confirm').modal('close');
+                        $('#dialog-departmentName').modal('close');
                     } else {
                         $('#form-departmentInfo .am-alert').text(data.Message).show();
                     }
@@ -210,6 +271,23 @@
             }
         }
     };
+    var modalOptions_setDirector = {
+        relatedTarget: this,
+        closeOnConfirm: false,
+        onConfirm: function (options) {
+            if ($('#form-setDirector').validator('isFormValid')) {
+                $.post('/MSDepartmentInfo/setDirectorInfo', $('#form-setDirector').serialize(), function (data) {
+                    if (data.Message == 'OK') {
+                        alert('保存成功！');
+                        search();
+                        $('#dialog-setDirector').modal('close');
+                    } else {
+                        $('#form-setDirector .am-alert').text(data.Message).show();
+                    }
+                })
+            }
+        }
+    }
     $(function () {
         search();
     })

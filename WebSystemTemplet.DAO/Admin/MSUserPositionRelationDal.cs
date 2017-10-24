@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
@@ -102,6 +103,66 @@ namespace WebSystemTemplet.DAL.Admin
                 return null;
             }
         }
+
+        /// <summary>
+        /// 通过PositionID查询实体列表（不存在时，返回null）
+        /// </summary>
+        public static List<Model.Admin.MSUserPositionRelation> GetListByPositionID(long positionId)
+        {
+            var sql = @"
+                        SELECT 
+                                [RelationID]
+                                ,[UserID]
+                                ,[PositionID]
+                                ,[CreateTime]
+                                ,[CreateUser]                       
+                        FROM [MSUserPositionRelation] WITH (NOLOCK)
+                        WHERE 
+                            [PositionID] = @PositionID
+                            AND [Deleted] = 0
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@PositionID", Value = positionId });
+
+            var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
+
+            if (dataTable.Rows.Count > 0)
+            {
+                return dataTable.AsEnumerable().Select(row => new Model.Admin.MSUserPositionRelation()
+                {
+                    RelationID = Converter.TryToInt64(row["RelationID"], -1),
+                    UserID = Converter.TryToInt64(row["UserID"], -1),
+                    PositionID = Converter.TryToInt64(row["PositionID"], -1),
+                    CreateTime = Converter.TryToDateTime(row["CreateTime"], DateTime.MinValue),
+                    CreateUser = Converter.TryToInt64(row["CreateUser"], -1)
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+        /// <summary>
+        /// 通过PositionID更新UserID
+        /// </summary>
+        public static bool UpdateUserIDByRelationId(long relationId, long userId)
+        {
+            var sql = @"
+                        UPDATE [MSUserPositionRelation]
+                            SET
+                                [UserID] = @UserID
+                            WHERE [RelationID] = @RelationID AND [Deleted] = 0
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@RelationID", Value = relationId });
+            parameters.Add(new SqlParameter() { ParameterName = "@UserID", Value = userId });
+
+            int i = SqlHelper.ExecuteNonQuery( sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
 
         #endregion
 

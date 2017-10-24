@@ -57,7 +57,45 @@ namespace WebSystemTemplet.BLL.Admin
             bool re;
             if (departmentInfo.DepartmentID == -1)
             {
-                re = DAL.Admin.MSDepartmentInfoDal.Add(departmentInfo);
+                departmentInfo.DepartmentID = DAL.Admin.MSDepartmentInfoDal.Add(departmentInfo);
+                re = departmentInfo.DepartmentID > 0;
+                if (re)
+                {
+                    // 根据部门类型添加部门下的岗位
+                    List<Model.Admin.MSPositionInfo> positionList = new List<MSPositionInfo>();
+                    int maxCode = 0;
+                    int minCode = 0;
+                    switch (departmentInfo.DepartmentLevel)
+                    {
+                        //30001-系主任，30002-助理，30003-讲师，
+                        case (int)Model.DepartmentLevel.专业: minCode = 30000; maxCode = 40000; break;
+
+                        //40001-班主任，40002-助教，40003-班长，40004-学生
+                        case (int)Model.DepartmentLevel.班级: minCode = 40000; maxCode = 50000; break;
+
+                        //20001-院长，
+                        case (int)Model.DepartmentLevel.学院: minCode = 20000; maxCode = 30000; break;
+
+                        default: break;
+                    }
+
+                    foreach (Model.PositionType item in Enum.GetValues(typeof(Model.PositionType)))
+                    {
+                        int code = (int)item;
+                        if (minCode < code && code < maxCode)
+                        {
+                            positionList.Add(new Model.Admin.MSPositionInfo
+                            {
+                                DepartmentID = departmentInfo.DepartmentID,
+                                PositionName = item.ToString(),
+                                PositionType = code,
+                                CreateUser = Model.Identity.LoginUserInfo.UserID,
+                                CreateTime = DateTime.Now,
+                            });
+                        }
+                    }
+                    DAL.Admin.MSPositionInfoDal.Add(positionList);
+                }
             }
             else
             {
@@ -71,5 +109,50 @@ namespace WebSystemTemplet.BLL.Admin
             return re;
         }
 
+        public static bool SetDirectorInfo(long departmentId, long directorId, int positionCode, out string errorMsg)
+        {
+            errorMsg = "";
+            //查询部门信息
+            Model.Admin.MSDepartmentInfo departmentInfo = DAL.Admin.MSDepartmentInfoDal.GetByDepartmentID(departmentId);
+
+            if (departmentInfo == null)
+            {
+                errorMsg = "数据不存在，请刷新列表重新操作！";
+                return false;
+            }
+
+            //查询部门指定岗位信息
+            Model.Admin.MSPositionInfo positionInfo = DAL.Admin.MSPositionInfoDal.GetByDepartmentIdAndPositionType(departmentId, positionCode);
+            if (positionInfo == null)
+            {
+                errorMsg = "数据错误，请联系管理员！";
+                return false;
+            }
+
+            //查询该岗位有没有绑定用户
+            List<Model.Admin.MSUserPositionRelation> relationList = DAL.Admin.MSUserPositionRelationDal.GetListByPositionID(positionInfo.PositionID);
+
+            if (relationList != null && relationList.Count > 0)
+            {
+                Model.Admin.MSUserPositionRelation relationEntity = relationList[0];
+                //更新用户ID
+                DAL.Admin.MSUserPositionRelationDal.UpdateUserIDByRelationId(relationEntity.RelationID, directorId);
+            }
+            else
+            {
+                //未绑定插入
+                Model.Admin.MSUserPositionRelation relationEntity = new MSUserPositionRelation()
+                {
+                    PositionID = positionInfo.PositionID,
+                    UserID = directorId,
+                    Deleted = 0,
+                    CreateTime = DateTime.Now,
+                    CreateUser = Model.Identity.LoginUserInfo.UserID
+                };
+                DAL.Admin.MSUserPositionRelationDal.Add(relationEntity);
+            }
+
+            return true;
+        }
     }
 }

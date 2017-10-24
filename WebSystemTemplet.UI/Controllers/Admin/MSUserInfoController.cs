@@ -11,6 +11,30 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class MSUserInfoController : PCBaseController
     {
+        [HttpGet]
+        public ActionResult GetAllBaseUserInfoList(Models.Admin.MSGetUserInfoListIn InModel)
+        {
+            SqlParams sqlParams = new SqlParams();
+            sqlParams.PageIndex = 9999;
+            sqlParams.PageSize = 1;
+            sqlParams.addUsefulParam("roleId", (int)RoleType.教职工);
+            sqlParams.addUsefulParam("majorId", InModel.MajorId);
+            sqlParams.addUsefulParam("classId", InModel.ClassId);
+            sqlParams.addUsefulParam("keyWords", InModel.KeyWords);
+            
+            List<Model.Admin.MSUserInfo> userInfoList = BLL.Admin.MSUserInfoBll.GetAllBaseUserInfoList(sqlParams);
+
+            return Json(new
+            {
+                Rows = userInfoList.Select(u => new
+                {
+                    u.UserID,
+                    u.UserName,
+                    u.RealName,
+                })
+            }, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: MSUserInfo
         public ActionResult TeacherList()
         {

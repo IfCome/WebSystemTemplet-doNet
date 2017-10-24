@@ -403,6 +403,95 @@ namespace WebSystemTemplet.DAL.Admin
             return Converter.TryToInt32(count);
         }
 
+        /// <summary>
+        /// 根据条件查询所有用户基本信息
+        /// </summary>
+        /// <param name="baseParams"></param>
+        /// <returns></returns>
+        public static List<Model.Admin.MSUserInfo> GetBaseInfoListByCondition(SqlParams baseParams)
+        {
+            var sqlBase = @"
+                            SELECT [UserID],
+                                [UserName],
+                                [RealName],
+                                [Password],
+                                [RoleID],
+                                [SchoolID],
+                                [MajorID],
+                                [ClassID],
+                                [Gender],
+                                [Telephone],
+                                [IconUrl],
+                                [QQ],
+                                [Email],
+                                [Remark],
+                                [LastLoginTime],
+                                [CreateTime],
+                                [CreateUser]
+                            FROM   msuserinfo 
+                            WHERE  [Deleted] = 0
+                                {0}
+                            ORDER BY [RealName]
+                    ";
+
+            //条件查询部分
+            var sqlWhere = "";
+            var parameters = new List<SqlParameter>();
+            if (baseParams.hasParam("roleId"))
+            {
+                sqlWhere += " AND roleId = @roleId ";
+                parameters.Add(new SqlParameter() { ParameterName = "@roleId", Value = baseParams.getParam("roleId") });
+            }
+            if (baseParams.hasParam("majorId"))
+            {
+                sqlWhere += " AND majorId = @majorId ";
+                parameters.Add(new SqlParameter() { ParameterName = "@majorId", Value = baseParams.getParam("majorId") });
+            }
+            if (baseParams.hasParam("classId"))
+            {
+                sqlWhere += " AND classId = @classId ";
+                parameters.Add(new SqlParameter() { ParameterName = "@classId", Value = baseParams.getParam("classId") });
+            }
+            if (baseParams.hasParam("keyWords"))
+            {
+                sqlWhere += " AND realName LIKE @realName  ";
+                parameters.Add(new SqlParameter() { ParameterName = "@realName", Value = "%" + baseParams.getParam("keyWords") + "%" });
+            }
+
+            sqlBase = string.Format(sqlBase, sqlWhere);
+
+            var dataTable = SqlHelper.ExecuteDataTable(sqlBase, parameters.ToArray());
+
+            if (dataTable.Rows.Count > 0)
+            {
+                return dataTable.AsEnumerable().Select(row => new Model.Admin.MSUserInfo()
+                {
+                    UserID = Converter.TryToInt64(row["UserID"], -1),
+                    UserName = Converter.TryToString(row["UserName"], string.Empty),
+                    RealName = Converter.TryToString(row["RealName"], string.Empty),
+                    Password = Converter.TryToString(row["Password"], string.Empty),
+                    RoleID = Converter.TryToInt64(row["RoleID"], -1),
+                    SchoolID = Converter.TryToInt64(row["SchoolID"], -1),
+                    MajorID = Converter.TryToInt64(row["MajorID"], -1),
+                    ClassID = Converter.TryToInt64(row["ClassID"], -1),
+                    Gender = Converter.TryToByte(row["Gender"], 1),
+                    Telephone = Converter.TryToString(row["Telephone"], string.Empty),
+                    IconUrl = Converter.TryToString(row["IconUrl"], string.Empty),
+                    QQ = Converter.TryToString(row["QQ"], string.Empty),
+                    Email = Converter.TryToString(row["Email"], string.Empty),
+                    Remark = Converter.TryToString(row["Remark"], string.Empty),
+                    LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], DateTime.MinValue),
+                    CreateTime = Converter.TryToDateTime(row["CreateTime"], DateTime.MinValue),
+                    CreateUser = Converter.TryToInt64(row["CreateUser"], -1),
+                }).ToList();
+            }
+            else
+            {
+                return null;
+            }
+
+        }        
+
         #endregion
 
         #region 删除

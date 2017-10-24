@@ -19,6 +19,15 @@ namespace WebSystemTemplet.BLL.Admin
             }
             return msUserInfoList;
         }
+        public static List<Model.Admin.MSUserInfo> GetAllBaseUserInfoList(SqlParams sqlParams)
+        {
+            List<Model.Admin.MSUserInfo> msUserInfoList = DAL.Admin.MSUserInfoDal.GetBaseInfoListByCondition(sqlParams);
+            if (msUserInfoList == null)
+            {
+                msUserInfoList = new List<Model.Admin.MSUserInfo>();
+            }
+            return msUserInfoList;
+        }
 
 
         /// <summary>

@@ -49,6 +49,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [HttpPost]
         public ActionResult SaveMajorCallBack(string departmentId, string departmentName)
         {
             if (departmentName.IsNullOrWhiteSpace())
@@ -76,5 +77,15 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return Json(new { Message = msg });
         }
 
+        [HttpPost]
+        public ActionResult SetDirectorInfo(long departmentId, long directorId, int positionCode)
+        {
+            string msg = "设置失败！";
+            if (BLL.Admin.MSDepartmentInfoBll.SetDirectorInfo(departmentId, directorId, positionCode, out msg))
+            {
+                msg = "OK";
+            }
+            return Json(new { Message = msg });
+        }
     }
 }

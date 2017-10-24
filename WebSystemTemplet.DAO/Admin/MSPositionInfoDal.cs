@@ -14,6 +14,53 @@ namespace WebSystemTemplet.DAL.Admin
 
         #region 增加
 
+        /// <summary>
+        /// 增加实体列表（非批量拷贝方式，适用于小数据量的写入）
+        /// </summary>
+        public static void Add(List<Model.Admin.MSPositionInfo> entities)
+        {
+            entities.ForEach(entity =>
+            {
+                Add(entity);
+            });
+        }
+
+        /// <summary>
+        /// 增加实体
+        /// </summary>
+        /// <param name="databaseConnectionString">数据库链接字符串</param>
+        /// <param name="entity">实体</param>
+        public static bool Add(Model.Admin.MSPositionInfo entity)
+        {
+            var sql = @"
+                        INSERT INTO [MSPositionInfo]
+                               (
+                                [DepartmentID]
+                                ,[PositionType]
+                                ,[PositionName]
+                                ,[CreateTime]
+                                ,[CreateUser]
+                               )
+                         VALUES
+                               (
+                                @DepartmentID
+                                ,@PositionType
+                                ,@PositionName
+                                ,@CreateTime
+                                ,@CreateUser
+                               )
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentID", Value = entity.DepartmentID });
+            parameters.Add(new SqlParameter() { ParameterName = "@PositionType", Value = entity.PositionType });
+            parameters.Add(new SqlParameter() { ParameterName = "@PositionName", Value = entity.PositionName });
+            parameters.Add(new SqlParameter() { ParameterName = "@CreateTime", Value = entity.CreateTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@CreateUser", Value = entity.CreateUser });
+
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
 
 
         #endregion

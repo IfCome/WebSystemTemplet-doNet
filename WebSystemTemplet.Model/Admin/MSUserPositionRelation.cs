@@ -7,6 +7,10 @@ namespace WebSystemTemplet.Model.Admin
     /// </summary>
     public class MSUserPositionRelation
     {
+        /// <summary>
+        /// 关系ID
+        /// </summary>
+        public long RelationID { get; set; }
 
         /// <summary>
         /// 用户ID
