@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebSystemTemplet.Model.Admin
+@{
     Layout = "~/Views/Admin/Common/_Layout.cshtml";
 }
 @*菜单ID*@
@@ -36,7 +37,16 @@
                                 </select>
                                 <select id="selectMajorId" data-am-selected="{btnSize: 'sm'}">
                                     <option value="-1">所有专业</option>
-                                    <option value="2">汽车制造与维修技术专业 </option>
+                                    @{
+                                        List<MSDepartmentInfo> departmentList = ViewBag.DepartmentList as List<MSDepartmentInfo>;
+                                        if (departmentList != null)
+                                        {
+                                            foreach (MSDepartmentInfo item in departmentList)
+                                            {
+                                                <option value="@item.DepartmentID">@item.DepartmentName</option>
+                                            }
+                                        }
+                                    }
                                 </select>
                             </div>
                         </div>
@@ -60,12 +70,13 @@
                         </div>
 
                         <div class="am-u-sm-12">
-                            <table id="tbDataList" class="am-table am-table-compact am-table-striped tpl-table-black " id="example-r">
+                            <table id="tbDataList" class="am-table am-table-compact am-table-striped tpl-table-black ">
                                 <thead>
                                     <tr>
                                         <th>序号</th>
                                         <th>姓名</th>
                                         <th>登录名</th>
+                                        <th>性别</th>
                                         <th>专业</th>
                                         <th>岗位</th>
                                         <th>操作</th>
@@ -90,6 +101,7 @@
                 <td>{index}</td>
                 <td>{teacherName}</td>
                 <td>{userName}</td>
+                <td>{gender}</td>
                 <td>{majorName}</td>
                 <td>{positionNames}</td>
                 <td>
@@ -162,6 +174,7 @@
                         rowHtml = rowHtml.replace("{index}", i + 1);
                         rowHtml = rowHtml.replace(/{teacherName}/g, row.RealName);
                         rowHtml = rowHtml.replace(/{userName}/g, row.UserName);
+                        rowHtml = rowHtml.replace("{gender}", row.Gender);
                         rowHtml = rowHtml.replace("{majorName}", row.MajorName);
                         rowHtml = rowHtml.replace("{positionNames}", row.PositionName);
                         rowHtml = rowHtml.replace(/{UserID}/g, row.UserID);

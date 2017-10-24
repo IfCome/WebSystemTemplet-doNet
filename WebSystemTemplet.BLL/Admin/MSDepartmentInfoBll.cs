@@ -31,6 +31,11 @@ namespace WebSystemTemplet.BLL.Admin
             return dicNameAndId.ContainsKey(departmentId) ? dicNameAndId[departmentId] : "";
         }
 
+        public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentInfoByLevel(int departmentLevel)
+        {
+            return DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId(departmentLevel);
+        }
+
         public static List<Model.Admin.MSDepartmentInfo> GetAllMSDepartmentInfoList(SqlParams sqlParams, out int allCount)
         {
             allCount = 0;

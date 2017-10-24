@@ -94,7 +94,7 @@ namespace WebSystemTemplet.DAL.Admin
         /// 查询所有实体列表（不存在时，返回null）
         /// </summary>
         /// <param name="databaseConnectionString">数据库链接字符串</param>
-        public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentNameAndId()
+        public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentNameAndId(int departmentLevel = -1)
         {
             var sql = @"
                         SELECT 
@@ -102,9 +102,18 @@ namespace WebSystemTemplet.DAL.Admin
                                 ,[DepartmentName]                   
                         FROM [MSDepartmentInfo] WITH (NOLOCK)
                         WHERE [Deleted] = 0
+                        {0}
+                        ORDER BY [DepartmentName]
                     ";
-
-            var dataTable = SqlHelper.ExecuteDataTable(sql);
+            var parameters = new List<SqlParameter>();
+            var sqlWhere = "";
+            if (departmentLevel > 0)
+            {
+                sqlWhere += " AND DepartmentLevel = @DepartmentLevel ";
+                parameters.Add(new SqlParameter() { ParameterName = "@DepartmentLevel", Value = departmentLevel });
+            }
+            sql = string.Format(sql, sqlWhere);
+            var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
 
             if (dataTable.Rows.Count > 0)
             {

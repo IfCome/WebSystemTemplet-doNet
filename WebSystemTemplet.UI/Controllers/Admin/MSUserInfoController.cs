@@ -21,7 +21,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             sqlParams.addUsefulParam("majorId", InModel.MajorId);
             sqlParams.addUsefulParam("classId", InModel.ClassId);
             sqlParams.addUsefulParam("keyWords", InModel.KeyWords);
-            
+
             List<Model.Admin.MSUserInfo> userInfoList = BLL.Admin.MSUserInfoBll.GetAllBaseUserInfoList(sqlParams);
 
             return Json(new
@@ -38,6 +38,9 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         // GET: MSUserInfo
         public ActionResult TeacherList()
         {
+            // 获取所有的专业
+            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.专业);
+            ViewBag.DepartmentList = departmentList;
             return View("~/Views/Admin/MSUserInfo/TeacherList.cshtml");
         }
 
@@ -62,6 +65,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                     u.UserID,
                     u.UserName,
                     u.RealName,
+                    Gender = u.Gender == 0 ? "女" : "男",
                     MajorName = MSDepartmentInfoBll.GetDepartmentNameById(u.MajorID).IfEmptyToString("--"),
                     u.PositionName,
                 }),
@@ -71,6 +75,10 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         public ActionResult TeacherAddPage()
         {
+            // 获取所有的专业
+            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.专业);
+            ViewBag.DepartmentList = departmentList;
+
             return View("~/Views/Admin/MSUserInfo/TeacherAdd.cshtml");
         }
 
