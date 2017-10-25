@@ -48,14 +48,12 @@ $(function () {
     var selectMenu = $('#' + selectMenuId);
     if (selectMenu.length > 0) {
         if (selectMenu.closest('ul').hasClass('sidebar-nav-sub')) {
-            selectMenu.addClass('sub-active').closest('ul').css('display','block').prev().addClass('active');
+            selectMenu.addClass('sub-active').closest('ul').css('display', 'block').prev().addClass('active');
         } else {
             selectMenu.addClass('active')
         }
     }
-
 })
-
 
 // 页面数据
 var pageData = {
@@ -380,5 +378,16 @@ function storageLoad(objectName) {
     }
 }
 
-
+// 加载loading
+function openLoading(msg) {
+    if ($('#my-modal-loading').length > 0) {
+        $('#my-modal-loading .am-modal-hd').text(msg || '正在载入...');
+        $('#my-modal-loading').modal('open');
+    }
+}
+function closeLoading() {
+    if ($('#my-modal-loading').length > 0) {
+        $('#my-modal-loading').modal('close');
+    }
+}
 

@@ -1905,8 +1905,9 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   font-weight: inherit;
   text-align: right;
 }
-
+.theme-black .tpl-model-dialog .am-modal-hd,
 .theme-black .tpl-model-dialog .am-modal-bd{
+  color: white;
   border-color: rgba(255, 255, 255, 0.2);
 }
 .theme-black .tpl-model-dialog .am-modal-btn{
