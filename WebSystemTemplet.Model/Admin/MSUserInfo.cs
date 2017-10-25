@@ -124,7 +124,21 @@ namespace WebSystemTemplet.Model.Admin
         /// 职位名称集合
         /// </summary>
         public string PositionName { get; set; }
+        
+        /// <summary>
+        /// 学院名称
+        /// </summary>
+        public string SchoolName { get; set; }
 
+        /// <summary>
+        /// 专业名称
+        /// </summary>
+        public string MajorName { get; set; }
+
+        /// <summary>
+        /// 班级名称
+        /// </summary>
+        public string ClassName { get; set; }
     }
 }
 

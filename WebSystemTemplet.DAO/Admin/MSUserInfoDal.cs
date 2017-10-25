@@ -121,6 +121,51 @@ namespace WebSystemTemplet.DAL.Admin
             return i > 0 ? true : false;
         }
 
+        /// <summary>
+        /// 通过UserID更新实体
+        /// </summary>
+        public static bool UpdataUserInfoByID(Model.Admin.MSUserInfo entity)
+        {
+            var sql = @"
+                        UPDATE [MSUserInfo]
+                            SET
+                                [RealName] = @RealName
+                                ,[SchoolID] = @SchoolID
+                                ,[MajorID] = @MajorID
+                                ,[ClassID] = @ClassID
+                                ,[Gender] = @Gender
+                                ,[Telephone] = @Telephone
+                                ,[IconUrl] = @IconUrl
+                                ,[QQ] = @QQ
+                                ,[Email] = @Email
+                                ,[Remark] = @Remark
+                                ,[UpdateTime] = @UpdateTime
+                                ,[UpdateUser] = @UpdateUser
+                            WHERE 
+                                [UserID] = @UserID
+                    ";
+            var parameters = new List<SqlParameter>();
+            parameters.Add(new SqlParameter() { ParameterName = "@UserID", Value = entity.UserID });
+            parameters.Add(new SqlParameter() { ParameterName = "@RealName", Value = entity.RealName });
+            parameters.Add(new SqlParameter() { ParameterName = "@SchoolID", Value = entity.SchoolID });
+            parameters.Add(new SqlParameter() { ParameterName = "@MajorID", Value = entity.MajorID });
+            parameters.Add(new SqlParameter() { ParameterName = "@ClassID", Value = entity.ClassID });
+            parameters.Add(new SqlParameter() { ParameterName = "@Gender", Value = entity.Gender });
+            parameters.Add(new SqlParameter() { ParameterName = "@Telephone", Value = entity.Telephone });
+            parameters.Add(new SqlParameter() { ParameterName = "@IconUrl", Value = entity.IconUrl });
+            parameters.Add(new SqlParameter() { ParameterName = "@QQ", Value = entity.QQ });
+            parameters.Add(new SqlParameter() { ParameterName = "@Email", Value = entity.Email });
+            parameters.Add(new SqlParameter() { ParameterName = "@Remark", Value = entity.Remark });
+            parameters.Add(new SqlParameter() { ParameterName = "@UpdateTime", Value = entity.UpdateTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@UpdateUser", Value = entity.UpdateUser });
+
+            int i = SqlHelper.ExecuteNonQuery( sql, parameters.ToArray());
+            return i > 0 ? true : false;
+        }
+
+
+
+
         #endregion
 
         #region 查询

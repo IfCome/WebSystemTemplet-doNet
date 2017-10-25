@@ -1856,6 +1856,22 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 }
 
 /*begin add by bobo*/ 
+.am-popup{
+    z-index:1250;
+}
+
+.theme-white .tpl-am-popup-inner,
+.theme-white .tpl-am-popup-inner .am-popup-hd,
+.theme-white .tpl-am-popup-inner .am-popup-bd {
+    background: #f8f8f8;
+}
+
+.tpl-form-border-form .am-form-group .tpl-form-label{
+  width: 100%;
+  text-align: left;
+  padding-left: 0;
+}
+
 .tpl-model-dialog .am-form-group{
   margin-bottom: 0;
 }
@@ -1896,6 +1912,18 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 .theme-black .tpl-model-dialog .am-modal-btn{
   border-color: rgba(255, 255, 255, 0.2);
   color:#69C5F5;
+}
+.theme-black .tpl-am-popup-inner,
+.theme-black .tpl-am-popup-inner .am-popup-hd,
+.theme-black .tpl-am-popup-inner .am-popup-bd  {
+  background: #424b4f;
+}
+.theme-black .tpl-am-popup-inner .am-popup-hd {
+  color:white;
+  border-color:#666;
+}
+.theme-black .tpl-am-popup-inner .am-popup-hd .am-popup-title{
+  color:white;
 }
 
 /*end add by bobo*/ 

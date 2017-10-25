@@ -134,6 +134,68 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return Json(new { Message = msg });
         }
 
+        public ActionResult TeacherEditPage(long userId)
+        {
+            // 查询用户信息
+            Model.Admin.MSUserInfo userInfo = BLL.Admin.MSUserInfoBll.GetSingleUserInfo(userId);
+            if (userInfo != null)
+            {
+                // 完善信息
+                userInfo.SchoolName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.SchoolID);
+                userInfo.MajorName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.MajorID);
+            }
+            return View("~/Views/Admin/MSUserInfo/TeacherEdit.cshtml", userInfo);
+        }
+
+        public ActionResult GetTeacherDetails(long userId)
+        {
+            // 查询用户信息
+            Model.Admin.MSUserInfo userInfo = BLL.Admin.MSUserInfoBll.GetSingleUserInfo(userId);
+            if (userInfo != null)
+            {
+                // 完善信息
+                userInfo.SchoolName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.SchoolID);
+                userInfo.MajorName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.MajorID);
+                return Json(new { Message = "OK", UserInfo = userInfo }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Message = "未找到该教师资料，请刷新列表重新操作！" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        [HttpPost]
+        public ActionResult EditUserInfoCallBack(Models.Admin.MSUserInfoModel InModel)
+        {
+            string msg = "OK";
+            long userId = Converter.TryToInt64(InModel.UserId);
+            // 查询用户信息
+            Model.Admin.MSUserInfo userInfo = BLL.Admin.MSUserInfoBll.GetSingleUserInfo(userId);
+            if (userInfo == null)
+            {
+                return Json(new { Message = "资料不存在，修改失败！" });
+            }
+
+            // 修改用户信息
+            userInfo.RealName = InModel.RealName;
+            userInfo.Gender = InModel.Gender;
+            userInfo.Telephone = InModel.Telephone;
+            userInfo.QQ = InModel.QQ;
+            userInfo.Email = InModel.Email;
+            userInfo.Remark = InModel.Remark;
+            userInfo.UpdateTime = DateTime.Now;
+            userInfo.UpdateUser = Identity.LoginUserInfo.UserID;
+
+            if (BLL.Admin.MSUserInfoBll.EditUserInfo(userInfo))
+            {
+                msg = "OK";
+            }
+            else
+            {
+                msg = "修改失败，请重试";
+            }
+            return Json(new { Message = msg });
+        }
+
+
         public ActionResult DeleteUser(long userId)
         {
             // 查询用户信息

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WebSystemTemplet.Model.Admin;
 using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.BLL.Admin
@@ -104,6 +105,12 @@ namespace WebSystemTemplet.BLL.Admin
         {
             newPassword = Security.getMD5ByStr(newPassword);
             return DAL.Admin.MSUserInfoDal.UpdataPasswordByID(id, newPassword);
+        }
+
+        public static bool EditUserInfo(MSUserInfo userInfo)
+        {
+            // 如果是学生，且修改了班级或专业，则需要修改岗位信息
+            return DAL.Admin.MSUserInfoDal.UpdataUserInfoByID(userInfo);
         }
 
         #endregion
