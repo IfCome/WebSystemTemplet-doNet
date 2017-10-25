@@ -230,6 +230,7 @@
             KeyWords: $('#txtKeyWords').val(),
         };
         modelData.isSearching = true;
+        openLoading();
         $.get('/MSUserInfo/getteacherlist', data, function (result) {
             if (result) {
                 // 清空数据
@@ -248,7 +249,7 @@
                         $("#tbDataList>tbody").append($(rowHtml));
                     }
                 } else {
-                    $("#tbDataList>tbody").append($('<tr class="gradeX"><td style="text-align: center;" colspan="5">没有对应的数据</td></tr>'));
+                    $("#tbDataList>tbody").append($('<tr class="gradeX"><td style="text-align: center;" colspan="7">没有对应的数据</td></tr>'));
                 }
 
                 var totalPages = Math.ceil(parseInt(result.AllCount) / modelData.pageSize);
@@ -258,6 +259,7 @@
                 alert("查询出错");
             }
             modelData.isSearching = false;
+            closeLoading();
         }, 'json');
 
     }

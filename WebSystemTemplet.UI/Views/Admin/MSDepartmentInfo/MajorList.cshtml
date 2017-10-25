@@ -181,6 +181,7 @@
             KeyWords: $('#txtKeyWords').val(),
         };
         modelData.isSearching = true;
+        openLoading();
         $.get('/MSDepartmentInfo/GetMajorList', data, function (result) {
             if (result) {
                 // 清空数据
@@ -208,6 +209,7 @@
                 alert("查询出错");
             }
             modelData.isSearching = false;
+            closeLoading();
         }, 'json');
 
     }

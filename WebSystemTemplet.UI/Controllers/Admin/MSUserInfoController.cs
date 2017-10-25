@@ -156,6 +156,8 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                 // 完善信息
                 userInfo.SchoolName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.SchoolID);
                 userInfo.MajorName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.MajorID);
+                // 岗位信息
+
                 return Json(new { Message = "OK", UserInfo = userInfo }, JsonRequestBehavior.AllowGet);
             }
             return Json(new { Message = "未找到该教师资料，请刷新列表重新操作！" }, JsonRequestBehavior.AllowGet);

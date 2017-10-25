@@ -383,6 +383,7 @@ function openLoading(msg) {
     if ($('#my-modal-loading').length > 0) {
         $('#my-modal-loading .am-modal-hd').text(msg || '正在载入...');
         $('#my-modal-loading').modal('open');
+        $('.am-dimmer').css('display', 'none');
     }
 }
 function closeLoading() {

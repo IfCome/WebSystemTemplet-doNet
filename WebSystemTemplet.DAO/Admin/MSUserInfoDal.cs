@@ -191,6 +191,7 @@ namespace WebSystemTemplet.DAL.Admin
                                         Stuff((SELECT '，' + positionname
                                                FROM   t a
                                                WHERE  b.userid = a.userid
+											   ORDER BY a.PositionType
                                                FOR xml path('')), 1, 1, '') PositionName
                                  FROM   t b
                                  GROUP  BY userid),

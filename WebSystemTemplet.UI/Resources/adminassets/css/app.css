@@ -1860,6 +1860,10 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
     z-index:1250;
 }
 
+.theme-white .tpl-am-modal-loading{
+    background:rgba(248, 248, 248, 0.4);
+}
+
 .theme-white .tpl-am-popup-inner,
 .theme-white .tpl-am-popup-inner .am-popup-hd,
 .theme-white .tpl-am-popup-inner .am-popup-bd {
@@ -1894,6 +1898,12 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
   color: #888;
   font-weight: inherit;
   text-align: right;
+}
+
+/**** ºÚ°×·Ö¸îÏß *******/
+
+.theme-black .tpl-am-modal-loading{
+    background:rgba(66, 75, 79, 0.4);
 }
 
 .theme-black .tpl-model-dialog .am-form-field {
