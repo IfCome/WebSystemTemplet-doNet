@@ -1887,7 +1887,7 @@ ul.tpl-dropdown-content .tpl-dropdown-menu-messages-item .menu-messages-content 
 }
 .tpl-model-dialog .am-modal-bd .am-form-label,
 .tpl-model-dialog .am-modal-bd .am-form-field{
-  font-size:16px;
+  font-size:16px !important;
 } 
 
 .theme-white .tpl-model-dialog .am-form-field {

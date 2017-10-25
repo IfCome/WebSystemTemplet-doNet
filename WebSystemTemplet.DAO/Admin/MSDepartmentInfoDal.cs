@@ -163,6 +163,11 @@ namespace WebSystemTemplet.DAL.Admin
                 sqlWhere += " AND DepartmentLevel = @DepartmentLevel ";
                 parameters.Add(new SqlParameter() { ParameterName = "@DepartmentLevel", Value = baseParams.getParam("DepartmentLevel") });
             }
+            if (baseParams.hasParam("ParentId"))
+            {
+                sqlWhere += " AND ParentId = @ParentId ";
+                parameters.Add(new SqlParameter() { ParameterName = "@ParentId", Value = baseParams.getParam("ParentId") });
+            }
             if (baseParams.hasParam("keyWords"))
             {
                 sqlWhere += " AND DepartmentName LIKE @DepartmentName  ";

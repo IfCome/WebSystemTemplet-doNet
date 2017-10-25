@@ -425,7 +425,7 @@
     <Content Include="Views\Admin\MSUserInfo\TeacherAdd.cshtml" />
     <Content Include="Views\Admin\MSDepartmentInfo\MajorList.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\TeacherEdit.cshtml" />
-    <Content Include="Views\Admin\MSUserInfo\TeacherDetails.cshtml" />
+    <Content Include="Views\Admin\MSDepartmentInfo\ClassList.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

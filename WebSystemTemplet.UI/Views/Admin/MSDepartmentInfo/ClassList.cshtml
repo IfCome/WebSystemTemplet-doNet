@@ -1,9 +1,10 @@
 ﻿@using WebSystemTemplet.Model
+@using WebSystemTemplet.Model.Admin
 @{
     Layout = "~/Views/Admin/Common/_Layout.cshtml";
 }
 @*菜单ID*@
-<input type="hidden" id="admin-current-menu-id" value="menu-majorlist" />
+<input type="hidden" id="admin-current-menu-id" value="menu-classlist" />
 <style>
     .tpl-model-dialog .am-selected {
         width: 100%;
@@ -24,23 +25,40 @@
                                 组织架构
                             </li>
                             <li class="widget-title">
-                                专业管理
+                                班级管理
                             </li>
                         </ol>
                     </div>
                     <div class="widget-body  am-fr">
-                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-6">
                             <div class="am-form-group">
                                 <div class="am-btn-toolbar">
                                     <div class="am-btn-group am-btn-group-sm">
-                                        <button id="btnAddMajor" type="button" onclick="AddMajorInfo();" class="am-btn am-btn-default am-btn-success am-radius"><span class="am-icon-plus"></span> 添加专业</button>
+                                        <button id="btnAddClass" type="button" onclick="AddClassInfo();" class="am-btn am-btn-default am-btn-success am-radius"><span class="am-icon-plus"></span> 添加班级</button>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select id="selectMajorId" data-am-selected="{btnSize: 'sm'}">
+                                    <option value="-1">所有专业</option>
+                                    @{
+                                        List<MSDepartmentInfo> departmentList = ViewBag.DepartmentList as List<MSDepartmentInfo>;
+                                        if (departmentList != null)
+                                        {
+                                            foreach (MSDepartmentInfo item in departmentList)
+                                            {
+                                                <option value="@item.DepartmentID">@item.DepartmentName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
                             <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
-                                <input id="txtKeyWords" type="text" class="am-form-field " placeholder="专业名称">
+                                <input id="txtKeyWords" type="text" class="am-form-field " placeholder="班级名称">
                                 <span class="am-input-group-btn">
                                     <button id="btnSearch" class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
                                 </span>
@@ -52,9 +70,9 @@
                                 <thead>
                                     <tr>
                                         <th>序号</th>
-                                        <th>专业名称</th>
-                                        <th>所在学院</th>
-                                        <th>系主任</th>
+                                        <th>班级名称</th>
+                                        <th>所属专业</th>
+                                        <th>班主任</th>
                                         <th>操作</th>
                                     </tr>
                                 </thead>
@@ -81,11 +99,11 @@
                 <td>{directorName}</td>
                 <td>
                     <div class="tpl-table-black-operation">
-                        <a href="javascript:;" onclick="ModifyMajorInfo('{DepartmentID}', '{departmentName}')">
+                        <a href="javascript:;" onclick="ModifyClassInfo('{DepartmentID}', '{departmentName}')">
                             <i class="am-icon-pencil"></i> 编辑
                         </a>
-                        <a href="javascript:;" onclick="SetDirector('{DepartmentID}', '{DirectorId}')">
-                            <i class="am-icon-pencil"></i> 设置系主任
+                        <a href="javascript:;" onclick="SetDirector('{DepartmentID}', '{MajorId}', '{DirectorId}')">
+                            <i class="am-icon-pencil"></i> 设置班主任
                         </a>
                     </div>
                 </td>
@@ -97,13 +115,26 @@
 <div class="am-modal am-modal-confirm" tabindex="-1" id="dialog-departmentName">
     <div class="am-modal-dialog tpl-model-dialog">
         <div class="am-modal-hd">
-            <label class="am-form-label">填写专业名称</label>
+            <label class="am-form-label">选择专业并写班级名称</label>
         </div>
         <div class="am-modal-bd">
             <div style="padding: 5px 20px;">
                 <form id="form-departmentInfo" class="am-form-group tpl-form-border-form am-padding-top-0" data-am-validator>
                     <input type="hidden" id="departmentId" name="departmentId" value="" />
-                    <input type="text" class="am-form-field" id="departmentName" name="departmentName" placeholder="请输入专业名称" maxlength="30" required>
+                    <div class="am-form-group tpl-table-list-select">
+                        <select id="dialog-selectMajorId" name="majorId" data-am-selected="{searchBox:1,maxHeight: 100,btnSize: 'md'}" placeholder="没有找到可用专业" required>
+                            @{
+                                if (departmentList != null)
+                                {
+                                    foreach (MSDepartmentInfo item in departmentList)
+                                    {
+                                        <option value="@item.DepartmentID">@item.DepartmentName</option>
+                                    }
+                                }
+                            }
+                        </select>
+                    </div>
+                    <input type="text" class="am-form-field am-margin-top-lg" id="departmentName" name="departmentName" placeholder="请输入班级名称" maxlength="30" required>
                     <div class="am-alert am-alert-danger" style="display:none">hahahah</div>
                 </form>
             </div>
@@ -118,15 +149,14 @@
 <div class="am-modal am-modal-confirm" tabindex="-1" id="dialog-setDirector">
     <div class="am-modal-dialog tpl-model-dialog">
         <div class="am-modal-hd">
-            <label class="am-form-label">选择系主任</label>
+            <label class="am-form-label">选择班主任</label>
         </div>
         <div class="am-modal-bd">
             <div style="padding: 5px 20px;">
                 <form id="form-setDirector" class="am-form-group tpl-form-border-form am-padding-top-0" data-am-validator>
-                    <input type="hidden" name="positionCode" value="@((int)PositionType.系主任)" />
+                    <input type="hidden" name="positionCode" value="@((int)PositionType.班主任)" />
                     <input type="hidden" id="departmentId2" name="departmentId" value="" />
-                    <select id="selectDirectorId" name="directorId" data-am-selected="{searchBox:1,maxHeight: 100}" style="width:100%" placeholder="该专业没有可分配教职工" required>
-                    </select>
+                    <select id="selectDirectorId" name="directorId" data-am-selected="{searchBox:1,maxHeight: 100}" style="width:100%" placeholder="该班级没有可分配教职工" required></select>
                     <div class="am-alert am-alert-danger" style="display:none">hahahah</div>
                 </form>
             </div>
@@ -177,12 +207,13 @@
             PageSize: modelData.pageSize,
             PageIndex: modelData.pageIndex,
             PositionType: $('#selectPositionType').val(),
+            ClassId: $('#selectClassId').val(),
             MajorId: $('#selectMajorId').val(),
             KeyWords: $('#txtKeyWords').val(),
         };
         modelData.isSearching = true;
         openLoading();
-        $.get('/MSDepartmentInfo/GetMajorList', data, function (result) {
+        $.get('/MSDepartmentInfo/GetClassList', data, function (result) {
             if (result) {
                 // 清空数据
                 $("#tbDataList>tbody").html('');
@@ -192,6 +223,7 @@
                         var rowHtml = $("#listTemplet>tbody").html();
                         rowHtml = rowHtml.replace("{index}", i + 1);
                         rowHtml = rowHtml.replace(/{departmentName}/g, row.DepartmentName);
+                        rowHtml = rowHtml.replace(/{MajorId}/g, row.MajorId);
                         rowHtml = rowHtml.replace("{parentName}", row.ParentName);
                         rowHtml = rowHtml.replace("{DirectorId}", row.DirectorId);
                         rowHtml = rowHtml.replace("{directorName}", row.DirectorName);
@@ -234,25 +266,25 @@
 
     }
 
-    function ModifyMajorInfo(departmentId, departmentName) {
+    function ModifyClassInfo(departmentId, departmentName) {
         $('#departmentId').val(departmentId);
         $('#departmentName').val(departmentName);
         $('#form-departmentInfo .am-alert').text('').hide();
         $('#dialog-departmentName').modal(modalOptions_departmentInfo);
     }
-    function AddMajorInfo() {
+    function AddClassInfo() {
         $('#form-departmentInfo .am-alert').text('').hide();
-        $('#form-departmentInfo input').val('').change();
+        $('#form-departmentInfo input').val('').change();        
         $('#dialog-departmentName').modal(modalOptions_departmentInfo);
     }
 
-    function SetDirector(departmentId, currentDirectorId) {
-        $('#departmentId2').val(departmentId);
+    function SetDirector(classId, majorId, currentDirectorId) {
+        $('#departmentId2').val(classId);
         $('#form-setDirector .am-alert').text('').hide();
         $('#selectDirectorId>option').remove();
         $('#dialog-setDirector').modal(modalOptions_setDirector);
-        // 查询该专业的老师
-        getTeacherListByMajorId(departmentId, currentDirectorId);
+        // 查询该班级的老师
+        getTeacherListByMajorId(majorId, currentDirectorId);
 
     }
 
@@ -261,7 +293,7 @@
         closeOnConfirm: false,
         onConfirm: function (options) {
             if ($('#form-departmentInfo').validator('isFormValid')) {
-                $.post('/MSDepartmentInfo/SaveMajorCallBack', $('#form-departmentInfo').serialize(), function (data) {
+                $.post('/MSDepartmentInfo/SaveClassCallBack', $('#form-departmentInfo').serialize(), function (data) {
                     if (data.Message == 'OK') {
                         alert('保存成功！');
                         search();
