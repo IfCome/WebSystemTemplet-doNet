@@ -99,7 +99,7 @@
                 <td>{directorName}</td>
                 <td>
                     <div class="tpl-table-black-operation">
-                        <a href="javascript:;" onclick="ModifyClassInfo('{DepartmentID}', '{departmentName}')">
+                        <a href="javascript:;" onclick="ModifyClassInfo('{DepartmentID}', '{departmentName}', '{MajorId}')">
                             <i class="am-icon-pencil"></i> 编辑
                         </a>
                         <a href="javascript:;" onclick="SetDirector('{DepartmentID}', '{MajorId}', '{DirectorId}')">
@@ -115,7 +115,7 @@
 <div class="am-modal am-modal-confirm" tabindex="-1" id="dialog-departmentName">
     <div class="am-modal-dialog tpl-model-dialog">
         <div class="am-modal-hd">
-            <label class="am-form-label">选择专业并写班级名称</label>
+            <label class="am-form-label" id="dialog-departmentName-hd">选择专业并写班级名称</label>
         </div>
         <div class="am-modal-bd">
             <div style="padding: 5px 20px;">
@@ -266,15 +266,22 @@
 
     }
 
-    function ModifyClassInfo(departmentId, departmentName) {
+    function ModifyClassInfo(departmentId, departmentName, majorId) {
+        // 修改页面样式初始化
         $('#departmentId').val(departmentId);
-        $('#departmentName').val(departmentName);
+        $('#departmentName').val(departmentName).removeClass('am-margin-top-lg');
+        $('#dialog-selectMajorId').val(majorId).selected('destroy').hide();
         $('#form-departmentInfo .am-alert').text('').hide();
+        $('#dialog-departmentName-hd').text("请输入班级名称")
         $('#dialog-departmentName').modal(modalOptions_departmentInfo);
     }
     function AddClassInfo() {
+        // 添加页面样式初始化
         $('#form-departmentInfo .am-alert').text('').hide();
-        $('#form-departmentInfo input').val('').change();        
+        $('#form-departmentInfo input').val('').change();
+        $('#departmentName').addClass('am-margin-top-lg');
+        $('#dialog-selectMajorId').selected('destroy').selected({ searchBox: 1, maxHeight: 100, btnSize: 'md' });
+        $('#dialog-departmentName-hd').text("选择专业并写班级名称")
         $('#dialog-departmentName').modal(modalOptions_departmentInfo);
     }
 

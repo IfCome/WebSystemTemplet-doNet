@@ -129,7 +129,7 @@
                   class="am-close">&times;</span>
         </div>
         <div class="am-popup-bd">
-            <form id="form-userinfo" class="am-form tpl-form-border-form tpl-form-border-br">                
+            <form id="form-userinfo" class="am-form tpl-form-border-form tpl-form-border-br">
                 <input type="hidden" name="userId" value="12" />
                 <div class="am-form-group">
                     <label for="p-real-name" class="am-u-sm-3 am-form-label">姓名：</label>
@@ -263,8 +263,8 @@
         }, 'json');
 
     }
-    function ViewUser(userId) {        
-        $('#popup-userDetails .tpl-form-label').text('--');// 清空旧数据        
+    function ViewUser(userId) {
+        $('#popup-userDetails .tpl-form-label').text('--');// 清空旧数据
         $('#popup-userDetails').modal('open');
         // 查询用户信息
         $.get('/msuserinfo/getteacherdetails?userid=' + userId, {}, function (result) {
@@ -275,7 +275,7 @@
                     $('#p-real-name').text(userInfo.RealName || '--');
                     $('#p-user-school').text(userInfo.SchoolName || '--');
                     $('#p-user-major').text(userInfo.MajorName || '--');
-                    $('#p-user-gender').text(userInfo.Gender || '--');
+                    $('#p-user-gender').text(userInfo.Gender == '0' ? '女' : '男');
                     $('#p-user-phone').text(userInfo.TelePhone || '--');
                     $('#p-user-qq').text(userInfo.QQ || '--');
                     $('#p-user-email').text(userInfo.Email || '--');
@@ -288,7 +288,7 @@
     }
     function EditUser(userId) {
         window.location.href = "/msuserinfo/teachereditpage?userid=" + userId;
-    } 
+    }
 
     function DeleteUser(userId, realName) {
         if (confirm("确定删除" + realName + "?")) {

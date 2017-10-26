@@ -66,8 +66,6 @@ namespace WebSystemTemplet.DAL.Admin
                         UPDATE [MSDepartmentInfo]
                         SET
                             [DepartmentName] = @DepartmentName
-                            ,[DepartmentLevel] = @DepartmentLevel
-                            ,[ParentID] = @ParentID
                             ,[UpdateTime] = @UpdateTime
                             ,[UpdateUser] = @UpdateUser
                         WHERE 
@@ -76,8 +74,6 @@ namespace WebSystemTemplet.DAL.Admin
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter() { ParameterName = "@DepartmentID", Value = entity.DepartmentID });
             parameters.Add(new SqlParameter() { ParameterName = "@DepartmentName", Value = entity.DepartmentName });
-            parameters.Add(new SqlParameter() { ParameterName = "@DepartmentLevel", Value = entity.DepartmentLevel });
-            parameters.Add(new SqlParameter() { ParameterName = "@ParentID", Value = entity.ParentID });
             parameters.Add(new SqlParameter() { ParameterName = "@UpdateTime", Value = entity.UpdateTime });
             parameters.Add(new SqlParameter() { ParameterName = "@UpdateUser", Value = entity.UpdateUser });
 
