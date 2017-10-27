@@ -53,6 +53,7 @@ $(function () {
             selectMenu.addClass('active')
         }
     }
+
 })
 
 // 页面数据
@@ -392,3 +393,31 @@ function closeLoading() {
     }
 }
 
+window.onbeforeunload = function() {
+    openLoading('正在跳转...');
+}
+// ajax全局处理
+$.ajaxSetup({
+    type: "POST",
+    error: function (jqXHR, textStatus, errorThrown) {
+        switch (jqXHR.status) {
+            case (500):
+                alert("服务器系统内部错误");
+                break;
+            case (401):
+                window.location.href = "/admin/home/indexpage.html";
+                break;
+            case (403):
+                alert("无权限执行此操作");
+                break;
+            case (404):
+                alert("请求路径错误");
+                break;
+            case (408):
+                alert("请求超时");
+                break;
+            default:
+                alert("未知错误");
+        }
+    }
+});

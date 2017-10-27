@@ -41,7 +41,7 @@ namespace WebSystemTemplet.Utility
                 }
                 return entity;
             }
-            catch(Exception ex)
+            catch(Exception )
             {
                 //CommonMethod.WriteTxt_Log(ex);
                 return default(T);

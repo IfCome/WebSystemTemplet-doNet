@@ -36,8 +36,17 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                     }
                 }
             }
-            // 没有登录成功者返回登录页面
-            filterContext.Result = Redirect(Url.Action("Index", "Login"));
+            if (Request.IsAjaxRequest())
+            {
+                Response.StatusCode = 401; //未登录  
+                Response.End();
+                filterContext.Result = new EmptyResult();
+            }
+            else
+            {
+                // 没有登录成功者返回登录页面
+                filterContext.Result = Redirect(Url.Action("Index", "Login"));
+            }
             return;
         }
     }
