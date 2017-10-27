@@ -47,7 +47,7 @@ namespace WebSystemTemplet.UI
 
             if (isAdmin)
             {
-                Response.Redirect("~/Admin/ErrorPages/" + errorPage);
+                Server.TransferRequest("~/Admin/ErrorPages/" + errorPage);
             }
             else
             {
