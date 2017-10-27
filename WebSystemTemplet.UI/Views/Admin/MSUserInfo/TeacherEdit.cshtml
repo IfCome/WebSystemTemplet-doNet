@@ -96,7 +96,7 @@
 
                             <div class="am-form-group">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
-                                    <button id="btnSave" type="button" onclick="window.location.href = '/MSUserInfo/TeacherList';" class="am-btn am-btn-default tpl-btn-bg-color-success">取消</button>
+                                    <button id="btnSave" type="button" onclick="window.location.href = '/admin/MSUserInfo/TeacherList';" class="am-btn am-btn-default tpl-btn-bg-color-success">取消</button>
                                     <button id="btnCancel" type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success am-margin-left-lg">保存</button>
                                 </div>
                             </div>
@@ -130,10 +130,10 @@
             submit: function (e) {
                 var formValidity = this.isFormValid();
                 if (formValidity) {
-                    $.post('/MSUserInfo/EditUserInfoCallBack', $('#form-userinfo').serialize(), function (data) {
+                    $.post('/admin/MSUserInfo/EditUserInfoCallBack', $('#form-userinfo').serialize(), function (data) {
                         if (data.Message == 'OK') {
                             alert('保存成功！');
-                            window.location.href = '/MSUserInfo/TeacherList';
+                            window.location.href = '/admin/MSUserInfo/TeacherList';
                         } else {
                             alert(data.Message);
                         }

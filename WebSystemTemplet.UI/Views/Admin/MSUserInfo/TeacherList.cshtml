@@ -231,7 +231,7 @@
         };
         modelData.isSearching = true;
         openLoading();
-        $.get('/MSUserInfo/getteacherlist', data, function (result) {
+        $.get('/admin/MSUserInfo/getteacherlist', data, function (result) {
             if (result) {
                 // 清空数据
                 $("#tbDataList>tbody").html('');
@@ -267,7 +267,7 @@
         $('#popup-userDetails .tpl-form-label').text('--');// 清空旧数据
         $('#popup-userDetails').modal('open');
         // 查询用户信息
-        $.get('/msuserinfo/getteacherdetails?userid=' + userId, {}, function (result) {
+        $.get('/admin/msuserinfo/getteacherdetails?userid=' + userId, {}, function (result) {
             if (result) {
                 if (result.Message == 'OK') {
                     var userInfo = result.UserInfo;
@@ -287,12 +287,12 @@
         });
     }
     function EditUser(userId) {
-        window.location.href = "/msuserinfo/teachereditpage?userid=" + userId;
+        window.location.href = "/admin/msuserinfo/teachereditpage?userid=" + userId;
     }
 
     function DeleteUser(userId, realName) {
         if (confirm("确定删除" + realName + "?")) {
-            $.post('/MSUserInfo/DeleteUser', { userId: userId }, function (result) {
+            $.post('/admin/MSUserInfo/DeleteUser', { userId: userId }, function (result) {
                 if (result) {
                     if (result.Message == 'OK') {
                         search();
@@ -310,7 +310,7 @@
     $(function () {
         search();
         $('#btnAddTeacher').click(function () {
-            window.location.href = "/msuserinfo/teacheraddpage";
+            window.location.href = "/admin/msuserinfo/teacheraddpage";
         });
     })
 

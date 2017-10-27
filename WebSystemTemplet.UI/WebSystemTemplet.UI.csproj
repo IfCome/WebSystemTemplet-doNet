@@ -344,6 +344,7 @@
     <Compile Include="Controllers\Admin\MSUserInfoController.cs" />
     <Compile Include="Controllers\Admin\PCBaseController.cs" />
     <Compile Include="Controllers\Admin\UserInfoController.cs" />
+    <Compile Include="Controllers\Site\HomeController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -426,6 +427,7 @@
     <Content Include="Views\Admin\MSDepartmentInfo\MajorList.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\TeacherEdit.cshtml" />
     <Content Include="Views\Admin\MSDepartmentInfo\ClassList.cshtml" />
+    <Content Include="Views\Site\Home\IndexPage.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

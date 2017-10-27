@@ -13,15 +13,34 @@ namespace WebSystemTemplet.UI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            routes.MapRoute(name: "html", url: "{controller}/{action}.html");
-            routes.MapRoute(name: "do", url: "{controller}/{action}.do");
-            routes.MapRoute(name: "api", url: "{controller}/{action}.api");
-
+            // 后台管理系统路由
+            // 先定义.html
             routes.MapRoute(
-                name: "Default",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "IndexPage", id = UrlParameter.Optional }
+                name: "admin_html",
+                url: "admin/{controller}/{action}.html",
+                defaults: new { controller = "Home", action = "IndexPage" },
+                namespaces: new[] { "WebSystemTemplet.UI.Controllers.Admin" }
             );
+            routes.MapRoute(
+                name: "admin",
+                url: "admin/{controller}/{action}",
+                defaults: new { controller = "Home", action = "IndexPage" },
+                namespaces: new[] { "WebSystemTemplet.UI.Controllers.Admin" }
+            );
+
+            //// 门户网站路由
+            //routes.MapRoute(
+            //    name: "site_html",
+            //    url: "{controller}/{action}.html",
+            //    defaults: new { controller = "Home", action = "IndexPage" },
+            //    namespaces: new[] { "WebSystemTemplet.UI.Controllers.Site" }
+            //);
+            //routes.MapRoute(
+            //    name: "site",
+            //    url: "{controller}/{action}",
+            //    defaults: new { controller = "Home", action = "IndexPage" },
+            //    namespaces: new[] { "WebSystemTemplet.UI.Controllers.Site" }
+            //);
         }
     }
 }

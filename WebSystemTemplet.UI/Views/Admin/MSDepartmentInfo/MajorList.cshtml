@@ -182,7 +182,7 @@
         };
         modelData.isSearching = true;
         openLoading();
-        $.get('/MSDepartmentInfo/GetMajorList', data, function (result) {
+        $.get('/admin/MSDepartmentInfo/GetMajorList', data, function (result) {
             if (result) {
                 // 清空数据
                 $("#tbDataList>tbody").html('');
@@ -215,7 +215,7 @@
     }
 
     function getTeacherListByMajorId(majorId, currentDirectorId) {
-        $.get('/MSUserInfo/GetAllBaseUserInfoList', { RoleId: 1, MajorId: majorId }, function (result) {
+        $.get('/admin/MSUserInfo/GetAllBaseUserInfoList', { RoleId: 1, MajorId: majorId }, function (result) {
             if (result) {
                 // 清空数据
                 if (result.Rows != null && result.Rows.length > 0) {
@@ -261,7 +261,7 @@
         closeOnConfirm: false,
         onConfirm: function (options) {
             if ($('#form-departmentInfo').validator('isFormValid')) {
-                $.post('/MSDepartmentInfo/SaveMajorCallBack', $('#form-departmentInfo').serialize(), function (data) {
+                $.post('/admin/MSDepartmentInfo/SaveMajorCallBack', $('#form-departmentInfo').serialize(), function (data) {
                     if (data.Message == 'OK') {
                         alert('保存成功！');
                         search();
@@ -278,7 +278,7 @@
         closeOnConfirm: false,
         onConfirm: function (options) {
             if ($('#form-setDirector').validator('isFormValid')) {
-                $.post('/MSDepartmentInfo/setDirectorInfo', $('#form-setDirector').serialize(), function (data) {
+                $.post('/admin/MSDepartmentInfo/setDirectorInfo', $('#form-setDirector').serialize(), function (data) {
                     if (data.Message == 'OK') {
                         alert('保存成功！');
                         search();
