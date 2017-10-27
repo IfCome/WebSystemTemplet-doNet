@@ -122,10 +122,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\bootstrap.css" />
-    <Content Include="Content\bootstrap.min.css" />
-    <Content Include="Content\Site.css" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Resources\adminassets\css\amazeui.page.css" />
     <Content Include="Resources\adminassets\img\head\01.gif" />
@@ -139,36 +135,6 @@
     <Content Include="Resources\adminassets\img\head\14.gif" />
     <Content Include="Resources\adminassets\img\head\15.gif" />
     <Content Include="Resources\adminassets\js\amazeui.page.js" />
-    <Content Include="Resources\amazeuiassets\css\admin.css" />
-    <Content Include="Resources\amazeuiassets\css\amazeui.css" />
-    <Content Include="Resources\amazeuiassets\css\amazeui.flat.css" />
-    <Content Include="Resources\amazeuiassets\css\amazeui.flat.min.css" />
-    <Content Include="Resources\amazeuiassets\css\amazeui.min.css" />
-    <Content Include="Resources\amazeuiassets\css\app.css" />
-    <Content Include="Resources\amazeuiassets\fonts\fontawesome-webfont.svg" />
-    <Content Include="Resources\amazeuiassets\i\app-icon72x72%402x.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\admin-chrome.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\admin-firefox.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\admin-ie.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\admin-opera.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\admin-safari.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\adminPage.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\blogPage.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\landing.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\landingPage.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\loginPage.png" />
-    <Content Include="Resources\amazeuiassets\i\examples\sidebarPage.png" />
-    <Content Include="Resources\amazeuiassets\i\favicon.png" />
-    <Content Include="Resources\amazeuiassets\i\startup-640x1096.png" />
-    <Content Include="Resources\amazeuiassets\js\amazeui.ie8polyfill.js" />
-    <Content Include="Resources\amazeuiassets\js\amazeui.ie8polyfill.min.js" />
-    <Content Include="Resources\amazeuiassets\js\amazeui.js" />
-    <Content Include="Resources\amazeuiassets\js\amazeui.min.js" />
-    <Content Include="Resources\amazeuiassets\js\amazeui.widgets.helper.js" />
-    <Content Include="Resources\amazeuiassets\js\amazeui.widgets.helper.min.js" />
-    <Content Include="Resources\amazeuiassets\js\app.js" />
-    <Content Include="Resources\amazeuiassets\js\handlebars.min.js" />
-    <Content Include="Resources\amazeuiassets\js\jquery.min.js" />
     <Content Include="Resources\adminassets\css\admin.css" />
     <Content Include="Resources\adminassets\css\amazeui.datatables.min.css" />
     <Content Include="Resources\adminassets\css\amazeui.min.css" />
@@ -209,72 +175,7 @@
     <Content Include="Resources\adminassets\js\fullcalendar.min.js" />
     <Content Include="Resources\adminassets\js\jquery.min.js" />
     <Content Include="Resources\adminassets\js\moment.js" />
-    <Content Include="Resources\css\amazeui.touch.min.css" />
-    <Content Include="Resources\css\LoginStyle.css" />
-    <Content Include="Resources\images\hand.png" />
-    <Content Include="Resources\images\left-handing.png" />
-    <Content Include="Resources\images\left_hand.png" />
-    <Content Include="Resources\images\password.png" />
-    <Content Include="Resources\images\right_hand.png" />
-    <Content Include="Resources\images\right_handing.png" />
-    <Content Include="Resources\images\tou.png" />
-    <Content Include="Resources\images\username.png" />
-    <Content Include="Resources\js\ajaxfileupload.js" />
-    <Content Include="Resources\js\app.min.js" />
-    <Content Include="Resources\js\jqPaginator.js" />
-    <Content Include="Resources\js\jquery-1.9.1.min.js" />
-    <Content Include="Resources\progressbar\css\default.css" />
-    <Content Include="Resources\progressbar\css\ProgressBarWars.css" />
-    <Content Include="Resources\progressbar\fonts\icomoon.svg" />
-    <Content Include="Resources\progressbar\img\darth.jpg" />
-    <Content Include="Resources\progressbar\img\Lasers.png" />
-    <Content Include="Resources\progressbar\img\starwars-logo.png" />
-    <Content Include="Resources\progressbar\js\jquery-2.1.1.min.js" />
-    <Content Include="Resources\progressbar\js\ProgressBarWars.js" />
-    <Content Include="Resources\wap\css\cart\com1-3.css" />
-    <Content Include="Resources\wap\css\cart\com1-4.css" />
-    <Content Include="Resources\wap\css\cart\index.css" />
-    <Content Include="Resources\wap\css\cart\zip.touch.cart.css" />
-    <Content Include="Resources\wap\css\com\com.css" />
-    <Content Include="Resources\wap\css\com\index.css" />
-    <Content Include="Resources\wap\css\home\index.css" />
-    <Content Include="Resources\wap\css\usercenter\meber2.0.css" />
-    <Content Include="Resources\wap\css\usercenter\member.css" />
-    <Content Include="Resources\wap\images\cart\index.gif" />
-    <Content Include="Resources\wap\images\goods\index.gif" />
-    <Content Include="Resources\wap\images\home\bg.png" />
-    <Content Include="Resources\wap\images\home\left.png" />
-    <Content Include="Resources\wap\images\usercenter\ajax-loader.gif" />
-    <Content Include="Resources\wap\images\usercenter\base.png" />
-    <Content Include="Resources\wap\images\usercenter\member.jpg" />
-    <Content Include="Resources\wap\images\usercenter\member.png" />
-    <Content Include="Resources\wap\images\usercenter\user.png" />
-    <Content Include="Resources\wap\js\com\com.js" />
-    <Content Include="Resources\wap\js\com\index.js" />
-    <Content Include="Resources\wap\js\com\jquery.touchslider.min.js" />
-    <Content Include="Resources\wap\js\com\px-verify.js" />
-    <Content Include="Resources\wap\js\com\template.js" />
-    <Content Include="Resources\wap\js\home\index.js" />
-    <Content Include="Resources\wap\js\iscroll.js" />
-    <Content Include="Resources\wap\js\jquery-1.8.3.min.js" />
-    <Content Include="Resources\wap\js\jquery.js" />
-    <Content Include="Resources\wap\js\px-verify.js" />
-    <Content Include="Resources\wap\js\search\common.js" />
-    <Content Include="Resources\wap\js\search\jquery-1.6.2.min.js" />
-    <Content Include="Resources\wap\js\search\spin.min.js" />
-    <Content Include="Resources\wap\js\shoppingcart.js" />
-    <Content Include="Resources\wap\js\zepto.min.js" />
-    <Content Include="Resources\wap\search\all_html5.css" />
-    <Content Include="Resources\wap\search\base2013.css" />
-    <Content Include="scripts\ai.0.22.9-build00167.js" />
-    <Content Include="scripts\ai.0.22.9-build00167.min.js" />
-    <Content Include="scripts\bootstrap.js" />
-    <Content Include="scripts\bootstrap.min.js" />
     <Content Include="Log4Net.config" />
-    <None Include="scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="scripts\jquery-1.10.2.js" />
-    <Content Include="scripts\jquery-1.10.2.min.js" />
-    <Content Include="scripts\modernizr-2.6.2.js" />
     <Content Include="StaticPages\Admin\404.html" />
     <Content Include="StaticPages\Admin\assets\css\admin.css" />
     <Content Include="StaticPages\Admin\assets\css\amazeui.datatables.min.css" />
@@ -370,15 +271,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <Content Include="Resources\amazeuiassets\fonts\fontawesome-webfont.eot" />
-    <Content Include="Resources\amazeuiassets\fonts\fontawesome-webfont.ttf" />
-    <Content Include="Resources\amazeuiassets\fonts\fontawesome-webfont.woff" />
-    <Content Include="Resources\amazeuiassets\fonts\fontawesome-webfont.woff2" />
-    <Content Include="Resources\amazeuiassets\fonts\FontAwesome.otf" />
-    <Content Include="Resources\progressbar\fonts\icomoon.eot" />
-    <Content Include="Resources\progressbar\fonts\icomoon.ttf" />
-    <Content Include="Resources\progressbar\fonts\icomoon.woff" />
-    <Content Include="Resources\wap\images\home\index.gif%4011" />
     <Content Include="Views\Common\FootPart.cshtml" />
     <Content Include="Views\Common\SharePart.cshtml" />
     <Content Include="Views\Common\SideBar.cshtml" />
@@ -422,10 +314,6 @@
     <Content Include="Views\Admin\Common\HeadPart.cshtml" />
     <Content Include="Views\Admin\Common\TipsTool.cshtml" />
     <Content Include="Views\Admin\Common\ScriptPart.cshtml" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="scripts\jquery-1.10.2.min.map" />
     <Content Include="Views\Admin\Common\_Layout.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\TeacherList.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\TeacherAdd.cshtml" />
@@ -442,7 +330,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Resources\wap\scss\" />
     <Folder Include="StaticPages\Site\" />
   </ItemGroup>
   <ItemGroup>
