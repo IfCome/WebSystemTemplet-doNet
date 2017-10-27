@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace WebSystemTemplet.UI.Controllers.Admin
 {
-    public class ErrorPagesController : Controller
+    public class ErrorPagesController : PCBaseController
     {
         // GET: ErrorPages
         public ActionResult _404()

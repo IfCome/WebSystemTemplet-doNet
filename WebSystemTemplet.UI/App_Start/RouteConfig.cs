@@ -13,6 +13,9 @@ namespace WebSystemTemplet.UI
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
+
+
+
             // 后台管理系统路由
             // 先定义.html
             routes.MapRoute(
@@ -28,19 +31,25 @@ namespace WebSystemTemplet.UI
                 namespaces: new[] { "WebSystemTemplet.UI.Controllers.Admin" }
             );
 
-            //// 门户网站路由
-            //routes.MapRoute(
-            //    name: "site_html",
-            //    url: "{controller}/{action}.html",
-            //    defaults: new { controller = "Home", action = "IndexPage" },
-            //    namespaces: new[] { "WebSystemTemplet.UI.Controllers.Site" }
-            //);
-            //routes.MapRoute(
-            //    name: "site",
-            //    url: "{controller}/{action}",
-            //    defaults: new { controller = "Home", action = "IndexPage" },
-            //    namespaces: new[] { "WebSystemTemplet.UI.Controllers.Site" }
-            //);
+            // 门户网站路由
+            routes.MapRoute(
+                name: "site_html",
+                url: "{controller}/{action}.html",
+                defaults: new { controller = "Home", action = "IndexPage" },
+                namespaces: new[] { "WebSystemTemplet.UI.Controllers.Site" }
+            );
+            routes.MapRoute(
+                name: "site",
+                url: "{controller}/{action}",
+                defaults: new { controller = "Home", action = "IndexPage" },
+                namespaces: new[] { "WebSystemTemplet.UI.Controllers.Site" }
+            );
+
+            routes.MapRoute(
+                name: "default",
+                url: "{*extrastuff}"
+            );
+
         }
     }
 }
