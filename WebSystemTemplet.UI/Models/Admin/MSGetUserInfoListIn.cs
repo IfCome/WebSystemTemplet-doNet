@@ -29,5 +29,10 @@ namespace WebSystemTemplet.UI.Models.Admin
         /// 班级 ID
         /// </summary>
         public long ClassId { get; set; }
+
+        /// <summary>
+        /// 角色ID
+        /// </summary>
+        public long RoleId { get; set; }
     }
 }

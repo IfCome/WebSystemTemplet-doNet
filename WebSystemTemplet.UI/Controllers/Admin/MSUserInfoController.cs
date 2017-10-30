@@ -17,7 +17,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             SqlParams sqlParams = new SqlParams();
             sqlParams.PageIndex = 9999;
             sqlParams.PageSize = 1;
-            sqlParams.addUsefulParam("roleId", (int)RoleType.教职工);
+            sqlParams.addUsefulParam("roleId", InModel.RoleId);
             sqlParams.addUsefulParam("majorId", InModel.MajorId);
             sqlParams.addUsefulParam("classId", InModel.ClassId);
             sqlParams.addUsefulParam("keyWords", InModel.KeyWords);
@@ -35,7 +35,8 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
-        // GET: MSUserInfo
+        #region 教职工管理
+
         public ActionResult TeacherList()
         {
             // 获取所有的专业
@@ -162,6 +163,53 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }
             return Json(new { Message = "未找到该教师资料，请刷新列表重新操作！" }, JsonRequestBehavior.AllowGet);
         }
+
+        #endregion
+
+
+        public ActionResult StudentList()
+        {
+            // 获取所有的专业
+            List<Model.Admin.MSDepartmentInfo> majorList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.专业);
+            ViewBag.MajorList = majorList;
+            // 获取所有的班级
+            List<Model.Admin.MSDepartmentInfo> classList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.班级);
+            ViewBag.ClassList = classList;
+
+            return View("~/Views/Admin/MSUserInfo/StudentList.cshtml");
+        }
+
+
+        [HttpGet]
+        public ActionResult GetStudentList(Models.Admin.MSGetUserInfoListIn InModel)
+        {
+            SqlParams sqlParams = new SqlParams();
+            sqlParams.PageIndex = Converter.TryToInt32(InModel.PageIndex, 1);
+            sqlParams.PageSize = Converter.TryToInt32(InModel.PageSize, sqlParams.PageSize);
+            sqlParams.addUsefulParam("roleId", (int)RoleType.学生);
+            sqlParams.addUsefulParam("PositionType", InModel.PositionType);
+            sqlParams.addUsefulParam("majorId", InModel.MajorId);
+            sqlParams.addUsefulParam("keyWords", InModel.KeyWords);
+
+            int allCount = 0;
+            List<Model.Admin.MSUserInfo> userInfoList = BLL.Admin.MSUserInfoBll.GetAllUserInfoList(sqlParams, out allCount);
+
+            return Json(new
+            {
+                Rows = userInfoList.Select(u => new
+                {
+                    u.UserID,
+                    u.UserName,
+                    u.RealName,
+                    Gender = u.Gender == 0 ? "女" : "男",
+                    MajorName = MSDepartmentInfoBll.GetDepartmentNameById(u.MajorID).IfEmptyToString("--"),
+                    ClassName = MSDepartmentInfoBll.GetDepartmentNameById(u.ClassID).IfEmptyToString("--"),
+                    u.PositionName,
+                }),
+                AllCount = allCount
+            }, JsonRequestBehavior.AllowGet);
+        }
+
 
 
         [HttpPost]

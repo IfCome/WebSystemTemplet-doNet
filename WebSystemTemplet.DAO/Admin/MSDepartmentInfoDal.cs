@@ -90,25 +90,19 @@ namespace WebSystemTemplet.DAL.Admin
         /// 查询所有实体列表（不存在时，返回null）
         /// </summary>
         /// <param name="databaseConnectionString">数据库链接字符串</param>
-        public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentNameAndId(int departmentLevel = -1)
+        public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentNameAndId()
         {
             var sql = @"
                         SELECT 
                                 [DepartmentID]
-                                ,[DepartmentName]                   
+                                ,[DepartmentName]  
+                                ,[DepartmentLevel]     
+                                ,[ParentId]                  
                         FROM [MSDepartmentInfo] WITH (NOLOCK)
                         WHERE [Deleted] = 0
-                        {0}
                         ORDER BY [DepartmentName]
                     ";
             var parameters = new List<SqlParameter>();
-            var sqlWhere = "";
-            if (departmentLevel > 0)
-            {
-                sqlWhere += " AND DepartmentLevel = @DepartmentLevel ";
-                parameters.Add(new SqlParameter() { ParameterName = "@DepartmentLevel", Value = departmentLevel });
-            }
-            sql = string.Format(sql, sqlWhere);
             var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
 
             if (dataTable.Rows.Count > 0)
@@ -116,7 +110,9 @@ namespace WebSystemTemplet.DAL.Admin
                 return dataTable.AsEnumerable().Select(row => new Model.Admin.MSDepartmentInfo()
                 {
                     DepartmentID = Converter.TryToInt64(row["DepartmentID"], -1),
-                    DepartmentName = Converter.TryToString(row["DepartmentName"], string.Empty)
+                    DepartmentName = Converter.TryToString(row["DepartmentName"], string.Empty),
+                    ParentID = Converter.TryToInt64(row["ParentId"], -1),
+                    DepartmentLevel = Converter.TryToInt32(row["DepartmentLevel"], -1)
                 }).ToList();
             }
             else

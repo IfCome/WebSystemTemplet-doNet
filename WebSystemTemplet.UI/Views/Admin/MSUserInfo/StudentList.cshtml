@@ -1,0 +1,329 @@
+﻿@using WebSystemTemplet.Model.Admin
+@{
+    Layout = "~/Views/Admin/Common/_Layout.cshtml";
+}
+@*菜单ID*@
+<input type="hidden" id="admin-current-menu-id" value="menu-studentlist" />
+
+<div class="tpl-content-wrapper">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <ol class="am-breadcrumb">
+                            <li class="am-icon-home widget-title">
+                                首页
+                            </li>
+                            <li class="widget-title">
+                                人员资料管理
+                            </li>
+                            <li class="widget-title">
+                                学生资料
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="widget-body  am-fr">
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-9">
+                            <div class="am-form-group tpl-table-list-select">
+                                <select id="selectPositionType" data-am-selected="{btnSize: 'sm'}">
+                                    <option value="-1">所有岗位</option>
+                                    <option value="20001">班长</option>
+                                    <option value="30001">学生</option>
+                                </select>
+                                <select id="selectMajorId" data-am-selected="{btnSize: 'sm',searchBox:1,maxHeight: 100}">
+                                    <option value="-1">所有专业</option>
+                                    @{
+                                        List<MSDepartmentInfo> majorList = ViewBag.MajorList as List<MSDepartmentInfo>;
+                                        if (majorList != null)
+                                        {
+                                            foreach (MSDepartmentInfo item in majorList)
+                                            {
+                                                <option value="@item.DepartmentID">@item.DepartmentName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                                <select id="selectMajorId" data-am-selected="{btnSize: 'sm',,searchBox:1,maxHeight: 100}">
+                                    <option value="-1">所有班级</option>
+                                    @{
+                                        List<MSDepartmentInfo> classList = ViewBag.ClassList as List<MSDepartmentInfo>;
+                                        if (classList != null)
+                                        {
+                                            foreach (MSDepartmentInfo item in classList)
+                                            {
+                                                <option value="@item.DepartmentID">@item.DepartmentName</option>
+                                            }
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-3">
+                            <div class="am-input-group am-input-group-sm tpl-form-border-form cl-p">
+                                <input id="txtKeyWords" type="text" class="am-form-field " placeholder="学生姓名">
+                                <span class="am-input-group-btn">
+                                    <button id="btnSearch" class="am-btn  am-btn-default am-btn-success tpl-table-list-field am-icon-search" type="button"></button>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                            <div class="am-form-group">
+                                <div class="am-btn-toolbar">
+                                    <div class="am-btn-group am-btn-group-sm">
+                                        <button id="btnAddStudent" type="button" class="am-btn am-btn-default am-btn-success am-radius"><span class="am-icon-plus"></span> 添加教职工资料</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="am-u-sm-12">
+                            <table id="tbDataList" class="am-table am-table-compact am-table-striped tpl-table-black ">
+                                <thead>
+                                    <tr>
+                                        <th>序号</th>
+                                        <th>姓名</th>
+                                        <th>登录名</th>
+                                        <th>性别</th>
+                                        <th>专业</th>
+                                        <th>班级</th>
+                                        <th>岗位</th>
+                                        <th>操作</th>
+                                    </tr>
+                                </thead>
+                                <tbody></tbody>
+                            </table>
+                        </div>
+                        <div class="am-u-lg-12 am-cf">
+                            <div class="am-fr">
+                                <div id="pagerBar"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <table id="listTemplet" class="am-hide">
+        <tbody>
+            <tr class="gradeX">
+                <td>{index}</td>
+                <td>{studentName}</td>
+                <td>{userName}</td>
+                <td>{gender}</td>
+                <td>{majorName}</td>
+                <td>{className}</td>
+                <td>{positionNames}</td>
+                <td>
+                    <div class="tpl-table-black-operation">
+                        <a href="javascript:;" onclick="ViewUser('{UserID}')">
+                            <i class="am-icon-eye"></i> 详情
+                        </a>
+                        <a href="javascript:;" onclick="EditUser('{UserID}')">
+                            <i class="am-icon-pencil"></i> 编辑
+                        </a>
+                        <a href="javascript:;" onclick="DeleteUser('{UserID}', '{studentName}')" class="tpl-table-black-operation-del">
+                            <i class="am-icon-trash"></i> 删除
+                        </a>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="am-popup" id="popup-userDetails">
+    <div class="am-popup-inner tpl-am-popup-inner">
+        <div class="am-popup-hd">
+            <h4 class="am-popup-title">资料详情</h4>
+            <span data-am-modal-close
+                  class="am-close">&times;</span>
+        </div>
+        <div class="am-popup-bd">
+            <form id="form-userinfo" class="am-form tpl-form-border-form tpl-form-border-br">
+                <input type="hidden" name="userId" value="12" />
+                <div class="am-form-group">
+                    <label for="p-real-name" class="am-u-sm-3 am-form-label">姓名：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-real-name" class="am-u-sm-3 am-form-label tpl-form-label">张三李四</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-name" class="am-u-sm-3 am-form-label">登录帐号：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-name" class="am-u-sm-3 am-form-label tpl-form-label">fsadfsad</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-school" class="am-u-sm-3 am-form-label">所属学院：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-school" class="am-u-sm-3 am-form-label tpl-form-label">放沙发上啊的事发生</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-major" class="am-u-sm-3 am-form-label">所属专业：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-major" class="am-u-sm-3 am-form-label tpl-form-label">发生的方法是 阿萨德富士达</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-gender" class="am-u-sm-3 am-form-label">性别：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-gender" class="am-u-sm-3 am-form-label tpl-form-label">男</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-phone" class="am-u-sm-3 am-form-label">手机号：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-phone" class="am-u-sm-3 am-form-label tpl-form-label">1562646565</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-qq" class="am-u-sm-3 am-form-label">QQ：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-qq" class="am-u-sm-3 am-form-label tpl-form-label">2323223</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-email" class="am-u-sm-3 am-form-label">电子邮箱：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-email" class="am-u-sm-3 am-form-label tpl-form-label">4511334@@qq.com</label>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="p-user-remark" class="am-u-sm-3 am-form-label">备注：</label>
+                    <div class="am-u-sm-9">
+                        <label id="p-user-remark" class="am-u-sm-3 am-form-label tpl-form-label">fadsfasf</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+
+    var modelData = {
+        pageIndex: 1,
+        pageSize: 10,
+        isSearching: false,
+    };
+
+    var pagerObj = $("#pagerBar").page({
+        pages: 1, //默认只有1页数据
+        first: "首页", //设置false则不显示，默认为false
+        last: "尾页", //设置false则不显示，默认为false
+        prev: '<', //若不显示，设置false即可，默认为上一页
+        next: '>', //若不显示，设置false即可，默认为下一页
+        groups: 3, //连续显示分页数
+        jump: function (context, first) {
+            modelData.pageIndex = context.option.curr;
+            search();
+        }
+    });
+
+    $('#btnSearch').click(function () {
+        modelData.pageIndex = 1;
+        search();
+    });
+
+    function search() {
+
+        // 正在查询
+        if (modelData.isSearching) {
+            return;
+        }
+        // 整理参数
+        var data = {
+            PageSize: modelData.pageSize,
+            PageIndex: modelData.pageIndex,
+            PositionType: $('#selectPositionType').val(),
+            MajorId: $('#selectMajorId').val(),
+            KeyWords: $('#txtKeyWords').val(),
+        };
+        modelData.isSearching = true;
+        openLoading();
+        $.get('/admin/MSUserInfo/getstudentlist', data, function (result) {
+            if (result) {
+                // 清空数据
+                $("#tbDataList>tbody").html('');
+                if (result.Rows != null && result.Rows.length > 0) {
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        var row = result.Rows[i];
+                        var rowHtml = $("#listTemplet>tbody").html();
+                        rowHtml = rowHtml.replace("{index}", i + 1);
+                        rowHtml = rowHtml.replace(/{studentName}/g, row.RealName);
+                        rowHtml = rowHtml.replace(/{userName}/g, row.UserName);
+                        rowHtml = rowHtml.replace("{gender}", row.Gender);
+                        rowHtml = rowHtml.replace("{majorName}", row.MajorName);
+                        rowHtml = rowHtml.replace("{className}", row.ClassName);
+                        rowHtml = rowHtml.replace("{positionNames}", row.PositionName);
+                        rowHtml = rowHtml.replace(/{UserID}/g, row.UserID);
+                        $("#tbDataList>tbody").append($(rowHtml));
+                    }
+                } else {
+                    $("#tbDataList>tbody").append($('<tr class="gradeX"><td style="text-align: center;" colspan="8">没有对应的数据</td></tr>'));
+                }
+
+                var totalPages = Math.ceil(parseInt(result.AllCount) / modelData.pageSize);
+                pagerObj.setPages(totalPages, modelData.pageIndex);
+            }
+            else {
+                alert("查询出错");
+            }
+            modelData.isSearching = false;
+            closeLoading();
+        }, 'json');
+
+    }
+    function ViewUser(userId) {
+        $('#popup-userDetails .tpl-form-label').text('--');// 清空旧数据
+        $('#popup-userDetails').modal('open');
+        // 查询用户信息
+        $.get('/admin/msuserinfo/getstudentdetails?userid=' + userId, {}, function (result) {
+            if (result) {
+                if (result.Message == 'OK') {
+                    var userInfo = result.UserInfo;
+                    $('#p-user-name').text(userInfo.UserName || '--');
+                    $('#p-real-name').text(userInfo.RealName || '--');
+                    $('#p-user-school').text(userInfo.SchoolName || '--');
+                    $('#p-user-major').text(userInfo.MajorName || '--');
+                    $('#p-user-gender').text(userInfo.Gender == '0' ? '女' : '男');
+                    $('#p-user-phone').text(userInfo.TelePhone || '--');
+                    $('#p-user-qq').text(userInfo.QQ || '--');
+                    $('#p-user-email').text(userInfo.Email || '--');
+                    $('#p-user-remark').text(userInfo.Remark || '--');
+                } else {
+                    alert(result.Message);
+                }
+            }
+        });
+    }
+    function EditUser(userId) {
+        window.location.href = "/admin/msuserinfo/studenteditpage?userid=" + userId;
+    }
+
+    function DeleteUser(userId, realName) {
+        if (confirm("确定删除" + realName + "?")) {
+            $.post('/admin/MSUserInfo/DeleteUser', { userId: userId }, function (result) {
+                if (result) {
+                    if (result.Message == 'OK') {
+                        search();
+                    } else {
+                        alert(result.Message);
+                    }
+                }
+                else {
+                    alert("删除失败，请刷新列表重试");
+                }
+            }, 'json');
+        }
+    }
+
+    $(function () {
+        search();
+        $('#btnAddStudent').click(function () {
+            window.location.href = "/admin/msuserinfo/studentaddpage";
+        });
+    })
+
+</script>

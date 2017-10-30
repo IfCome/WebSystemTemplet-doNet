@@ -33,7 +33,22 @@ namespace WebSystemTemplet.BLL.Admin
 
         public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentInfoByLevel(int departmentLevel)
         {
-            return DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId(departmentLevel);
+            //return DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId(departmentLevel);
+
+            string cacheKey = Model.CacheKeyName.MS_CacheKey_PositionList.ToString();
+            List<Model.Admin.MSDepartmentInfo> resultList = new List<Model.Admin.MSDepartmentInfo>();
+            List<Model.Admin.MSDepartmentInfo> departmentList = CacheHelper.GetCache(cacheKey) as List<Model.Admin.MSDepartmentInfo>;
+            if (departmentList == null)
+            {
+                departmentList = DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId();
+                // 不设置过期时间，当更新组织架构时，清除缓存
+                CacheHelper.SetCache(cacheKey, departmentList);
+            }
+            if (departmentList != null)
+            {
+                resultList = departmentList.Where(d => d.DepartmentLevel == departmentLevel).ToList();
+            }
+            return resultList;
         }
 
         public static List<Model.Admin.MSDepartmentInfo> GetAllMSDepartmentInfoList(SqlParams sqlParams, out int allCount)
@@ -110,6 +125,7 @@ namespace WebSystemTemplet.BLL.Admin
             {
                 // 清空组织架构缓存
                 CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_PositionName.ToString());
+                CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_PositionList.ToString());
             }
             return re;
         }
