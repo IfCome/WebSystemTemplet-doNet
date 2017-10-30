@@ -1,4 +1,5 @@
-﻿@{
+﻿@using WebSystemTemplet.Utility
+@{
     Layout = null;
 }
 
@@ -14,8 +15,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="renderer" content="webkit">
     <meta http-equiv="Cache-Control" content="no-siteapp" />
-    <link rel="icon" type="image/png" href="~/Resources/adminassets/i/favicon.png">
-    <link rel="apple-touch-icon-precomposed" href="~/Resources/adminassets/i/app-icon72x72@2x.png">
+    <link rel="icon" type="image/png" href="~/Resources/adminassets/i/favicon.png?v=@Config.SourceVersion">
+    <link rel="apple-touch-icon-precomposed" href="~/Resources/adminassets/i/app-icon72x72@2x.png?v=@Config.SourceVersion">
     @Html.Partial("~/Views/Admin/Common/HeadPart.cshtml")
 </head>
 <body data-type="login">
@@ -59,10 +60,9 @@
     </div>
 </body>
 </html>
-<script src="~/Resources/adminassets/js/jquery.min.js"></script>
-<script src="~/Resources/adminassets/js/amazeui.min.js"></script>
-<script src="~/Resources/adminassets/js/app.js"></script>
-<script src="~/Resources/adminassets/js/theme.js"></script>
+<script src="~/Resources/adminassets/js/jquery.min.js?v=@Config.SourceVersion"></script>
+<script src="~/Resources/adminassets/js/amazeui.min.js?v=@Config.SourceVersion"></script>
+<script src="~/Resources/adminassets/js/app.js?v=@Config.SourceVersion"></script>
 <script type="text/javascript">
     $(function () {
         bindFunction();
