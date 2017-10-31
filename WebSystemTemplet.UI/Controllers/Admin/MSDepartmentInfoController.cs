@@ -30,14 +30,55 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         /// <summary>
         /// 组织架构概览
         /// </summary>
-        public ActionResult DepartmentList()
-        {
-            return View("~/Views/Admin/MSDepartmentInfo/DepartmentList.cshtml");
-        }
-
-
         public ActionResult DepartmentTree()
         {
+            // 查询学院
+            List<Model.Admin.MSDepartmentInfo> schoolList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoParentId(0) ?? new List<Model.Admin.MSDepartmentInfo>();
+            if (schoolList != null && schoolList.Count > 0)
+            {
+                Models.Admin.DepartmentTreeModelOut schoolNode = new Models.Admin.DepartmentTreeModelOut();
+                schoolNode.name = schoolList[0].DepartmentName;
+
+                Model.Admin.MSUserInfo directorUserInfo = BLL.Admin.MSUserPositionRelationBll.GetUserByDepartmentIdAndPositionType(schoolList[0].DepartmentID, (int)Model.PositionType.院长);
+                schoolNode.directorName = "院长：" + (directorUserInfo == null ? "--" : directorUserInfo.RealName);
+
+                schoolNode.children = new List<Models.Admin.DepartmentTreeModelOut>();
+
+                // 查询专业
+                List<Model.Admin.MSDepartmentInfo> majorList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoParentId(schoolList[0].DepartmentID) ?? new List<Model.Admin.MSDepartmentInfo>();
+                if (majorList != null && majorList.Count > 0)
+                {
+                    foreach (Model.Admin.MSDepartmentInfo majorItem in majorList)
+                    {
+                        Models.Admin.DepartmentTreeModelOut majorNode = new Models.Admin.DepartmentTreeModelOut();
+                        majorNode.name = majorItem.DepartmentName;
+
+                        directorUserInfo = BLL.Admin.MSUserPositionRelationBll.GetUserByDepartmentIdAndPositionType(majorItem.DepartmentID, (int)Model.PositionType.系主任);
+                        majorNode.directorName = "系主任：" + (directorUserInfo == null ? "--" : directorUserInfo.RealName);
+
+                        majorNode.children = new List<Models.Admin.DepartmentTreeModelOut>();
+
+                        // 查询班级
+                        List<Model.Admin.MSDepartmentInfo> classList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoParentId(majorItem.DepartmentID) ?? new List<Model.Admin.MSDepartmentInfo>();
+                        if (classList != null && classList.Count > 0)
+                        {
+                            foreach (Model.Admin.MSDepartmentInfo classItem in classList)
+                            {
+                                Models.Admin.DepartmentTreeModelOut classNode = new Models.Admin.DepartmentTreeModelOut();
+                                classNode.name = classItem.DepartmentName;
+
+                                directorUserInfo = BLL.Admin.MSUserPositionRelationBll.GetUserByDepartmentIdAndPositionType(classItem.DepartmentID, (int)Model.PositionType.班主任);
+                                classNode.directorName = "班主任：" + (directorUserInfo == null ? "--" : directorUserInfo.RealName);
+
+                                majorNode.children.Add(classNode);
+                            }
+                        }
+                        schoolNode.children.Add(majorNode);
+                    }
+                }
+                // 将对象转化为json字符串传到前端
+                ViewBag.DepartmentTreeNode = JsonEntityExchange<object>.ConvertEntityToJson(schoolNode);
+            }
             return View("~/Views/Admin/MSDepartmentInfo/DepartmentTree.cshtml");
         }
 

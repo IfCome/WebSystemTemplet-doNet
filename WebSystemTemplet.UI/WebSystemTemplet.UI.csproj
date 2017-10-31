@@ -237,7 +237,7 @@
     <Content Include="StaticPages\Admin\table-list.html" />
     <Content Include="StaticPages\Admin\tables.html" />
     <Content Include="Views\Admin\ErrorPages\_500.cshtml" />
-    <Content Include="Views\Admin\MSDepartmentInfo\DepartmentList.cshtml" />
+    <Content Include="Views\Admin\MSDepartmentInfo\DepartmentTree.cshtml" />
     <None Include="Properties\PublishProfiles\publishToAliyun.pubxml" />
     <None Include="Properties\PublishProfiles\publishToLocal.pubxml" />
     <Content Include="Web.config" />
@@ -260,6 +260,7 @@
     </Compile>
     <Compile Include="Models\Admin\AddGoodsCallBackIn.cs" />
     <Compile Include="Models\Admin\AddHuoDongInfoIn.cs" />
+    <Compile Include="Models\Admin\DepartmentTreeModelOut.cs" />
     <Compile Include="Models\Admin\MSUserInfoModel.cs" />
     <Compile Include="Models\Admin\BackGroundUserInfoModelIn.cs" />
     <Compile Include="Models\Admin\GetConsumerInfoListIn.cs" />
@@ -329,7 +330,6 @@
     <Content Include="Views\Admin\MSUserInfo\StudentList.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\StudentAdd.cshtml" />
     <Content Include="Views\Admin\MSUserInfo\StudentEdit.cshtml" />
-    <Content Include="Views\Admin\MSDepartmentInfo\DepartmentTree.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

@@ -1,86 +1,91 @@
 ﻿@using WebSystemTemplet.Utility
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <title>Organization Chart Plugin</title>
-    <link rel="stylesheet" href="~/Resources/adminassets/css/font-awesome.min.css?v=@Config.SourceVersion">
-    <link rel="stylesheet" href="~/Resources/adminassets/css/jquery.orgchart.css?v=@Config.SourceVersion">
-    <style>
-        html, body {
-            width: 100%;
-            height: 100%;
-            margin: 0;
-            padding: 0;
-        }
+@{
+    Layout = "~/Views/Admin/Common/_Layout.cshtml";
+}
+@*菜单ID*@
+<input type="hidden" id="admin-current-menu-id" value="menu-departmentlist" />
 
-        body {
-            font-family: Arial;
-            font-size: 14px;
-            line-height: 1.428571429;
-            color: #333333;
-        }
+<link rel="stylesheet" href="~/Resources/adminassets/css/font-awesome.min.css?v=@Config.SourceVersion">
+<link rel="stylesheet" href="~/Resources/adminassets/css/jquery.orgchart.css?v=@Config.SourceVersion">
+<style>
+    #chart-container {
+        font-family: Arial;
+        font-size: 14px;
+        line-height: 1.428571429;
+        color: #333333;
+        position: relative;
+        display: inline-block;
+        top: 10px;
+        left: 10px;
+        height: 600px;
+        width: calc(100% - 24px);
+        border: 2px dashed #aaa;
+        border-radius: 5px;
+        overflow: auto;
+        text-align: center;
+    }
+</style>
 
-        #chart-container {
-            position: relative;
-            display: inline-block;
-            top: 10px;
-            left: 10px;
-            height: 600px;
-            width: calc(100% - 24px);
-            border: 2px dashed #aaa;
-            border-radius: 5px;
-            overflow: auto;
-            text-align: center;
-        }
-    </style>
-</head>
-<body>
-    <div id="chart-container" style="min-height:450px;"></div>
-    <script src="~/Resources/adminassets/js/jquery.min.js?v=@Config.SourceVersion"></script>
-    <script src="~/Resources/adminassets/js/jquery.orgchart.js?v=@Config.SourceVersion"></script>
-    <script type="text/javascript">
-        $(function () {
+<div class="tpl-content-wrapper">
+    <div class="row-content am-cf">
+        <div class="row">
+            <div class="am-u-sm-12 am-u-md-12 am-u-lg-12">
+                <div class="widget am-cf">
+                    <div class="widget-head am-cf">
+                        <ol class="am-breadcrumb">
+                            <li class="am-icon-home widget-title">
+                                首页
+                            </li>
+                            <li class="widget-title">
+                                组织架构
+                            </li>
+                            <li class="widget-title">
+                                组织架构概览
+                            </li>
+                        </ol>
+                    </div>
+                    <div class="widget-body  am-fr">
+                        <p style="margin-left: 12px;" class="am-text-secondary">说明：在网格区域按住鼠标左键可以拖拽；滚动鼠标滚轮可以缩放图片</p>
+                        <div id="chart-container">
+                            <button class="oc-export-btn" style="z-index:100;">重置位置</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="~/Resources/adminassets/js/jquery.orgchart.js?v=@Config.SourceVersion"></script>
+<script type="text/javascript">
+    $(function () {
+        var datascource = eval('(@(Html.Raw(ViewBag.DepartmentTreeNode)))');
 
-            var datascource = {
-                'name': 'Lao Lao',
-                'title': 'general manager',
-                'children': [
-                  { 'name': 'Bo Miaomeishfsadf发送到发达省份发生的发萨芬萨芬啥飞洒手动', 'title': 'department manager' },
-                  {
-                      'name': 'Su Miao', 'title': 'department manager超级场的一个文本又如何哈哈哈哈阿阿凡达斯发顺丰发生大幅啥地方sadf',
-                      'children': [
-                        { 'name': 'Tie Hua', 'title': 'senior engineer' },
-                        {
-                            'name': 'Hei Hei', 'title': 'senior engineer',
-                            'children': [
-                              { 'name': 'Pang Pang', 'title': 'engineer' },
-                              { 'name': 'Xiang Xiang', 'title': 'UE engineer' }
-                            ]
-                        }
-                      ]
-                  },
-                  { 'name': 'Yu Jie', 'title': 'department manager' },
-                  { 'name': 'Yu Li', 'title': 'department manager' },
-                  { 'name': 'Hong Miao', 'title': 'department manager' },
-                  { 'name': 'Yu Wei', 'title': 'department manager' },
-                  { 'name': 'Chun Miao', 'title': 'department manager' },
-                  { 'name': 'Yu Tie', 'title': 'department manager' }
-                ],
-            };
-
-            var oc = $('#chart-container').orgchart({
-                'data': datascource,
-                'nodeContent': 'title',
-                'pan': true,
-                'zoom': true,
-            });
-
-            oc.$chartContainer.on('touchmove', function (event) {
-                event.preventDefault();
-            });
-
+        var oc = $('#chart-container').orgchart({
+            'data': datascource,
+            'nodeContent': 'directorName',
+            'pan': true,
+            'zoom': true
         });
-    </script>
-</body>
-</html>
+
+        oc.$chartContainer.on('touchmove', function (event) {
+            event.preventDefault();
+        });
+
+        $('.oc-export-btn').click(function () {
+            // 连续重置两次，避免因为缩放导致的位置错误
+            resetMapPosition();
+            resetMapPosition();
+        });
+
+    });
+
+    function resetMapPosition() {
+        var $node = $('.node:first');
+        var $chart = $node.closest('.orgchart');
+        var newX = window.parseInt(($chart.outerWidth(true) / 2) - ($node.offset().left - $chart.offset().left) - ($node.outerWidth(true) / 2));
+        var newY = window.parseInt(($chart.outerHeight(true) / 2) - ($node.offset().top - $chart.offset().top) - ($node.outerHeight(true) / 2));
+
+        $chart.css('transform', 'matrix(1, 0, 0, 1, ' + newX + ', ' + newY + ')');
+    }
+</script>
+
