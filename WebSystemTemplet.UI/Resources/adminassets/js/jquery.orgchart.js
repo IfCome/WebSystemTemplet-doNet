@@ -849,7 +849,8 @@
       });
 
       // bind click event handler for the left and right edges
-      $nodeDiv.on('click', '.leftEdge, .rightEdge', function(event) {
+      $nodeDiv.on('click', '.leftEdge, .rightEdge', function (event) {
+          return; //modify by yangxun 禁用左右收缩按钮
         event.stopPropagation();
         var $that = $(this);
         var $node = $that.parent();

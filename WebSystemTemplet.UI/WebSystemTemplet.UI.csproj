@@ -123,8 +123,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Global.asax" />
-    <Content Include="Logs\Logs_20171027.txt" />
-    <Content Include="Logs\Logs_20171030.txt" />
     <Content Include="Resources\adminassets\css\amazeui.page.css" />
     <Content Include="Resources\adminassets\css\font-awesome.min.css" />
     <Content Include="Resources\adminassets\css\jquery.orgchart.css" />
