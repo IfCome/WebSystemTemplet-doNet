@@ -4,7 +4,7 @@
     Layout = "~/Views/Admin/Common/_Layout.cshtml";
 }
 @*菜单ID*@
-<input type="hidden" id="admin-current-menu-id" value="menu-teacherlist" />
+<input type="hidden" id="admin-current-menu-id" value="menu-studentlist" />
 
 <div class="tpl-content-wrapper">
     <div class="row-content am-cf">
@@ -20,7 +20,7 @@
                                 人员资料管理
                             </li>
                             <li class="widget-title">
-                                教职工资料
+                                学生资料
                             </li>
                             <li class="widget-title">
                                 编辑资料
@@ -34,7 +34,7 @@
                                 {
                                     <div class="am-form-group">
                                         <div class="am-u-sm-12">
-                                            <label class="am-u-sm-3 am-form-label tpl-form-label">未找到该教师资料，请刷新列表后重新操作！</label>
+                                            <label class="am-u-sm-3 am-form-label tpl-form-label">未找到该学生资料，请刷新列表后重新操作！</label>
                                         </div>
                                     </div>
                                     return;
@@ -44,7 +44,7 @@
                             <div class="am-form-group">
                                 <label for="real-name" class="am-u-sm-3 am-form-label">姓名 <span class="tpl-form-line-small-title"> (必填)</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="tpl-form-input" id="real-name" name="realName" value="@Model.RealName" placeholder="请输入教师真实姓名" required maxlength="20" data-validation-message="请填写教师的真实姓名">
+                                    <input type="text" class="tpl-form-input" id="real-name" name="realName" value="@Model.RealName" placeholder="请输入学生真实姓名" required maxlength="20" data-validation-message="请填写学生的真实姓名">
                                     <small class="am-hide"></small>
                                 </div>
                             </div>
@@ -55,15 +55,15 @@
                                 </div>
                             </div>
                             <div class="am-form-group">
-                                <label for="user-major" class="am-u-sm-3 am-form-label">所属学院/专业 <span class="tpl-form-line-small-title"></span></label>
+                                <label for="user-major" class="am-u-sm-3 am-form-label">所属学院/专业/班级 <span class="tpl-form-line-small-title"></span></label>
                                 <div class="am-u-sm-9">
-                                    <label class="am-u-sm-3 am-form-label tpl-form-label">@(Model.SchoolName + (string.IsNullOrWhiteSpace(Model.MajorName) ? "" : (" / " + Model.MajorName)))</label>
+                                    <label class="am-u-sm-3 am-form-label tpl-form-label">@(Model.SchoolName + " / " + Model.MajorName + " / " + Model.ClassName)</label>
                                 </div>
                             </div>
                             <div class="am-form-group">
                                 <label for="user-major" class="am-u-sm-3 am-form-label">性别 <span class="tpl-form-line-small-title"></span></label>
                                 <div class="am-u-sm-9">
-                                    <select id="user-gender" name="gender" data-am-selected="{}" style="display: none;" data-validation-message="请选择该教师的性别">
+                                    <select id="user-gender" name="gender" data-am-selected="{}" style="display: none;" data-validation-message="请选择该学生的性别">
                                         <option value="1" @(Model.Gender == 1 ? "selected" : "")>男</option>
                                         <option value="0" @(Model.Gender == 0 ? "selected" : "")>女</option>
                                     </select>
@@ -96,7 +96,7 @@
 
                             <div class="am-form-group">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
-                                    <button id="btnSave" type="button" onclick="window.location.href = '/admin/msuserinfo/teacherlist.html';" class="am-btn am-btn-default tpl-btn-bg-color-success">取消</button>
+                                    <button id="btnSave" type="button" onclick="window.location.href = '/admin/msuserinfo/studentlist.html';" class="am-btn am-btn-default tpl-btn-bg-color-success">取消</button>
                                     <button id="btnCancel" type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success am-margin-left-lg">保存</button>
                                 </div>
                             </div>
@@ -133,7 +133,7 @@
                     $.post('/admin/MSUserInfo/EditUserInfoCallBack', $('#form-userinfo').serialize(), function (data) {
                         if (data.Message == 'OK') {
                             alert('保存成功！');
-                            window.location.href = '/admin/msuserinfo/teacherlist.html';
+                            window.location.href = '/admin/msuserinfo/studentlist.html';
                         } else {
                             alert(data.Message);
                         }

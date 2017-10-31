@@ -92,7 +92,12 @@ namespace WebSystemTemplet.DAL.Admin
         /// <param name="databaseConnectionString">数据库链接字符串</param>
         public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentNameAndId()
         {
-            var sql = @"
+            // 先从缓存中读取
+            string cacheKey = Model.CacheKeyName.MS_CacheKey_DepartmentList.ToString();
+            List<Model.Admin.MSDepartmentInfo> departmentList = CacheHelper.GetCache(cacheKey) as List<Model.Admin.MSDepartmentInfo>;
+            if (departmentList == null)
+            {
+                var sql = @"
                         SELECT 
                                 [DepartmentID]
                                 ,[DepartmentName]  
@@ -102,23 +107,24 @@ namespace WebSystemTemplet.DAL.Admin
                         WHERE [Deleted] = 0
                         ORDER BY [DepartmentName]
                     ";
-            var parameters = new List<SqlParameter>();
-            var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
+                var parameters = new List<SqlParameter>();
+                var dataTable = SqlHelper.ExecuteDataTable(sql, parameters.ToArray());
 
-            if (dataTable.Rows.Count > 0)
-            {
-                return dataTable.AsEnumerable().Select(row => new Model.Admin.MSDepartmentInfo()
+                if (dataTable.Rows.Count > 0)
                 {
-                    DepartmentID = Converter.TryToInt64(row["DepartmentID"], -1),
-                    DepartmentName = Converter.TryToString(row["DepartmentName"], string.Empty),
-                    ParentID = Converter.TryToInt64(row["ParentId"], -1),
-                    DepartmentLevel = Converter.TryToInt32(row["DepartmentLevel"], -1)
-                }).ToList();
+                    departmentList = dataTable.AsEnumerable().Select(row => new Model.Admin.MSDepartmentInfo()
+                    {
+                        DepartmentID = Converter.TryToInt64(row["DepartmentID"], -1),
+                        DepartmentName = Converter.TryToString(row["DepartmentName"], string.Empty),
+                        ParentID = Converter.TryToInt64(row["ParentId"], -1),
+                        DepartmentLevel = Converter.TryToInt32(row["DepartmentLevel"], -1)
+                    }).ToList();
+
+                    // 不设置过期时间，当更新组织架构时，清除缓存
+                    CacheHelper.SetCache(cacheKey, departmentList);
+                }
             }
-            else
-            {
-                return null;
-            }
+            return departmentList;
         }
 
         /// <summary>

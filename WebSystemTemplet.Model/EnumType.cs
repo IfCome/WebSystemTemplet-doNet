@@ -38,7 +38,7 @@ namespace WebSystemTemplet.Model
 
     public enum CacheKeyName
     {
-        MS_CacheKey_PositionName,   // 职位名称dic
-        MS_CacheKey_PositionList,   // 职位列表
+        MS_CacheKey_DepartmentName,   //部门(ID-名称)dic
+        MS_CacheKey_DepartmentList,   //部门列表
     }
 }

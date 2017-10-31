@@ -244,6 +244,11 @@ namespace WebSystemTemplet.DAL.Admin
                 sqlWhere += " AND mui.majorId = @majorId ";
                 parameters.Add(new SqlParameter() { ParameterName = "@majorId", Value = baseParams.getParam("majorId") });
             }
+            if (baseParams.hasParam("classId"))
+            {
+                sqlWhere += " AND mui.classId = @classId ";
+                parameters.Add(new SqlParameter() { ParameterName = "@classId", Value = baseParams.getParam("classId") });
+            }
             if (baseParams.hasParam("keyWords"))
             {
                 sqlWhere += " AND mui.realName LIKE @realName  ";

@@ -12,7 +12,7 @@ namespace WebSystemTemplet.BLL.Admin
     {
         public static string GetDepartmentNameById(long departmentId)
         {
-            string cacheKey = Model.CacheKeyName.MS_CacheKey_PositionName.ToString();
+            string cacheKey = Model.CacheKeyName.MS_CacheKey_DepartmentName.ToString();
             Dictionary<long, string> dicNameAndId = CacheHelper.GetCache(cacheKey) as Dictionary<long, string>;
             if (dicNameAndId == null)
             {
@@ -33,17 +33,8 @@ namespace WebSystemTemplet.BLL.Admin
 
         public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentInfoByLevel(int departmentLevel)
         {
-            //return DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId(departmentLevel);
-
-            string cacheKey = Model.CacheKeyName.MS_CacheKey_PositionList.ToString();
             List<Model.Admin.MSDepartmentInfo> resultList = new List<Model.Admin.MSDepartmentInfo>();
-            List<Model.Admin.MSDepartmentInfo> departmentList = CacheHelper.GetCache(cacheKey) as List<Model.Admin.MSDepartmentInfo>;
-            if (departmentList == null)
-            {
-                departmentList = DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId();
-                // 不设置过期时间，当更新组织架构时，清除缓存
-                CacheHelper.SetCache(cacheKey, departmentList);
-            }
+            List<Model.Admin.MSDepartmentInfo> departmentList = DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId();
             if (departmentList != null)
             {
                 resultList = departmentList.Where(d => d.DepartmentLevel == departmentLevel).ToList();
@@ -51,7 +42,18 @@ namespace WebSystemTemplet.BLL.Admin
             return resultList;
         }
 
-        public static List<Model.Admin.MSDepartmentInfo> GetAllMSDepartmentInfoList(SqlParams sqlParams, out int allCount)
+        public static List<Model.Admin.MSDepartmentInfo> GetAllDepartmentInfoParentId(long parentId)
+        {
+            List<Model.Admin.MSDepartmentInfo> resultList = new List<Model.Admin.MSDepartmentInfo>();
+            List<Model.Admin.MSDepartmentInfo> departmentList = DAL.Admin.MSDepartmentInfoDal.GetAllDepartmentNameAndId();
+            if (departmentList != null)
+            {
+                resultList = departmentList.Where(d => d.ParentID == parentId).ToList();
+            }
+            return resultList;
+        }
+
+        public static List<Model.Admin.MSDepartmentInfo> GetAllMSDepartmentInfoPageList(SqlParams sqlParams, out int allCount)
         {
             allCount = 0;
             List<Model.Admin.MSDepartmentInfo> msUserInfoList = DAL.Admin.MSDepartmentInfoDal.GetPageListByCondition(sqlParams, out allCount);
@@ -124,8 +126,8 @@ namespace WebSystemTemplet.BLL.Admin
             if (re)
             {
                 // 清空组织架构缓存
-                CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_PositionName.ToString());
-                CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_PositionList.ToString());
+                CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_DepartmentName.ToString());
+                CacheHelper.RemoveCache(Model.CacheKeyName.MS_CacheKey_DepartmentList.ToString());
             }
             return re;
         }

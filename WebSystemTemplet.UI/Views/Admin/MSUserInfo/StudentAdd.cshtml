@@ -3,7 +3,7 @@
     Layout = "~/Views/Admin/Common/_Layout.cshtml";
 }
 @*菜单ID*@
-<input type="hidden" id="admin-current-menu-id" value="menu-teacherlist" />
+<input type="hidden" id="admin-current-menu-id" value="menu-studentlist" />
 
 <div class="tpl-content-wrapper">
     <div class="row-content am-cf">
@@ -19,7 +19,7 @@
                                 人员资料管理
                             </li>
                             <li class="widget-title">
-                                教职工资料
+                                学生资料
                             </li>
                             <li class="widget-title">
                                 添加资料
@@ -31,44 +31,40 @@
                             <div class="am-form-group">
                                 <label for="real-name" class="am-u-sm-3 am-form-label">姓名 <span class="tpl-form-line-small-title"> (必填)</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="tpl-form-input" id="real-name" name="realName" placeholder="请输入教师真实姓名" required maxlength="20" data-validation-message="请填写教师的真实姓名">
+                                    <input type="text" class="tpl-form-input" id="real-name" name="realName" placeholder="请输入学生真实姓名" required maxlength="20" data-validation-message="请填写学生的真实姓名">
                                     <small class="am-hide"></small>
                                 </div>
                             </div>
                             <div class="am-form-group">
                                 <label for="user-name" class="am-u-sm-3 am-form-label">登录帐号 <span class="tpl-form-line-small-title"> (必填)</span></label>
                                 <div class="am-u-sm-9">
-                                    <input type="text" class="tpl-form-input ajax-checkname" name="userName" id="user-name" placeholder="请输入登录帐号" required maxlength="30" data-validation-message="请为该教师分配登录帐号">
-                                    <small>建议使用教师真实姓名的拼音作为登录帐号</small>
-                                </div>
-                            </div>
-                            <div class="am-form-group">
-                                <label for="is-president" class="am-u-sm-3 am-form-label">是否为院长 <span class="tpl-form-line-small-title"> (必填)</span></label>
-                                <div class="am-u-sm-9">
-                                    <div class="tpl-switch">
-                                        <input id="is-president" type="checkbox" value="1" name="isPresident" class="ios-switch bigswitch tpl-switch-btn">
-                                        <div class="tpl-switch-btn-view">
-                                            <div>
-                                            </div>
-                                        </div>
-                                    </div>
+                                    <input type="text" class="tpl-form-input ajax-checkname" name="userName" id="user-name" placeholder="请输入登录帐号" required maxlength="30" data-validation-message="请为该学生分配登录帐号">
+                                    <small>建议使用学生真实姓名的拼音作为登录帐号</small>
                                 </div>
                             </div>
                             <div id="dvUserMajor" class="am-form-group">
                                 <label for="user-major" class="am-u-sm-3 am-form-label">所属专业 <span class="tpl-form-line-small-title"> (必填)</span></label>
                                 <div class="am-u-sm-9">
-                                    <select id="user-major" name="majorId" data-am-selected="{searchBox: 1,maxHeight: 200}" style="display: none;" data-validation-message="请选择该教师所在专业">
+                                    <select id="user-major" name="majorId" data-am-selected="{searchBox: 1,maxHeight: 200}" style="display: none;" data-validation-message="请选择该学生所在专业">
                                         <option value="">请选择专业</option>
                                         @{
-                                            List<MSDepartmentInfo> departmentList = ViewBag.DepartmentList as List<MSDepartmentInfo>;
-                                            if (departmentList != null)
+                                            List<MSDepartmentInfo> majorList = ViewBag.MajorList as List<MSDepartmentInfo>;
+                                            if (majorList != null)
                                             {
-                                                foreach (MSDepartmentInfo item in departmentList)
+                                                foreach (MSDepartmentInfo item in majorList)
                                                 {
                                                     <option value="@item.DepartmentID">@item.DepartmentName</option>
                                                 }
                                             }
                                         }
+                                    </select>
+                                </div>
+                            </div>
+                            <div id="dvUserMajor" class="am-form-group">
+                                <label for="user-class" class="am-u-sm-3 am-form-label">所属班级 <span class="tpl-form-line-small-title"> (必填)</span></label>
+                                <div class="am-u-sm-9">
+                                    <select id="user-class" name="classId" data-am-selected="{searchBox: 1,maxHeight: 200}" style="display: none;" data-validation-message="请选择该学生所在班级">
+                                        <option value="">请选择班级</option>
                                     </select>
                                     <small style="display:inline-block">保存后不能修改，请慎重选择</small>
                                 </div>
@@ -76,7 +72,7 @@
                             <div class="am-form-group">
                                 <label for="user-major" class="am-u-sm-3 am-form-label">性别 <span class="tpl-form-line-small-title"></span></label>
                                 <div class="am-u-sm-9">
-                                    <select id="user-gender" name="gender" data-am-selected="{}" style="display: none;" data-validation-message="请选择该教师的性别">
+                                    <select id="user-gender" name="gender" data-am-selected="{}" style="display: none;" data-validation-message="请选择该学生的性别">
                                         <option value="1">男</option>
                                         <option value="0">女</option>
                                     </select>
@@ -109,7 +105,7 @@
 
                             <div class="am-form-group">
                                 <div class="am-u-sm-9 am-u-sm-push-3">
-                                    <button id="btnSave" type="button" onclick="window.location.href = '/admin/msuserinfo/teacherlist.html';" class="am-btn am-btn-default tpl-btn-bg-color-success">取消</button>
+                                    <button id="btnSave" type="button" onclick="window.location.href = '/admin/msuserinfo/studentlist.html';" class="am-btn am-btn-default tpl-btn-bg-color-success">取消</button>
                                     <button id="btnCancel" type="submit" class="am-btn am-btn-primary tpl-btn-bg-color-success am-margin-left-lg">保存</button>
                                 </div>
                             </div>
@@ -123,14 +119,21 @@
 
 <script>
     $(function () {
-        $('#is-president').click(function () {
-            if ($(this).prop('checked')) {
-                $('#user-major').val('').addClass('not-validate').focusout().selected('destroy').selected();
-                $('#dvUserMajor').hide();
-            } else {
-                $('#dvUserMajor').show();
-                $('#user-major').removeClass('not-validate').focusout()
+        $('#user-major').change(function () {
+            var sMajorId = $(this).val();
+            $('#user-class>option:not(:first)').remove().selected('destroy').selected({ searchBox: 1, maxHeight: 200 });
+            if (sMajorId == '') {
+                return; // 所有专业
             }
+            $.get('/admin/MSDepartmentInfo/GetDepartmentListByParentId', { parentId: sMajorId }, function (result) {
+                if (result && result.Message == 'OK') {
+                    for (var i = 0; i < result.Rows.length; i++) {
+                        $('#user-class').append($('<option value="' + result.Rows[i].DepartmentID + '">' + result.Rows[i].DepartmentName + '</option>'))
+                    }
+                    // 加载数据
+                    $('#user-class').selected('destroy').selected({ searchBox: 1, maxHeight: 200 });
+                }
+            });
         });
         $('#form-userinfo').validator({
             ignore: '.not-validate',
@@ -162,7 +165,7 @@
                             return validity;
                         });
                     } else {
-                        $(validity.field).data('validationMessage', '请为该教师分配登录帐号');
+                        $(validity.field).data('validationMessage', '请为该学生分配登录帐号');
                     }
 
                 }
@@ -185,10 +188,10 @@
             submit: function (e) {
                 var formValidity = this.isFormValid();
                 $.when(formValidity).then(function () {
-                    $.post('/admin/MSUserInfo/AddTeacherCallBack', $('#form-userinfo').serialize(), function (data) {
+                    $.post('/admin/MSUserInfo/AddStudentCallBack', $('#form-userinfo').serialize(), function (data) {
                         if (data.Message == 'OK') {
                             alert('添加成功！');
-                            window.location.href = '/admin/msuserinfo/teacherlist.html';
+                            window.location.href = '/admin/msuserinfo/studentlist.html';
                         } else {
                             alert(data.Message);
                         }

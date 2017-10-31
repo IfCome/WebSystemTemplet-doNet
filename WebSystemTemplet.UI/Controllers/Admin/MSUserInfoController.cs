@@ -166,19 +166,16 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         #endregion
 
+        #region 学生管理
 
         public ActionResult StudentList()
         {
             // 获取所有的专业
             List<Model.Admin.MSDepartmentInfo> majorList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.专业);
             ViewBag.MajorList = majorList;
-            // 获取所有的班级
-            List<Model.Admin.MSDepartmentInfo> classList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.班级);
-            ViewBag.ClassList = classList;
 
             return View("~/Views/Admin/MSUserInfo/StudentList.cshtml");
         }
-
 
         [HttpGet]
         public ActionResult GetStudentList(Models.Admin.MSGetUserInfoListIn InModel)
@@ -189,6 +186,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             sqlParams.addUsefulParam("roleId", (int)RoleType.学生);
             sqlParams.addUsefulParam("PositionType", InModel.PositionType);
             sqlParams.addUsefulParam("majorId", InModel.MajorId);
+            sqlParams.addUsefulParam("classId", InModel.ClassId);
             sqlParams.addUsefulParam("keyWords", InModel.KeyWords);
 
             int allCount = 0;
@@ -210,7 +208,93 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult StudentAddPage()
+        {
+            // 获取所有的专业
+            List<Model.Admin.MSDepartmentInfo> majorList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.专业);
+            ViewBag.MajorList = majorList;
 
+            return View("~/Views/Admin/MSUserInfo/StudentAdd.cshtml");
+        }
+
+        [HttpPost]
+        public ActionResult AddStudentCallBack(Models.Admin.MSUserInfoModel InModel)
+        {
+            string msg = "OK";
+
+            // 添加用户
+            Model.Admin.MSUserInfo userInfo = new Model.Admin.MSUserInfo()
+            {
+                UserName = InModel.UserName,
+                Password = Security.getMD5ByStr(InModel.Password),
+                RealName = InModel.RealName,
+                RoleID = (int)Model.RoleType.学生,
+                SchoolID = 1, //默认学院
+                MajorID = Converter.TryToInt64(InModel.MajorId),
+                ClassID = Converter.TryToInt64(InModel.ClassId),
+                Gender = InModel.Gender,
+                Telephone = InModel.Telephone,
+                QQ = InModel.QQ,
+                Email = InModel.Email,
+                Remark = InModel.Remark,
+                CreateTime = DateTime.Now,
+                CreateUser = Identity.LoginUserInfo.UserID,
+            };
+            userInfo.UserID = BLL.Admin.MSUserInfoBll.AddUserInfo(userInfo);
+            if (userInfo.UserID > 0)
+            {
+                // 添加默认岗位
+                Model.Admin.MSUserPositionRelation relation = new Model.Admin.MSUserPositionRelation()
+                {
+                    UserID = userInfo.UserID,
+                    PositionID = MSPositionInfoBll.GetPositionIdByDepartmentIdAndPositionType(userInfo.ClassID, (int)Model.PositionType.学生),
+                    CreateTime = DateTime.Now,
+                    CreateUser = Identity.LoginUserInfo.UserID,
+                };
+
+                MSUserPositionRelationBll.AddUserPositionRelation(relation);
+            }
+            else
+            {
+                msg = "添加失败，请重试";
+            }
+            return Json(new { Message = msg });
+        }
+
+
+        public ActionResult StudentEditPage(long userId)
+        {
+            // 查询用户信息
+            Model.Admin.MSUserInfo userInfo = BLL.Admin.MSUserInfoBll.GetSingleUserInfo(userId);
+            if (userInfo != null)
+            {
+                // 完善信息
+                userInfo.SchoolName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.SchoolID);
+                userInfo.MajorName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.MajorID);
+                userInfo.ClassName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.ClassID);
+            }
+            return View("~/Views/Admin/MSUserInfo/StudentEdit.cshtml", userInfo);
+        }
+
+        public ActionResult GetStudentDetails(long userId)
+        {
+            // 查询用户信息
+            Model.Admin.MSUserInfo userInfo = BLL.Admin.MSUserInfoBll.GetSingleUserInfo(userId);
+            if (userInfo != null)
+            {
+                // 完善信息
+                userInfo.SchoolName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.SchoolID);
+                userInfo.MajorName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.MajorID);
+                userInfo.ClassName = BLL.Admin.MSDepartmentInfoBll.GetDepartmentNameById(userInfo.ClassID);
+                // 岗位信息
+
+                return Json(new { Message = "OK", UserInfo = userInfo }, JsonRequestBehavior.AllowGet);
+            }
+            return Json(new { Message = "未找到该学生资料，请刷新列表重新操作！" }, JsonRequestBehavior.AllowGet);
+        }
+
+
+        #endregion
 
         [HttpPost]
         public ActionResult EditUserInfoCallBack(Models.Admin.MSUserInfoModel InModel)

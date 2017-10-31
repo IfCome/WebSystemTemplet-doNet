@@ -9,10 +9,36 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class MSDepartmentInfoController : PCBaseController
     {
-        // GET: MSDepartmentInfo
+
+        [HttpGet]
+        public ActionResult GetDepartmentListByParentId(long parentId)
+        {
+            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoParentId(parentId) ?? new List<Model.Admin.MSDepartmentInfo>();
+
+            return Json(new
+            {
+                Message = "OK",
+                Rows = departmentList.Select(d => new
+                {
+                    d.DepartmentID,
+                    d.DepartmentName,
+                    d.ParentID
+                })
+            }, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 组织架构概览
+        /// </summary>
         public ActionResult DepartmentList()
         {
             return View("~/Views/Admin/MSDepartmentInfo/DepartmentList.cshtml");
+        }
+
+
+        public ActionResult DepartmentTree()
+        {
+            return View("~/Views/Admin/MSDepartmentInfo/DepartmentTree.cshtml");
         }
 
         #region 专业管理
@@ -32,7 +58,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             sqlParams.addUsefulParam("DepartmentLevel", (int)Model.DepartmentLevel.专业);
 
             int allCount = 0;
-            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllMSDepartmentInfoList(sqlParams, out allCount);
+            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllMSDepartmentInfoPageList(sqlParams, out allCount);
 
             return Json(new
             {
@@ -101,7 +127,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             sqlParams.addUsefulParam("DepartmentLevel", (int)Model.DepartmentLevel.班级);
 
             int allCount = 0;
-            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllMSDepartmentInfoList(sqlParams, out allCount);
+            List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllMSDepartmentInfoPageList(sqlParams, out allCount);
 
             return Json(new
             {
@@ -153,6 +179,9 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         #endregion
 
+        /// <summary>
+        /// 设置系主任/班主任/班长
+        /// </summary>
         [HttpPost]
         public ActionResult SetDirectorInfo(long departmentId, long directorId, int positionCode)
         {
