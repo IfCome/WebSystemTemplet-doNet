@@ -18,6 +18,11 @@
     <link rel="icon" type="image/png" href="~/Resources/adminassets/i/favicon.png?v=@Config.SourceVersion">
     <link rel="apple-touch-icon-precomposed" href="~/Resources/adminassets/i/app-icon72x72@2x.png?v=@Config.SourceVersion">
     @Html.Partial("~/Views/Admin/Common/HeadPart.cshtml")
+    <style>
+    .tpl-hidden{
+        display:none;
+    }
+    </style>
 </head>
 <body data-type="login">
     <div class="am-g tpl-g">
@@ -38,8 +43,8 @@
         <div class="tpl-login">
             <div class="tpl-login-content">
                 <div class="tpl-login-logo">
-                    <img class="logo-img-white" style="width: 100%;" src="~/Resources/adminassets/img/logoa.png?v=@Config.SourceVersion"/>
-                    <img class="logo-img-black" style="width: 100%;" src="~/Resources/adminassets/img/logob.png?v=@Config.SourceVersion" />
+                    <img class="logo-img-white tpl-hidden" style="width: 100%;" src="~/Resources/adminassets/img/logoa.png?v=@Config.SourceVersion"/>
+                    <img class="logo-img-black tpl-hidden" style="width: 100%;" src="~/Resources/adminassets/img/logob.png?v=@Config.SourceVersion" />
                 </div>
                 <form class="am-form tpl-form-line-form">
                     <div class="am-form-group">
@@ -68,6 +73,7 @@
 <script src="~/Resources/adminassets/js/app.js?v=@Config.SourceVersion"></script>
 <script type="text/javascript">
     $(function () {
+        $('.tpl-hidden').removeClass('tpl-hidden');
         bindFunction();
     });
 
