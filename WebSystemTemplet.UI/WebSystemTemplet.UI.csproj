@@ -126,6 +126,7 @@
     <Content Include="Resources\adminassets\css\amazeui.page.css" />
     <Content Include="Resources\adminassets\css\font-awesome.min.css" />
     <Content Include="Resources\adminassets\css\jquery.orgchart.css" />
+    <Content Include="Resources\adminassets\img\150961696139802.png" />
     <Content Include="Resources\adminassets\img\head\01.gif" />
     <Content Include="Resources\adminassets\img\head\02.jpg" />
     <Content Include="Resources\adminassets\img\head\03.gif" />
@@ -136,6 +137,8 @@
     <Content Include="Resources\adminassets\img\head\13.gif" />
     <Content Include="Resources\adminassets\img\head\14.gif" />
     <Content Include="Resources\adminassets\img\head\15.gif" />
+    <Content Include="Resources\adminassets\img\logoa.png" />
+    <Content Include="Resources\adminassets\img\logob.png" />
     <Content Include="Resources\adminassets\js\amazeui.page.js" />
     <Content Include="Resources\adminassets\css\admin.css" />
     <Content Include="Resources\adminassets\css\amazeui.datatables.min.css" />
@@ -143,18 +146,7 @@
     <Content Include="Resources\adminassets\css\app.css" />
     <Content Include="Resources\adminassets\css\fullcalendar.min.css" />
     <Content Include="Resources\adminassets\css\fullcalendar.print.css" />
-    <Content Include="Resources\adminassets\img\a5.png" />
-    <Content Include="Resources\adminassets\img\k.jpg" />
     <Content Include="Resources\adminassets\img\logo.png" />
-    <Content Include="Resources\adminassets\img\logoa.png" />
-    <Content Include="Resources\adminassets\img\logob.png" />
-    <Content Include="Resources\adminassets\img\user01.png" />
-    <Content Include="Resources\adminassets\img\user02.png" />
-    <Content Include="Resources\adminassets\img\user03.png" />
-    <Content Include="Resources\adminassets\img\user04.png" />
-    <Content Include="Resources\adminassets\img\user05.png" />
-    <Content Include="Resources\adminassets\img\user06.png" />
-    <Content Include="Resources\adminassets\img\user07.png" />
     <Content Include="Resources\adminassets\i\app-icon72x72%402x.png" />
     <Content Include="Resources\adminassets\i\examples\admin-chrome.png" />
     <Content Include="Resources\adminassets\i\examples\admin-firefox.png" />
