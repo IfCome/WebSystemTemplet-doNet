@@ -27,8 +27,6 @@ namespace WebSystemTemplet.UI.Controllers.Admin
                 // 通过pairA、pairB是否匹配判断用户是否登录
                 if (!string.IsNullOrEmpty(userId) && Security.Encrypt(userId + pairA).Equals(pairB))
                 {
-                    // 获取当前用户信息
-                    Identity.LoginUserInfo = BLL.Admin.MSUserInfoBll.GetSingleUserInfo(Converter.TryToInt64(userId));
                     if (Identity.LoginUserInfo != null)
                     {
                         Security.SetUserLoginCookies(userId, this.Response);

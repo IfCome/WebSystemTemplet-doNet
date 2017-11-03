@@ -25,7 +25,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             HttpCookie pairACookie = Request.Cookies["PairA"];
             HttpCookie pairBCookie = Request.Cookies["PairB"];
 
-            if (userIdCookie != null && pairACookie != null && pairBCookie != null)
+            if (userIdCookie != null && pairACookie != null && pairBCookie != null && Identity.LoginUserInfo != null)
             {
                 // 解密获取用户ID
                 string userId = Security.Decrypt(userIdCookie.Value);
