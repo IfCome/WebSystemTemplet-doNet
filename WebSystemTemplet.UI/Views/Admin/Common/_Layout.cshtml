@@ -15,6 +15,11 @@
     <link rel="apple-touch-icon-precomposed" href="~/Resources/adminassets/i/app-icon72x72@2x.png">
     @Html.Partial("~/Views/Admin/Common/HeadPart.cshtml")
     @Html.Partial("~/Views/Admin/Common/ScriptPart.cshtml")
+    <style>
+        .tpl-hidden {
+            display: none;
+        }
+    </style>
 </head>
 
 <body>
@@ -23,7 +28,10 @@
         <header>
             <!-- logo -->
             <div class="am-fl tpl-header-logo">
-                <a href="javascript:;"><img src="~/Resources/adminassets/img/logo.png" alt=""></a>
+                <a href="javascript:;">
+                    <img class="logo-img-white tpl-hidden" src="~/Resources/adminassets/img/logo.png" alt="">
+                    <img class="logo-img-black tpl-hidden" src="~/Resources/adminassets/img/logo2.png" alt="">
+                </a>
             </div>
             <!-- 右侧内容 -->
             <div class="tpl-header-fluid">
@@ -193,3 +201,8 @@
     </div>
 </body>
 </html>
+<script>
+    $(function () {
+        $('.tpl-hidden').removeClass('tpl-hidden');
+    });
+</script>

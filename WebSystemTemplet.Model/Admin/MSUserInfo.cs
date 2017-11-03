@@ -124,7 +124,7 @@ namespace WebSystemTemplet.Model.Admin
         /// 职位名称集合
         /// </summary>
         public string PositionName { get; set; }
-        
+
         /// <summary>
         /// 学院名称
         /// </summary>
@@ -139,6 +139,11 @@ namespace WebSystemTemplet.Model.Admin
         /// 班级名称
         /// </summary>
         public string ClassName { get; set; }
+
+        /// <summary>
+        /// 上次登录IP
+        /// </summary>
+        public string LastIpAddress { get; set; }
     }
 }
 

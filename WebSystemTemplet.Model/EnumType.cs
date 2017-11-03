@@ -41,4 +41,13 @@ namespace WebSystemTemplet.Model
         MS_CacheKey_DepartmentName,   //部门(ID-名称)dic
         MS_CacheKey_DepartmentList,   //部门列表
     }
+
+    public enum LogType
+    {
+        登录 = 101,
+        访问 = 201,
+        操作 = 301,
+        异常 = 401,
+        其它 = 501
+    }
 }

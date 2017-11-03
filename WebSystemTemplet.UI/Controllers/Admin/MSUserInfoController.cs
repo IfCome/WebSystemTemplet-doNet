@@ -5,6 +5,7 @@ using System.Web;
 using System.Web.Mvc;
 using WebSystemTemplet.BLL.Admin;
 using WebSystemTemplet.Model;
+using WebSystemTemplet.UI.Filters;
 using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.UI.Controllers.Admin
@@ -37,6 +38,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         #region 教职工管理
 
+        [ActionLogFilter(InitLogMsg = "访问教职工列表页面")]
         public ActionResult TeacherList()
         {
             // 获取所有的专业
@@ -74,6 +76,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [ActionLogFilter(InitLogMsg = "访问添加教职工信息页面")]
         public ActionResult TeacherAddPage()
         {
             // 获取所有的专业
@@ -84,6 +87,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         }
 
         [HttpPost]
+        [ActionLogFilter(InitLogMsg = "添加教职工信息")]
         public ActionResult AddTeacherCallBack(Models.Admin.MSUserInfoModel InModel)
         {
             string msg = "OK";
@@ -135,6 +139,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return Json(new { Message = msg });
         }
 
+        [ActionLogFilter(InitLogMsg = "访问编辑教职工信息页面")]
         public ActionResult TeacherEditPage(long userId)
         {
             // 查询用户信息
@@ -148,6 +153,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return View("~/Views/Admin/MSUserInfo/TeacherEdit.cshtml", userInfo);
         }
 
+        [ActionLogFilter(InitLogMsg = "查看教职工信息详情")]
         public ActionResult GetTeacherDetails(long userId)
         {
             // 查询用户信息
@@ -168,6 +174,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         #region 学生管理
 
+        [ActionLogFilter(InitLogMsg = "访问学生列表页面")]
         public ActionResult StudentList()
         {
             // 获取所有的专业
@@ -208,6 +215,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [ActionLogFilter(InitLogMsg = "访问添加学生信息页面")]
         public ActionResult StudentAddPage()
         {
             // 获取所有的专业
@@ -217,6 +225,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return View("~/Views/Admin/MSUserInfo/StudentAdd.cshtml");
         }
 
+        [ActionLogFilter(InitLogMsg = "添加学生信息")]
         [HttpPost]
         public ActionResult AddStudentCallBack(Models.Admin.MSUserInfoModel InModel)
         {
@@ -262,6 +271,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         }
 
 
+        [ActionLogFilter(InitLogMsg = "访问编辑学生信息页面")]
         public ActionResult StudentEditPage(long userId)
         {
             // 查询用户信息
@@ -276,6 +286,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             return View("~/Views/Admin/MSUserInfo/StudentEdit.cshtml", userInfo);
         }
 
+        [ActionLogFilter(InitLogMsg = "查看学生信息详情")]
         public ActionResult GetStudentDetails(long userId)
         {
             // 查询用户信息
@@ -296,6 +307,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         #endregion
 
+        [ActionLogFilter(InitLogMsg = "修改用户资料")]
         [HttpPost]
         public ActionResult EditUserInfoCallBack(Models.Admin.MSUserInfoModel InModel)
         {
@@ -330,6 +342,8 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         }
 
 
+        [ActionLogFilter(InitLogMsg = "删除用户资料")]
+        [HttpPost]
         public ActionResult DeleteUser(long userId)
         {
             // 查询用户信息
@@ -340,7 +354,6 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }
             if (BLL.Admin.MSUserInfoBll.DeleteSingleUserInfo(userId))
             {
-                //TODO: 记录日志
                 return Json(new { Message = "OK" });
             }
             else

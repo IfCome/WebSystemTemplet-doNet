@@ -74,13 +74,11 @@ namespace WebSystemTemplet.BLL.Admin
             {
                 Model.Identity.LoginUserInfo = userInfo;
 
-                //TODO: 登录成功，记录日志
-                //string logTitle = "登录系统";
-                //string logMsg = "登录系统";
-                //BLL.BackgroundUserBll_log.AddLog(logTitle, logMsg, ipAddress);
+                //登录成功，记录日志
+                BLL.Admin.MSSystemOperateLogBll.AddLoginLog("登录系统", ipAddress);
 
-                // 修改最近登录时间
-                DAL.Admin.MSUserInfoDal.UpdateLastLoginTimeByID(DateTime.Now, userInfo.UserID);
+                // 修改最近登录时间和IP
+                DAL.Admin.MSUserInfoDal.UpdateLastLoginTimeByID(DateTime.Now, ipAddress, userInfo.UserID);
             }
 
             return userInfo;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using WebSystemTemplet.UI.Filters;
 using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.UI.Controllers.Admin
@@ -30,6 +31,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         /// <summary>
         /// 组织架构概览
         /// </summary>
+        [ActionLogFilter(InitLogMsg = "访问组织架构概览页面")]
         public ActionResult DepartmentTree()
         {
             // 查询学院
@@ -84,11 +86,12 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         #region 专业管理
 
+        [ActionLogFilter(InitLogMsg = "访问专业列表页面")]
         public ActionResult MajorList()
         {
             return View("~/Views/Admin/MSDepartmentInfo/MajorList.cshtml");
         }
-
+        
         [HttpGet]
         public ActionResult GetMajorList(string pageIndex, string pageSize, string keyWords)
         {
@@ -119,6 +122,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [ActionLogFilter(InitLogMsg = "保存专业信息")]
         [HttpPost]
         public ActionResult SaveMajorCallBack(string departmentId, string departmentName)
         {
@@ -150,6 +154,8 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         #endregion
 
         #region 班级管理
+
+        [ActionLogFilter(InitLogMsg = "访问班级列表页面")]
         public ActionResult ClassList()
         {
             List<Model.Admin.MSDepartmentInfo> departmentList = BLL.Admin.MSDepartmentInfoBll.GetAllDepartmentInfoByLevel((int)Model.DepartmentLevel.专业);
@@ -189,6 +195,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             }, JsonRequestBehavior.AllowGet);
         }
 
+        [ActionLogFilter(InitLogMsg = "保存班级信息")]
         [HttpPost]
         public ActionResult SaveClassCallBack(string departmentId, long majorId, string departmentName)
         {
@@ -223,6 +230,7 @@ namespace WebSystemTemplet.UI.Controllers.Admin
         /// <summary>
         /// 设置系主任/班主任/班长
         /// </summary>
+        [ActionLogFilter(InitLogMsg = "设置系主任/班主任/班长")]
         [HttpPost]
         public ActionResult SetDirectorInfo(long departmentId, long directorId, int positionCode)
         {

@@ -1,52 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 using System.Web.Mvc;
-using WebSystemTemplet.UI.Models.Admin;
+using WebSystemTemplet.UI.Filters;
 using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.UI.Controllers.Admin
 {
     public class HomeController : PCBaseController
     {
-        //
-        // GET: /Home/
-
+        [ActionLogFilter(InitLogMsg = "访问网站首页")]
         public ActionResult IndexPage()
         {
-            // 热门商品
-
-            DataTable huodongSimpleInfoTable = BLL.HuoDongInfoBll.GetTop10SimpleInfo();
-            List<HomeIndexPageModelOut> huodongSimpleInfoList = new List<HomeIndexPageModelOut>();
-            if (huodongSimpleInfoTable != null && huodongSimpleInfoTable.Rows.Count > 0)
-            {
-                foreach (DataRow row in huodongSimpleInfoTable.Rows)
-                {
-                    huodongSimpleInfoList.Add(new HomeIndexPageModelOut()
-                    {
-                        GoodsID = Converter.TryToInt64(row["GoodsID"]),
-                        GoodsName = Converter.TryToString(row["GoodsName"]),
-                        LastestCustomer = Converter.TryToString(row["LastestCustomer"]),
-                        ShareCount = Converter.TryToInt32(row["ShareCount"]),
-                        OrderCount = Converter.TryToInt32(row["OrderCount"]),
-                        Progress = Converter.TryToDouble(Converter.GetFloatWithoutPoint(Converter.TryToDouble(row["Progress"]).ToString("F2"))),
-                        DailyIncrease = Converter.TryToInt32(row["DailyIncrease"]),
-                        Describe = Converter.TryToString(row["Describe"]),
-                        HuodongNumber = Converter.TryToInt32(row["HuodongNumber"])
-                    });
-                }
-            }
-            ViewBag.HuoDongList = huodongSimpleInfoList;
-
-            // 后台日志
-            //List<Model.BackgroundUserInfo_log> logList = BLL.BackgroundUserBll_log.GetTop10Logs();
-            //ViewBag.LogList = logList;
-
-            // 客户列表
-            List<Model.ConsumerInfo> consumerList = BLL.ConsumerInfoBll.GetTop10ConsumerInfos();
-            ViewBag.ConsumerList = consumerList;
+            List<Model.Admin.MSSystemOperateLog> logList = BLL.Admin.MSSystemOperateLogBll.GetSingleUserTop10Logs(Model.Identity.LoginUserInfo.UserID);
+            ViewBag.LogList = logList;
+            ViewBag.LastIpArea = IpAddressHelper.GetAreaByIp(Model.Identity.LoginUserInfo.LastIpAddress);
 
             return View("~/Views/Admin/Home/IndexPage.cshtml");
         }

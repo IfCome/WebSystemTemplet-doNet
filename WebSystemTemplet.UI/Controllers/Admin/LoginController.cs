@@ -5,10 +5,12 @@ using System.Web;
 using System.Web.Mvc;
 using WebSystemTemplet.BLL;
 using WebSystemTemplet.Model;
+using WebSystemTemplet.UI.Filters;
 using WebSystemTemplet.Utility;
 
 namespace WebSystemTemplet.UI.Controllers.Admin
 {
+    [ActionLogFilter(NeedLog = false)]
     public class LoginController : Controller
     {
         //
@@ -56,6 +58,8 @@ namespace WebSystemTemplet.UI.Controllers.Admin
 
         public ActionResult Logout()
         {
+            BLL.Admin.MSSystemOperateLogBll.AddLoginLog("退出系统", Request.UserHostAddress);
+
             // 清除identity
             Identity.LoginUserInfo = null;
 
@@ -72,6 +76,8 @@ namespace WebSystemTemplet.UI.Controllers.Admin
             Response.Cookies.Add(userIdCookie);
             Response.Cookies.Add(pairACookie);
             Response.Cookies.Add(pairBCookie);
+
+
 
             return RedirectToAction("Index");
         }

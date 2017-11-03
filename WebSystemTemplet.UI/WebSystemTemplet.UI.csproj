@@ -137,6 +137,7 @@
     <Content Include="Resources\adminassets\img\head\13.gif" />
     <Content Include="Resources\adminassets\img\head\14.gif" />
     <Content Include="Resources\adminassets\img\head\15.gif" />
+    <Content Include="Resources\adminassets\img\logo2.png" />
     <Content Include="Resources\adminassets\img\logoa.png" />
     <Content Include="Resources\adminassets\img\logob.png" />
     <Content Include="Resources\adminassets\js\amazeui.page.js" />
@@ -247,6 +248,7 @@
     <Compile Include="Controllers\Admin\PCBaseController.cs" />
     <Compile Include="Controllers\Admin\UserInfoController.cs" />
     <Compile Include="Controllers\Site\HomeController.cs" />
+    <Compile Include="Filters\ActionLogFilter.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

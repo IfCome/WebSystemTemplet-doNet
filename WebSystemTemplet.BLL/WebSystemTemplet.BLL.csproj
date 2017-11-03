@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Admin\MSDepartmentInfoBll.cs" />
     <Compile Include="Admin\MSPositionInfoBll.cs" />
+    <Compile Include="Admin\MSSystemOperateLogBll.cs" />
     <Compile Include="Admin\MSUserInfoBll.cs" />
     <Compile Include="Admin\MSUserPositionRelationBll.cs" />
     <Compile Include="BackgroundUserBll.cs" />

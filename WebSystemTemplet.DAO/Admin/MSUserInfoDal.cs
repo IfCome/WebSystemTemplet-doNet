@@ -88,15 +88,17 @@ namespace WebSystemTemplet.DAL.Admin
         /// <summary>
         /// 通过ID更新LastLoginTime
         /// </summary>
-        public static bool UpdateLastLoginTimeByID(DateTime lastLoginTime, long userId)
+        public static bool UpdateLastLoginTimeByID(DateTime lastLoginTime, string lastIpAddress, long userId)
         {
             var sql = @"
                         UPDATE [MSUserInfo]
-                        SET [LastLoginTime] = @LastLoginTime
+                        SET [LastLoginTime] = @LastLoginTime,
+                            [LastIpAddress] = @LastIpAddress
                         WHERE [UserId] = @UserId
                     ";
             var parameters = new List<SqlParameter>();
             parameters.Add(new SqlParameter() { ParameterName = "@LastLoginTime", Value = lastLoginTime });
+            parameters.Add(new SqlParameter() { ParameterName = "@LastIpAddress", Value = lastIpAddress });
             parameters.Add(new SqlParameter() { ParameterName = "@UserId", Value = userId });
 
             int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
@@ -159,7 +161,7 @@ namespace WebSystemTemplet.DAL.Admin
             parameters.Add(new SqlParameter() { ParameterName = "@UpdateTime", Value = entity.UpdateTime });
             parameters.Add(new SqlParameter() { ParameterName = "@UpdateUser", Value = entity.UpdateUser });
 
-            int i = SqlHelper.ExecuteNonQuery( sql, parameters.ToArray());
+            int i = SqlHelper.ExecuteNonQuery(sql, parameters.ToArray());
             return i > 0 ? true : false;
         }
 
@@ -331,7 +333,8 @@ namespace WebSystemTemplet.DAL.Admin
 	                        [QQ],
 	                        [Email],
 	                        [Remark],
-	                        [LastLoginTime]
+	                        [LastLoginTime],
+                            [LastIpAddress]
                         FROM [MSUserInfo]
                         WHERE [UserName] = @UserName
                             AND [PassWord] = @PassWord
@@ -363,6 +366,7 @@ namespace WebSystemTemplet.DAL.Admin
                     Email = Converter.TryToString(row["Email"], string.Empty),
                     Remark = Converter.TryToString(row["Remark"], string.Empty),
                     LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], DateTime.MinValue),
+                    LastIpAddress = Converter.TryToString(row["LastIpAddress"], string.Empty),
                 };
             }
             else
@@ -394,7 +398,8 @@ namespace WebSystemTemplet.DAL.Admin
                                 ,[QQ]
                                 ,[Email]
                                 ,[Remark]
-                                ,[LastLoginTime]                         
+                                ,[LastLoginTime]
+                                ,[LastIpAddress]                       
                         FROM [MSUserInfo] WITH (NOLOCK)
                         WHERE 
                             [UserID] = @UserID
@@ -425,6 +430,7 @@ namespace WebSystemTemplet.DAL.Admin
                     Email = Converter.TryToString(row["Email"], string.Empty),
                     Remark = Converter.TryToString(row["Remark"], string.Empty),
                     LastLoginTime = Converter.TryToDateTime(row["LastLoginTime"], DateTime.MinValue),
+                    LastIpAddress = Converter.TryToString(row["LastIpAddress"], string.Empty),
                 };
             }
             else
@@ -541,7 +547,7 @@ namespace WebSystemTemplet.DAL.Admin
                 return null;
             }
 
-        }        
+        }
 
         #endregion
 
